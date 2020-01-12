@@ -73,6 +73,7 @@
             </e>
           </e>
         </e>
+        <e p="pc-employees-schema.txt" t="Include" />
         <e p="Tests.csproj" t="IncludeRecursive" />
         <e p="ThisWeekDaySetter.cs" t="Include" />
       </e>

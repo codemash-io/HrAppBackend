@@ -1,0 +1,448 @@
+{
+  "title": "lunchmenus",
+  "type": "object",
+  "required": [
+    "status",
+    "planned_lunch_date",
+    "division"
+  ],
+  "translatable": [],
+  "properties": {
+    "division": {
+      "type": "string",
+      "title": "Division",
+      "order": "None",
+      "minLength": 1,
+      "source": {
+        "url": "https://api.codemash.io/db/terms/filter",
+        "key": "_id",
+        "label": "Name",
+        "type": "taxonomy",
+        "method": "POST",
+        "taxonomy": "90cb1ff7-8e90-4115-8cb7-a642cacd63b0"
+      },
+      "enum": [
+        "Data is loading..."
+      ]
+    },
+    "planned_lunch_date": {
+      "type": "integer",
+      "title": "Planned Lunch Date",
+      "order": "None",
+      "minLength": 1,
+      "format": "utc-millisec"
+    },
+    "supplier": {
+      "type": "string",
+      "title": "Supplier",
+      "order": "None",
+      "source": {
+        "url": "https://api.codemash.io/db/2b501e3d-7821-4ab3-a0af-3689262bff43/find",
+        "key": "_id",
+        "label": "name",
+        "type": "collections",
+        "method": "POST",
+        "collection": "2b501e3d-7821-4ab3-a0af-3689262bff43"
+      },
+      "enum": [
+        "Data is loading..."
+      ]
+    },
+    "main_dish_options": {
+      "type": "array",
+      "multiple": true,
+      "nestable": true,
+      "title": "Main Dish Options",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "order": "None"
+          },
+          "price": {
+            "type": "object",
+            "title": "Price",
+            "order": "None",
+            "properties": {
+              "value": {
+                "type": "integer"
+              },
+              "currency": {
+                "type": "string",
+                "enum": [
+                  "EUR",
+                  "USD",
+                  "GBP",
+                  "RUB",
+                  "INR"
+                ]
+              }
+            }
+          },
+          "employees": {
+            "type": "array",
+            "title": "Employees",
+            "order": "None",
+            "source": {
+              "url": "https://api.codemash.io/db/965ef7e5-4748-4efb-98a3-9ba93d6bdc5c/find",
+              "key": "_id",
+              "label": "@first_name @last_name",
+              "type": "collections",
+              "method": "POST",
+              "collection": "965ef7e5-4748-4efb-98a3-9ba93d6bdc5c"
+            },
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "Data is loading..."
+              ]
+            }
+          }
+        },
+        "required": []
+      }
+    },
+    "soups": {
+      "type": "array",
+      "multiple": true,
+      "nestable": true,
+      "title": "Soups",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "order": "None"
+          },
+          "price": {
+            "type": "object",
+            "title": "Price",
+            "order": "None",
+            "properties": {
+              "value": {
+                "type": "integer"
+              },
+              "currency": {
+                "type": "string",
+                "enum": [
+                  "EUR",
+                  "USD",
+                  "GBP",
+                  "RUB",
+                  "INR"
+                ]
+              }
+            }
+          },
+          "employees": {
+            "type": "array",
+            "title": "Employees",
+            "order": "None",
+            "source": {
+              "url": "https://api.codemash.io/db/965ef7e5-4748-4efb-98a3-9ba93d6bdc5c/find",
+              "key": "_id",
+              "label": "@first_name @last_name",
+              "type": "collections",
+              "method": "POST",
+              "collection": "965ef7e5-4748-4efb-98a3-9ba93d6bdc5c"
+            },
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "Data is loading..."
+              ]
+            }
+          }
+        },
+        "required": []
+      }
+    },
+    "drinks": {
+      "type": "array",
+      "title": "Drinks",
+      "order": "None",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "order": "None",
+            "minLength": 1
+          },
+          "price": {
+            "type": "object",
+            "title": "Price",
+            "order": "None",
+            "properties": {
+              "value": {
+                "type": "integer"
+              },
+              "currency": {
+                "type": "string",
+                "enum": [
+                  "EUR",
+                  "USD",
+                  "GBP",
+                  "RUB",
+                  "INR"
+                ]
+              }
+            }
+          },
+          "employees": {
+            "type": "array",
+            "title": "Employees",
+            "order": "None",
+            "source": {
+              "url": "https://api.codemash.io/db/965ef7e5-4748-4efb-98a3-9ba93d6bdc5c/find",
+              "key": "_id",
+              "label": "@first_name @last_name",
+              "type": "collections",
+              "method": "POST",
+              "collection": "965ef7e5-4748-4efb-98a3-9ba93d6bdc5c"
+            },
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "Data is loading..."
+              ]
+            }
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "multiple": true
+    },
+    "souces": {
+      "type": "array",
+      "title": "Souces",
+      "order": "None",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "order": "None"
+          },
+          "employees": {
+            "type": "array",
+            "title": "Employees",
+            "order": "None",
+            "source": {
+              "url": "https://api.codemash.io/db/965ef7e5-4748-4efb-98a3-9ba93d6bdc5c/find",
+              "key": "_id",
+              "label": "@first_name @last_name",
+              "type": "collections",
+              "method": "POST",
+              "collection": "965ef7e5-4748-4efb-98a3-9ba93d6bdc5c"
+            },
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "Data is loading..."
+              ]
+            }
+          }
+        },
+        "required": []
+      },
+      "multiple": true
+    },
+    "employees": {
+      "type": "array",
+      "title": "Employees",
+      "hint": "Employees who are not in holidays, business trips... ",
+      "order": "None",
+      "source": {
+        "url": "https://api.codemash.io/db/965ef7e5-4748-4efb-98a3-9ba93d6bdc5c/find",
+        "key": "_id",
+        "label": "@first_name @last_name",
+        "type": "collections",
+        "method": "POST",
+        "collection": "965ef7e5-4748-4efb-98a3-9ba93d6bdc5c"
+      },
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Data is loading..."
+        ]
+      }
+    },
+    "guests": {
+      "type": "array",
+      "multiple": true,
+      "nestable": true,
+      "title": "Guests",
+      "items": {
+        "type": "object",
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "title": "Full Name",
+            "order": "None"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "order": "None",
+            "format": "email"
+          }
+        },
+        "required": []
+      }
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "order": "None",
+      "minLength": 1,
+      "default": "Undefined",
+      "enum": [
+        "Pending",
+        "InProcess",
+        "Completed",
+        "Canceled",
+        "Undefined"
+      ]
+    }
+  }
+}
+
+
+{
+  "planned_lunch_date": {
+    "tab": {
+      "name": "Menu",
+      "order": null
+    },
+    "ui:widget": "date"
+  },
+  "supplier": {
+    "tab": {
+      "name": "Menu",
+      "order": null
+    },
+    "ui:widget": "autocomplete"
+  },
+  "main_dish_options": {
+    "items": {
+      "title": {},
+      "price": {
+        "ui:widget": "currency",
+        "ui:field": "CurrencyField",
+        "items": {
+          "value": {},
+          "currency": {
+            "ui:widget": "autocomplete"
+          }
+        }
+      },
+      "employees": {
+        "ui:widget": "autocomplete"
+      }
+    },
+    "tab": {
+      "name": "Menu",
+      "order": null
+    },
+    "ui:widget": "nested"
+  },
+  "drinks": {
+    "items": {
+      "title": {},
+      "price": {
+        "ui:widget": "currency",
+        "ui:field": "CurrencyField",
+        "items": {
+          "value": {},
+          "currency": {
+            "ui:widget": "autocomplete"
+          }
+        }
+      },
+      "employees": {
+        "ui:widget": "autocomplete"
+      }
+    },
+    "tab": {
+      "name": "Menu",
+      "order": null
+    },
+    "ui:widget": "nested"
+  },
+  "soups": {
+    "items": {
+      "title": {},
+      "price": {
+        "ui:widget": "currency",
+        "ui:field": "CurrencyField",
+        "items": {
+          "value": {},
+          "currency": {
+            "ui:widget": "autocomplete"
+          }
+        }
+      },
+      "employees": {
+        "ui:widget": "autocomplete"
+      }
+    },
+    "tab": {
+      "name": "Menu",
+      "order": null
+    },
+    "ui:widget": "nested"
+  },
+  "souces": {
+    "items": {
+      "title": {},
+      "employees": {
+        "ui:widget": "autocomplete"
+      }
+    },
+    "tab": {
+      "name": "Menu",
+      "order": null
+    },
+    "ui:widget": "nested"
+  },
+  "division": {
+    "tab": {
+      "name": "Menu",
+      "order": null
+    },
+    "ui:widget": "autocomplete"
+  },
+  "employees": {
+    "tab": {
+      "name": "Employees",
+      "order": null
+    },
+    "ui:widget": "autocomplete"
+  },
+  "guests": {
+    "items": {
+      "full_name": {},
+      "email": {}
+    },
+    "tab": {
+      "name": "Employees",
+      "order": null
+    },
+    "ui:widget": "nested"
+  },
+  "status": {
+    "tab": {
+      "name": "Menu",
+      "order": null
+    },
+    "ui:widget": "autocomplete"
+  }
+}
