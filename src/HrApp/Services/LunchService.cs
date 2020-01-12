@@ -25,7 +25,8 @@ namespace HrApp
             
             var menu = new Menu(closestFriday, division, employees);
 
-            await MenuRepository.InsertMenu(menu);
+            var menuId = await MenuRepository.InsertMenu(menu);
+            menu.Id = menuId;
 
             return menu;
 

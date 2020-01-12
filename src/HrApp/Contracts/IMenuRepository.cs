@@ -6,7 +6,7 @@ namespace HrApp
 {
     public interface IMenuRepository
     {
-        Task InsertMenu(Menu menu);
+        Task<string> InsertMenu(Menu menu);
 
         Task UpdateMenuLunchTime(DateTime newTime, Menu menu);
 

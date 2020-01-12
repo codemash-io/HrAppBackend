@@ -1,0 +1,9 @@
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: LambdaFunction::LambdaFunction.Function::Handler
+      CodeUri: Function
+      Runtime: dotnetcore2.1
+      Timeout: 300
+      MemorySize: 128

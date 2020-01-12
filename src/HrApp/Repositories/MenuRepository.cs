@@ -12,7 +12,7 @@ namespace HrApp
     {
         private static CodeMashClient Client => new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
 
-        public async Task InsertMenu(Menu menu)
+        public async Task<string> InsertMenu(Menu menu)
         {
             if (menu == null)
             {
@@ -28,7 +28,8 @@ namespace HrApp
                 PlannedDate = menu.LunchDate
             };
                 
-            await repo.InsertOneAsync(entity, new DatabaseInsertOneOptions());
+            var response = await repo.InsertOneAsync(entity, new DatabaseInsertOneOptions());
+            return response.Result.Id;
         }
 
         public async Task UpdateMenuLunchTime(DateTime newTime, Menu menu)

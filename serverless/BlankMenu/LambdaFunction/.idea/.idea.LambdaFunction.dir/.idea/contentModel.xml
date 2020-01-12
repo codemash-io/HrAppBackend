@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.3/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_.19.00" t="ExcludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/extensions" t="IncludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p=".aws-sam" t="Include">
+        <e p="build" t="Include">
+          <e p="Function" t="Include">
+            <e p="Amazon.Lambda.APIGatewayEvents.dll" t="Include" />
+            <e p="Amazon.Lambda.Core.dll" t="Include" />
+            <e p="Amazon.Lambda.Serialization.Json.dll" t="Include" />
+            <e p="CodeMash.Client.dll" t="Include" />
+            <e p="CodeMash.Data.dll" t="Include" />
+            <e p="CodeMash.Interfaces.dll" t="Include" />
+            <e p="CodeMash.Models.dll" t="Include" />
+            <e p="CodeMash.Notifications.dll" t="Include" />
+            <e p="CodeMash.Repository.dll" t="Include" />
+            <e p="DnsClient.dll" t="Include" />
+            <e p="HrApp.dll" t="Include" />
+            <e p="HrApp.pdb" t="Include" />
+            <e p="LambdaFunction.deps.json" t="Include" />
+            <e p="LambdaFunction.dll" t="Include" />
+            <e p="LambdaFunction.pdb" t="Include" />
+            <e p="LambdaFunction.runtimeconfig.json" t="Include" />
+            <e p="MongoDB.Bson.dll" t="Include" />
+            <e p="MongoDB.Driver.Core.dll" t="Include" />
+            <e p="MongoDB.Driver.dll" t="Include" />
+            <e p="Newtonsoft.Json.dll" t="Include" />
+            <e p="ServiceContracts.dll" t="Include" />
+            <e p="ServiceStack.Client.dll" t="Include" />
+            <e p="ServiceStack.Common.dll" t="Include" />
+            <e p="ServiceStack.dll" t="Include" />
+            <e p="ServiceStack.Interfaces.dll" t="Include" />
+            <e p="ServiceStack.Text.dll" t="Include" />
+          </e>
+          <e p="template.yaml" t="Include" />
+        </e>
+      </e>
+      <e p="aws-lambda-tools-defaults.json" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="Function.cs" t="Include" />
+      <e p="lambda" t="Include">
+        <e p="Amazon.Lambda.APIGatewayEvents.dll" t="Include" />
+        <e p="Amazon.Lambda.Core.dll" t="Include" />
+        <e p="Amazon.Lambda.Serialization.Json.dll" t="Include" />
+        <e p="Archive.zip" t="Include" />
+        <e p="CodeMash.Client.dll" t="Include" />
+        <e p="CodeMash.Data.dll" t="Include" />
+        <e p="CodeMash.Interfaces.dll" t="Include" />
+        <e p="CodeMash.Models.dll" t="Include" />
+        <e p="CodeMash.Notifications.dll" t="Include" />
+        <e p="CodeMash.Repository.dll" t="Include" />
+        <e p="DnsClient.dll" t="Include" />
+        <e p="HrApp.dll" t="Include" />
+        <e p="HrApp.pdb" t="Include" />
+        <e p="LambdaFunction.deps.json" t="Include" />
+        <e p="LambdaFunction.dll" t="Include" />
+        <e p="LambdaFunction.pdb" t="Include" />
+        <e p="LambdaFunction.runtimeconfig.json" t="Include" />
+        <e p="MongoDB.Bson.dll" t="Include" />
+        <e p="MongoDB.Driver.Core.dll" t="Include" />
+        <e p="MongoDB.Driver.dll" t="Include" />
+        <e p="Newtonsoft.Json.dll" t="Include" />
+        <e p="ServiceContracts.dll" t="Include" />
+        <e p="ServiceStack.Client.dll" t="Include" />
+        <e p="ServiceStack.Common.dll" t="Include" />
+        <e p="ServiceStack.dll" t="Include" />
+        <e p="ServiceStack.Interfaces.dll" t="Include" />
+        <e p="ServiceStack.Text.dll" t="Include" />
+      </e>
+      <e p="LambdaFunction.csproj" t="IncludeRecursive" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp2.1" t="Include">
+            <e p="LambdaFunction.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
