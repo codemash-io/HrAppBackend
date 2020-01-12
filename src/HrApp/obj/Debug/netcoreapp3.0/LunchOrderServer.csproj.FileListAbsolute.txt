@@ -1,0 +1,90 @@
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/appsettings.Development.json
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/appsettings.json
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/Properties/launchSettings.json
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.exe
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.deps.json
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.runtimeconfig.json
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.runtimeconfig.dev.json
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.pdb
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/staticwebassets/LunchOrderServer.StaticWebAssets.Manifest.cache
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/staticwebassets/LunchOrderServer.StaticWebAssets.xml
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.AssemblyInfoInputs.cache
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.AssemblyInfo.cs
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.RazorTargetAssemblyInfo.cache
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.pdb
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.csprojAssemblyReference.cache
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Client.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Code.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Data.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Files.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Interfaces.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Logs.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Membership.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Models.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Notifications.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Project.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Repository.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceContracts.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/DnsClient.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/MongoDB.Bson.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/MongoDB.Driver.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/MongoDB.Driver.Core.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/Newtonsoft.Json.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.Client.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.Common.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.Interfaces.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.Text.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/System.ServiceModel.Primitives.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/System.ServiceModel.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/runtimes/unix/lib/netstandard2.0/System.Private.ServiceModel.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/bin/Debug/netcoreapp3.0/runtimes/win/lib/netstandard2.0/System.Private.ServiceModel.dll
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.MvcApplicationPartsAssemblyInfo.cache
+C:/Users/Aurimas/Desktop/PresentConnection/LunchOrder/LunchOrder/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.csproj.CopyComplete
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/appsettings.Development.json
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/appsettings.json
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/Properties/launchSettings.json
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.deps.json
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.runtimeconfig.json
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.runtimeconfig.dev.json
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/LunchOrderServer.pdb
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Client.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Code.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Data.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Files.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Interfaces.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Logs.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Membership.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Models.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Notifications.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Project.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/CodeMash.Repository.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceContracts.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/DnsClient.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/MongoDB.Bson.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/MongoDB.Driver.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/MongoDB.Driver.Core.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/Newtonsoft.Json.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.Client.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.Common.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.Interfaces.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/ServiceStack.Text.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/System.ServiceModel.Primitives.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/System.ServiceModel.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/runtimes/unix/lib/netstandard2.0/System.Private.ServiceModel.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/bin/Debug/netcoreapp3.0/runtimes/win/lib/netstandard2.0/System.Private.ServiceModel.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.csprojAssemblyReference.cache
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/staticwebassets/LunchOrderServer.StaticWebAssets.Manifest.cache
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/staticwebassets/LunchOrderServer.StaticWebAssets.xml
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.MvcApplicationPartsAssemblyInfo.cache
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.AssemblyInfoInputs.cache
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.AssemblyInfo.cs
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.RazorTargetAssemblyInfo.cache
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.csproj.CopyComplete
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.dll
+/Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/LunchOrderServer/obj/Debug/netcoreapp3.0/LunchOrderServer.pdb
