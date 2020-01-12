@@ -2,7 +2,7 @@
 
 namespace HrApp
 {
-    [CollectionName("pc_employees")]
+    [CollectionName("pc-employees")]
     public class EmployeeEntity : Entity
     {
         [FieldName("first_name")]
@@ -10,5 +10,8 @@ namespace HrApp
         
         [FieldName("last_name")]
         public string LastName { get; set; }
+        
+        [FieldName("division")]
+        public string Division { get; set; }
     }
 }

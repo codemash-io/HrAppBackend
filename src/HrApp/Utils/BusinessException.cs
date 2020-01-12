@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace HrApp
 {
-    public class BussinessException : Exception
+    public class BusinessException : Exception
     {
-        public BussinessException() { }
+        public BusinessException() { }
 
-        public BussinessException(string message) : base(message) { }
+        public BusinessException(string message) : base(message) { }
 
-        public BussinessException(string message, Exception inner) : base(message, inner) { }
+        public BusinessException(string message, Exception inner) : base(message, inner) { }
     }
 }

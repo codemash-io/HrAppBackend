@@ -10,3 +10,15 @@
 /Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.RazorTargetAssemblyInfo.cache
 /Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.dll
 /Users/domantasjovaisas/Projects/PresentConnection/PC Internship/LunchApp/LunchOrder/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.pdb
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/bin/Debug/netcoreapp3.0/Properties/launchSettings.json
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/bin/Debug/netcoreapp3.0/HrApp.deps.json
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/bin/Debug/netcoreapp3.0/HrApp.dll
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/bin/Debug/netcoreapp3.0/HrApp.pdb
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.csprojAssemblyReference.cache
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/staticwebassets/HrApp.StaticWebAssets.Manifest.cache
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/staticwebassets/HrApp.StaticWebAssets.xml
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.AssemblyInfoInputs.cache
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.AssemblyInfo.cs
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.RazorTargetAssemblyInfo.cache
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.dll
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.pdb

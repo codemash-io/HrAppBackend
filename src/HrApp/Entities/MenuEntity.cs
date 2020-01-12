@@ -7,7 +7,7 @@ namespace HrApp
     [CollectionName("LunchMenus")]
     public class MenuEntity : Entity
     {
-        public MenuStatus Status { get; set; }
+        public string Status { get; set; } = MenuStatus.Pending.ToString();
         
         [FieldName("planned_lunch_date")]
         public DateTime PlannedDate { get; set; }
@@ -17,10 +17,10 @@ namespace HrApp
         public List<string> Employees { get; set; }
         
         [FieldName("main_dish_options")]
-        public List<string> MainFood { get; set; }
+        public List<string> MainFood { get; set; } = new List<string>();
         
         [FieldName("soup")]
-        public List<string> Soup { get; set; }
+        public List<string> Soup { get; set; } = new List<string>();
     }
 
 

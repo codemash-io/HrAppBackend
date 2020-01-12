@@ -36,18 +36,18 @@ namespace HrApp
         {
             if (lunchtime.DayOfWeek == DayOfWeek.Saturday || lunchtime.DayOfWeek == DayOfWeek.Sunday || lunchtime.DayOfWeek == DayOfWeek.Monday)
             {
-                throw new BussinessException("Wrong date has been applied because it is a weekend");
+                throw new BusinessException("Wrong date has been applied because it is a weekend");
             } 
             
             if (DateTime.Now.DayOfWeek == DayOfWeek.Friday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday ||
                 DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
             {
-                throw new BussinessException("Today you are not able to set a lunch day");
+                throw new BusinessException("Today you are not able to set a lunch day");
             }
             
             if (DateTime.Now > lunchtime)
             {
-                throw new BussinessException("Menu not created yet");
+                throw new BusinessException("Menu not created yet");
             }
 
             await MenuRepository.UpdateMenuLunchTime(lunchtime, menu);
@@ -57,17 +57,17 @@ namespace HrApp
         {
             if (DateTime.Now > menu.LunchDate)
             {
-                throw new BussinessException("Menu is not valid anymore");
+                throw new BusinessException("Menu is not valid anymore");
             }
             
             if (menu.SupplierEntity == null)
             {
-                throw new BussinessException("supplier is not defined");
+                throw new BusinessException("supplier is not defined");
             }
 
             if (menu.Order == null || !menu.Order.Items.Any())
             {
-                throw new BussinessException("There is no defined food yet");
+                throw new BusinessException("There is no defined food yet");
             }
 
             await MenuRepository.AdjustMenuStatus(menu, MenuStatus.InProcess);
@@ -78,11 +78,11 @@ namespace HrApp
         {
             if (menu.Status != MenuStatus.InProcess)
             {
-                throw new BussinessException("Menu is not available anymore");
+                throw new BusinessException("Menu is not available anymore");
             }
             if (preferences == null || !preferences.Any())
             {
-                throw new BussinessException("Please provide your wishes");
+                throw new BusinessException("Please provide your wishes");
             }
 
             await MenuRepository.MakeEmployeeOrder(menu, preferences, employeeEntity);
@@ -98,12 +98,12 @@ namespace HrApp
             var isLunchTomorrow = IsLunchTomorrow(menu.LunchDate);
             if (!isLunchTomorrow)
             {
-                throw new BussinessException("It's too early to send message");
+                throw new BusinessException("It's too early to send message");
             }
 
             if (DateTime.Now > menu.LunchDate)
             {
-                throw new BussinessException("Order time has passed");
+                throw new BusinessException("Order time has passed");
             }
 
             var employees = await MenuRepository.GetEmployeesWhoOrderedFood(menu);

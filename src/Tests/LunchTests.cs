@@ -2,6 +2,8 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CodeMash.Client;
+using CodeMash.Repository;
 using HrApp;
 using Xunit;
 
@@ -29,7 +31,7 @@ namespace Tests
             
             var menu = await lunchService.CreateBlankMenu(new Division());
 
-            Assert.Equal(menu.LunchDate, closestFriday.AddHours(12));
+            Assert.Equal(closestFriday.AddHours(12), menu.LunchDate);
             await repoMock.Received().InsertMenu(Arg.Any<Menu>());
         }
         
@@ -63,10 +65,27 @@ namespace Tests
             
             var menu = await lunchService.CreateBlankMenu(division);
 
-            Assert.Equal(menu.Employees.Count, 4);
-            Assert.Equal(menu.Division.Name, "Division");
+            Assert.Equal(4, menu.Employees.Count);
+            Assert.Equal("Division", menu.Division.Name);
             await repoMock.Received().InsertMenu(Arg.Any<Menu>());
         }
 
+        [Fact]
+        public async Task Create_blank_menu()
+        {
+            var division = new Division {Id = "5d88ae84a792110001fef326"};
+            
+            ILunchService lunchService = new LunchService
+            {
+                HrService = new HrService { EmployeesRepository = new EmployeesRepository() },
+                MenuRepository = new MenuRepository()
+            };
+            
+            var menu = await lunchService.CreateBlankMenu(division);
+            
+            Assert.Equal("5d88ae84a792110001fef326", menu.Division.Id);
+            
+        }
+        
     }
 }

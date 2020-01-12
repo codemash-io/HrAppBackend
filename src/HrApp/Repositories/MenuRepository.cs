@@ -73,7 +73,7 @@ namespace HrApp
             var repo = new CodeMashRepository<MenuEntity>(Client);
             
             await repo.UpdateOneAsync(x => x.Id == menu.Id,
-                Builders<MenuEntity>.Update.Set(x => x.Status, status), null);
+                Builders<MenuEntity>.Update.Set(x => x.Status, status.ToString()), null);
 
         }
 
