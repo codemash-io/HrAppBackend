@@ -1,4 +1,5 @@
 ﻿using CodeMash.Models;
+using System;
 
 namespace HrApp
 {
@@ -13,5 +14,15 @@ namespace HrApp
         
         [FieldName("division")]
         public string Division { get; set; }
+
+        [FieldName("role")]
+        public int Role { get; set; }
+
+        [FieldName("budget")]
+        public int Budget { get; set; }
+
+        [FieldName("time_worked")]
+        public TimeSpan TimeWorked { get; set; }
+
     }
 }
