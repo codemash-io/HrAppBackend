@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeMash.Client;
 using CodeMash.Repository;
+using HrApp.Domain;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -21,6 +22,14 @@ namespace HrApp
                 PageSize = 100
             });
             return employees.Result;
+        }
+
+        public async Task UpdateEmployeeTimeWorked(string employeeId, double time)
+        {
+            var repo = new CodeMashRepository<EmployeeEntity>(Client);
+
+            await repo.UpdateOneAsync(x => x.Id == employeeId,
+                Builders<EmployeeEntity>.Update.Set(x => x.TimeWorked, time), null);
         }
     }
 }

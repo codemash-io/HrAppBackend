@@ -13,7 +13,7 @@ namespace HrApp.Entities
         public DateTime CommitDate { get; set; }
 
         [FieldName("time_worked")]
-        public TimeSpan TimeWorked { get; set; }
+        public double TimeWorked { get; set; } // in hours
 
         [FieldName("employee")]
         public string Employee { get; set; }

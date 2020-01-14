@@ -22,7 +22,7 @@ namespace HrApp
         public int Budget { get; set; }
 
         [FieldName("time_worked")]
-        public TimeSpan TimeWorked { get; set; }
+        public double TimeWorked { get; set; }
 
     }
 }
