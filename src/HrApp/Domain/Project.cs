@@ -15,6 +15,7 @@ namespace HrApp.Domain
             DateCreated = DateTime.Now;
             Commits = new List<CommitEntity>(); //when creating project there is no commits yet
         }
+
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
