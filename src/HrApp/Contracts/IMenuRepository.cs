@@ -14,5 +14,6 @@ namespace HrApp
 
         Task AdjustMenuStatus(Menu menu, MenuStatus status);
         Task<List<Guid>> GetEmployeesWhoOrderedFood(Menu menu);
+        Task<List<Guid>> GetEmployeesWhoStillNotMadeAnOrder(Menu menu);
     }
 }

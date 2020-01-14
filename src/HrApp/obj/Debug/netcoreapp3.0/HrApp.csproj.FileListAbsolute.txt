@@ -22,3 +22,15 @@
 /Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.RazorTargetAssemblyInfo.cache
 /Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.dll
 /Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.pdb
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\bin\Debug\netcoreapp3.0\Properties\launchSettings.json
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\bin\Debug\netcoreapp3.0\HrApp.deps.json
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\bin\Debug\netcoreapp3.0\HrApp.dll
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\bin\Debug\netcoreapp3.0\HrApp.pdb
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.csprojAssemblyReference.cache
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\obj\Debug\netcoreapp3.0\staticwebassets\HrApp.StaticWebAssets.Manifest.cache
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\obj\Debug\netcoreapp3.0\staticwebassets\HrApp.StaticWebAssets.xml
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.AssemblyInfoInputs.cache
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.AssemblyInfo.cs
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.RazorTargetAssemblyInfo.cache
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.dll
+C:\Users\Aurimas\Desktop\PresentConnection\HrAppBackend\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.pdb

@@ -13,6 +13,7 @@ namespace HrApp
             Employees = employees;
             Status = MenuStatus.Pending;
         }
+        public Menu() { }
 
         public string Id { get; set; }
         public DateTime LunchDate { get; set; }

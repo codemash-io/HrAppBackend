@@ -96,7 +96,7 @@ namespace HrApp
 
         public async Task SendReminderAboutFoodOrder(Menu menu)
         {
-            var isLunchTomorrow = IsLunchTomorrow(menu.LunchDate);
+           /* var isLunchTomorrow = IsLunchTomorrow(menu.LunchDate);
             if (!isLunchTomorrow)
             {
                 throw new BusinessException("It's too early to send message");
@@ -105,9 +105,9 @@ namespace HrApp
             if (DateTime.Now > menu.LunchDate)
             {
                 throw new BusinessException("Order time has passed");
-            }
+            }*/
 
-            var employees = await MenuRepository.GetEmployeesWhoOrderedFood(menu);
+            var employees = await MenuRepository.GetEmployeesWhoStillNotMadeAnOrder(menu);
             
             NotificationSender.SendReminderAboutFoodOrder(employees);
 

@@ -1,30 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/HrApp.csproj": {}
+    "C:\\Users\\Aurimas\\Desktop\\PresentConnection\\HrAppBackend\\src\\HrApp\\HrApp.csproj": {}
   },
   "projects": {
-    "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/HrApp.csproj": {
+    "C:\\Users\\Aurimas\\Desktop\\PresentConnection\\HrAppBackend\\src\\HrApp\\HrApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/HrApp.csproj",
+        "projectUniqueName": "C:\\Users\\Aurimas\\Desktop\\PresentConnection\\HrAppBackend\\src\\HrApp\\HrApp.csproj",
         "projectName": "HrApp",
-        "projectPath": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/HrApp.csproj",
-        "packagesPath": "/Users/domantasjovaisas/.nuget/packages/",
-        "outputPath": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/",
+        "projectPath": "C:\\Users\\Aurimas\\Desktop\\PresentConnection\\HrAppBackend\\src\\HrApp\\HrApp.csproj",
+        "packagesPath": "C:\\Users\\Aurimas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aurimas\\Desktop\\PresentConnection\\HrAppBackend\\src\\HrApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/domantasjovaisas/.config/NuGet/NuGet.Config"
+          "C:\\Users\\Aurimas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {},
-          "https://www.myget.org/F/servicestack": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.0": {
@@ -63,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

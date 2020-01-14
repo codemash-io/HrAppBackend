@@ -83,16 +83,38 @@ namespace HrApp
             var repo = new CodeMashRepository<MenuEntity>(Client);
 
             var response = await repo.FindOneAsync(x => x.Id == menu.Id);
-
             var menuEntity = response.Result;
-            
-            var employees = new List<string>();
-            
-            employees.AddRange(menuEntity.MainFood);
-            employees.AddRange(menuEntity.Soup);
+            var employees = GetEmployeesList(menuEntity);
 
             return employees.Select(Guid.Parse).ToList();
-
         }
+
+        async Task<List<Guid>> IMenuRepository.GetEmployeesWhoStillNotMadeAnOrder(Menu menu)
+        {
+            var repo = new CodeMashRepository<MenuEntity>(Client);
+
+            var response = await repo.FindOneAsync(x => x.Id == menu.Id);
+            var menuEntity = response.Result;
+            var employees = GetEmployeesList(menuEntity);
+
+            var employeeswoOrders = menuEntity.Employees.Except(employees).ToList();
+
+            return employeeswoOrders.Select(Guid.Parse).ToList();
+        }
+
+        protected List<string> GetEmployeesList(MenuEntity menuEntity)
+        {
+            var employees = new List<string>();
+            menuEntity.MainFood.ForEach(x => x.Employees.Where(d => !employees.Any(c => c == d)).ToList()
+   .ForEach(f => employees.Add(f)));
+            menuEntity.Soup.ForEach(x => x.Employees.Where(d => !employees.Any(c => c == d)).ToList()
+    .ForEach(f => employees.Add(f)));
+            menuEntity.Drink.ForEach(x => x.Employees.Where(d => !employees.Any(c => c == d)).ToList()
+    .ForEach(f => employees.Add(f)));
+            menuEntity.Souce.ForEach(x => x.Employees.Where(d => !employees.Any(c => c == d)).ToList()
+    .ForEach(f => employees.Add(f)));
+            return employees;
+        }
+
     }
 }
