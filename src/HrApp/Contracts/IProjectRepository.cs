@@ -13,5 +13,6 @@ namespace HrApp.Contracts
         Task AddCommtToProject(string commitId, string projectId);
         Task AddEmployeeToProject(Employee employee, Project project);
         Task<List<ProjectEntity>> SortProjects(DateTime from, DateTime to);
+        Task<ProjectEntity> GetProject(string projectId);
     }
 }

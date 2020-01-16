@@ -15,10 +15,10 @@ namespace HrApp.Repositories
     {
         private static CodeMashClient Client => new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
 
-        public async Task<List<CommitEntity>> GetCommits(Employee employee)
+        public async Task<List<CommitEntity>> GetCommitsByEmployee(EmployeeEntity employee)
         {
             var repo = new CodeMashRepository<CommitEntity>(Client);
-            var filter = Builders<CommitEntity>.Filter.Eq("employee", BsonObjectId.Create(employee.Id));
+            var filter = Builders<CommitEntity>.Filter.Eq("employee", BsonObjectId.Create(employee));
             var commits = await repo.FindAsync(filter, new DatabaseFindOptions()
             {
                 PageNumber = 0,
@@ -27,7 +27,7 @@ namespace HrApp.Repositories
             return commits.Result;
         }
 
-        public async Task<string> InsertCommit(Commit commit)
+        public async Task<CommitEntity> InsertCommit(Commit commit)
         {
             if (commit == null)
             {
@@ -45,7 +45,7 @@ namespace HrApp.Repositories
             };
 
             var response = await repo.InsertOneAsync(entity, new DatabaseInsertOneOptions());
-            return response.Result.Id;
+            return response.Result;
         }
 
     }

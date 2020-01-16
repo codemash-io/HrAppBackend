@@ -57,14 +57,22 @@ namespace HrApp.Repositories
         public async Task<List<ProjectEntity>> SortProjects(DateTime from, DateTime to)
         {
             var repo = new CodeMashRepository<ProjectEntity>(Client);
-
-            var filter = Builders<ProjectEntity>.Filter.Eq("date_created", BsonDateTime.Create(new DateTime(2020,01,14)));
+            //need to filter from-to
+            var filter = Builders<ProjectEntity>.Filter.Eq("date_created", BsonDateTime.Create(from));
             var sortedProjeccts = await repo.FindAsync(filter, new DatabaseFindOptions()
             {
                 PageNumber = 0,
                 PageSize = 100
             });
             return sortedProjeccts.Result;
+        }
+
+        public async Task<ProjectEntity> GetProject(string projectId)
+        {
+            var repo = new CodeMashRepository<ProjectEntity>(Client);
+            var pro = await repo.FindOneByIdAsync(projectId, new DatabaseFindOneOptions());
+
+            return pro.Result;
         }
 
 

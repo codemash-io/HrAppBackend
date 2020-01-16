@@ -28,7 +28,7 @@ namespace HrApp.Services
 
                 //adding commit to db
                  var commitId = await CommitRepository.InsertCommit(commit);
-                 commit.Id = commitId;
+                 commit.Id = commitId.Id;
 
                 //adding commit to a project
                 await ProjectRepository.AddCommtToProject(commit.Id, project.Id);
@@ -39,10 +39,11 @@ namespace HrApp.Services
                 await EmployeeRepository.UpdateEmployeeTimeWorked(employee.Id, totalTime);
 
 
-                /*if (notifier.CheckForEmployeeOvertime(employee))
+                if (CheckForEmployeeOvertime(employee))
                 {
+                    //should i send notification here?
                     var message = "Jus dirbote viršvalandžius";
-                }*/
+                }
             }
         }
 
@@ -80,7 +81,7 @@ namespace HrApp.Services
                 {
                     //adding commits to db
                     var commitId = CommitRepository.InsertCommit(commits[i]);
-                    commits[i].Id = commitId.Result;
+                    commits[i].Id = commitId.Result.Id;
 
 
                     //adding commits to a projects
@@ -144,9 +145,32 @@ namespace HrApp.Services
             return false;
         }
 
-        public bool CheckIfProjectBudgetExceeded(ProjectEntity project)
+        public bool CheckIfProjectBudgetExceeded(Project project)
         {
-            throw new NotImplementedException();
+            //calculating total time of all project commits
+            var totalTime = CalculateCommitsTime(project.Commits);
+
+            //project budget exceeded or equals to zero
+            if (project.Budget <= totalTime)
+                return true;
+
+            return false;
+        }
+
+        public bool CheckForEmployeeOvertime(EmployeeEntity employee)
+        {
+            //getting all commits by employee
+            var commits = CommitRepository.GetCommitsByEmployee(employee);
+            //calculating total work time of all employee commits
+            double totaTtime = CalculateCommitsTime(commits.Result);       
+
+            // if employee exceeded monthly hours 
+            if (employee.Budget < totaTtime)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private double CalculateCommitsTime(List<CommitEntity> commits)

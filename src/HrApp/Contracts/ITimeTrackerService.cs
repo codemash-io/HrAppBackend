@@ -15,8 +15,7 @@ namespace HrApp.Contracts
         bool CheckIfEmployeeCanWorkOnTheProject(string employeeId, ProjectEntity project);
         bool CheckIfEmployeeWorkedMoreThanPossible(List<CommitEntity> commits);
         bool CheckIfEmployeeWorkedMoreThanPossible(List<Commit> commits);
-        bool CheckIfProjectBudgetExceeded(ProjectEntity project);
-
-        //bool CheckForEmployeeOvertime(EmployeeEntity employee);
+        bool CheckIfProjectBudgetExceeded(Project project);
+        bool CheckForEmployeeOvertime(EmployeeEntity employee);
     }
 }
