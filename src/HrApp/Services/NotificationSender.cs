@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeMash.Client;
+using CodeMash.Notifications.Email.Services;
 using CodeMash.Notifications.Push.Services;
 using Isidos.CodeMash.ServiceContracts;
 
@@ -33,5 +34,6 @@ namespace HrApp
                 }
             );
         }
+
     }
 }

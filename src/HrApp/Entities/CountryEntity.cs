@@ -2,7 +2,7 @@
 
 namespace HrApp
 {
-    [CollectionName("Countries")]
+    [Collection("Countries")]
     public class CountryEntity : Entity
     {
         public string Name { get; set; }

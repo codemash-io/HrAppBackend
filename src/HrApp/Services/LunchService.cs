@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodeMash.Client;
+using CodeMash.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +12,8 @@ namespace HrApp
         public IHrService HrService { get; set; }
         public IMenuRepository MenuRepository { get; set; }
         public INotificationSender NotificationSender { get; set; }
+
+        
         
         public async Task<Menu> CreateBlankMenu(Division division)
         {
@@ -96,16 +100,11 @@ namespace HrApp
 
         public async Task SendReminderAboutFoodOrder(Menu menu)
         {
-           /* var isLunchTomorrow = IsLunchTomorrow(menu.LunchDate);
+            var isLunchTomorrow = IsLunchTomorrow(menu.LunchDate);
             if (!isLunchTomorrow)
             {
-                throw new BusinessException("It's too early to send message");
+                throw new BusinessException("Lunch is not tommorow");
             }
-
-            if (DateTime.Now > menu.LunchDate)
-            {
-                throw new BusinessException("Order time has passed");
-            }*/
 
             var employees = await MenuRepository.GetEmployeesWhoStillNotMadeAnOrder(menu);
             
@@ -116,9 +115,11 @@ namespace HrApp
         {
             var employees = await MenuRepository.GetEmployeesWhoOrderedFood(menu);
                        
+            //NotificationSender.SendNotificationAboutFoodIsArrived(employees);
             NotificationSender.SendNotificationAboutFoodIsArrived(employees);
-            
         }
+
+
 
         protected bool IsLunchTomorrow(DateTime lunchtime)
         {
@@ -126,8 +127,14 @@ namespace HrApp
             return difference == 1;
         }
 
-        
+        public async Task Example()
+        {
+            var client = new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
+            var service = new CodeMashRepository<MenuEntity>(client);
 
+            var menu = new MenuEntity { PlannedDate = DateTime.Now, DivisionId = "5e144e04e39c590001d31fcd", Status = MenuStatus.InProcess.ToString() };
 
+            await service.InsertOneAsync(menu, new DatabaseInsertOneOptions());
+        }
     }
 }

@@ -2,16 +2,18 @@
 
 namespace HrApp
 {
-    [CollectionName("pc-employees")]
+    [Collection("pc-employees")]
     public class EmployeeEntity : Entity
     {
-        [FieldName("first_name")]
+        [Field("first_name")]
         public string FirstName { get; set; }
         
-        [FieldName("last_name")]
+        [Field("last_name")]
         public string LastName { get; set; }
         
-        [FieldName("division")]
+        [Field("division")]
         public string Division { get; set; }
+        [Field("user")]
+        public string User { get; set; }
     }
 }

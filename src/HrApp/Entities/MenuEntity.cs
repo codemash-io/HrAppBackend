@@ -4,36 +4,36 @@ using CodeMash.Models;
 
 namespace HrApp
 {
-    [CollectionName("LunchMenus")]
+    [Collection("LunchMenus")]
     public class MenuEntity : Entity
     {
         public string Status { get; set; } = MenuStatus.Pending.ToString();
         
-        [FieldName("planned_lunch_date")]
+        [Field("planned_lunch_date")]
         public DateTime PlannedDate { get; set; }
-        [FieldName("division")]
+        [Field("division")]
         public string DivisionId { get; set; }
-        [FieldName("employees")]
-        public List<string> Employees { get; set; }
+        [Field("employees")]
+        public List<string> Employees { get; set; } = new List<string>();
         
-        [FieldName("main_dish_options")]
+        [Field("main_dish_options")]
         public List<Dish> MainFood { get; set; } = new List<Dish>();
         
-        [FieldName("soups")]
+        [Field("soups")]
         public List<Dish> Soup { get; set; } = new List<Dish>();
-        [FieldName("drinks")]
+        [Field("drinks")]
         public List<Dish> Drink { get; set; } = new List<Dish>();
-        [FieldName("souces")]
+        [Field("souces")]
         public List<Dish> Souce { get; set; } = new List<Dish>();
     }
 
 
     public class Dish
     {
-        [FieldName("no")]
+        [Field("no")]
         public int Number { get; set; }
         
-        [FieldName("employees")]
+        [Field("employees")]
         public List<string> Employees { get; set; }
     }
     

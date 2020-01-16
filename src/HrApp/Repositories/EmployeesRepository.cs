@@ -20,7 +20,7 @@ namespace HrApp
                 PageNumber = 0,
                 PageSize = 100
             });
-            return employees.Result;
+            return employees.List;
         }
     }
 }

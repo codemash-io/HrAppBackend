@@ -73,7 +73,7 @@ namespace Tests
         [Fact]
         public async Task Create_blank_menu()
         {
-            var division = new Division {Id = "5d88ae84a792110001fef326"};
+            var division = new Division {Id = "5e144e04e39c590001d31fcd" };
             
             ILunchService lunchService = new LunchService
             {
@@ -83,19 +83,22 @@ namespace Tests
             
             var menu = await lunchService.CreateBlankMenu(division);
             
-            Assert.Equal("5d88ae84a792110001fef326", menu.Division.Id);
+            Assert.Equal("5e144e04e39c590001d31fcd", menu.Division.Id);
             
         }
+
+
+
+
 
         [Fact]
         public async Task Create_Employee_Order()
         {
             var division = new Division { Id = "5e144e04e39c590001d31fcd" };
-            var employee = new EmployeeEntity { Id = "5e1c70f2cafa8c00013d1095" };
+            var employee = new EmployeeEntity { Id = "5e1dcf60d1930300012f1106" };
             List<PersonalOrderPreference> preferences = new List<PersonalOrderPreference>()
             { new PersonalOrderPreference { Type=FoodType.Main,FoodNumber=2},
-            new PersonalOrderPreference { Type=FoodType.Soup,FoodNumber=1},
-            new PersonalOrderPreference { Type=FoodType.Drinks,FoodNumber=2},
+            new PersonalOrderPreference { Type=FoodType.Soup,FoodNumber=1},            
             };
 
             ILunchService lunchService = new LunchService
@@ -108,33 +111,116 @@ namespace Tests
             var client = new CodeMashClient("5ad1qmk9ehm-LmieTRmAObODr4DdVNhi", Guid.Parse("4a988807-b77f-4518-8e4a-d59eaa4da592"));
             var service = new CodeMashRepository<MenuEntity>(client);
             var closestFriday = DateTime.Now.StartOfWeek(DayOfWeek.Friday);
-            var menu = new Menu { Id = "5e144e04e39c590001d31fcd", Status = MenuStatus.InProcess };
+            var menu = new Menu { Id = "5e1dad027762bb00018926f9", Status = MenuStatus.InProcess };
 
             await lunchService.OrderFood(employee, preferences, menu);
 
             // Assert.Equal("5d88ae84a792110001fef326", menu2.Division.Id);
 
-        }
+        }             
 
 
+               
         [Fact]
         public async Task Send_Notification_About_Food_Order_succesfull()
         {
+            ILunchService lunchService = new LunchService
+            {
+                HrService = new HrService { EmployeesRepository = new EmployeesRepository() },
+                MenuRepository = new MenuRepository(),
+                NotificationSender = new NotificationSender()
+            };
 
+            var menu = new Menu { Id = "5e1dad027762bb00018926f9", Status = MenuStatus.InProcess,LunchDate =DateTime.Now.AddDays(1) };
+
+            await lunchService.SendReminderAboutFoodOrder(menu);
+        }
+
+        [Fact]
+        public async Task Send_Notification_About_Food_Order_Mock_succesfull()
+        {
+            var availableEmployeesFromDivisionGuid = new List<Guid>
+            {
+                 Guid.Parse("4916534b-6793-47a6-82d0-9cd5c76b0224")
+            };
+
+            var menuRepository = Substitute.For<IMenuRepository>();
+            menuRepository
+                .GetEmployeesWhoStillNotMadeAnOrder(Arg.Any<Menu>())
+                .Returns(availableEmployeesFromDivisionGuid);
 
             ILunchService lunchService = new LunchService
             {
                 HrService = new HrService { EmployeesRepository = new EmployeesRepository() },
-                MenuRepository = new MenuRepository()
-            };
-
-
-            //var client = new CodeMashClient("5ad1qmk9ehm-LmieTRmAObODr4DdVNhi", Guid.Parse("4a988807-b77f-4518-8e4a-d59eaa4da592"));
-            // var service = new CodeMashRepository<MenuEntity>(client);
-            // var closestFriday = DateTime.Now.StartOfWeek(DayOfWeek.Friday);
-            var menu = new Menu { Id = "5e1dad027762bb00018926f9", Status = MenuStatus.InProcess };
+                MenuRepository = menuRepository,
+                NotificationSender = new NotificationSender()
+            };    
+            var menu = new Menu { Id = "5e1dad027762bb00018926f9", Status = MenuStatus.InProcess, LunchDate = DateTime.Now.AddDays(1) };
 
             await lunchService.SendReminderAboutFoodOrder(menu);
+            await menuRepository.Received().GetEmployeesWhoStillNotMadeAnOrder(Arg.Any<Menu>());
+        }
+
+        [Fact]
+        public async Task Send_Notification_About_Food_Order_Lunch_Time_To_Early()
+        {
+            ILunchService lunchService = new LunchService
+            {
+                HrService = new HrService { EmployeesRepository = new EmployeesRepository() },
+                MenuRepository = new MenuRepository(),
+                NotificationSender = new NotificationSender()
+            };
+
+            var menu = new Menu { Id = "5e1dad027762bb00018926f9", Status = MenuStatus.InProcess, LunchDate = DateTime.Now.AddDays(2) };
+           await Assert.ThrowsAnyAsync<Exception>(async () => await lunchService.SendReminderAboutFoodOrder(menu));
+        }
+
+
+        [Fact]
+        public async Task Send_Notification_That_Food_Arrived_succesfull()
+        {
+            ILunchService lunchService = new LunchService
+            {
+                HrService = new HrService { EmployeesRepository = new EmployeesRepository() },
+                MenuRepository = new MenuRepository(),
+                NotificationSender = new NotificationSender()
+            };
+
+            var menu = new Menu { Id = "5e1dad027762bb00018926f9", Status = MenuStatus.InProcess };
+
+            await lunchService.SendNotificationThatFoodArrived(menu);
+
+            // Assert.Equal("5d88ae84a792110001fef326", menu2.Division.Id);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [Fact]
+        public async Task Example_Test()
+        {
+            ILunchService lunchService = new LunchService();
+
+
+
+            await lunchService.Example();
 
             // Assert.Equal("5d88ae84a792110001fef326", menu2.Division.Id);
 

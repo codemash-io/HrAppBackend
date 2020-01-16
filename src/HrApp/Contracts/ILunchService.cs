@@ -58,5 +58,7 @@ namespace HrApp
         /// <returns></returns>
         public Task SendNotificationThatFoodArrived(Menu menu);
 
+
+        public Task Example();
     }
 }

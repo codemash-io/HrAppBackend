@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.0": {
-      "CodeMash.Core/2.0.132": {
+      "CodeMash.Core/2.0.134": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "2.2.0",
@@ -2479,14 +2479,14 @@
     }
   },
   "libraries": {
-    "CodeMash.Core/2.0.132": {
-      "sha512": "TQCn5PlVjZHLuegEQiTEZkFVaJmbnrYttProhmDV11AJKXPjnLwTjo81Pl545mZI+x44qIgXoZU2pefvFgjfdA==",
+    "CodeMash.Core/2.0.134": {
+      "sha512": "Kz9amRkT//Iu6GtVw83trBcTvenG1ewwZ8gLlDhWvXzO1TPSKseunCqZ35yq1G9jUdJ7wu8X9WEC6C5F5S5KyA==",
       "type": "package",
-      "path": "codemash.core/2.0.132",
+      "path": "codemash.core/2.0.134",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "codemash.core.2.0.132.nupkg.sha512",
+        "codemash.core.2.0.134.nupkg.sha512",
         "codemash.core.nuspec",
         "lib/netstandard2.0/CodeMash.Client.dll",
         "lib/netstandard2.0/CodeMash.Code.dll",
@@ -8001,7 +8001,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
-      "CodeMash.Core >= 2.0.132"
+      "CodeMash.Core >= 2.0.134"
     ]
   },
   "packageFolders": {
@@ -8047,7 +8047,7 @@
         "dependencies": {
           "CodeMash.Core": {
             "target": "Package",
-            "version": "[2.0.132, )"
+            "version": "[2.0.134, )"
           }
         },
         "imports": [
