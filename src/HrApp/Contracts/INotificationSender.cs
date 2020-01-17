@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HrApp
 {
     public interface INotificationSender
     {
 
-        public void SendReminderAboutFoodOrder(List<Guid> receivers);
+        public Task SendReminderAboutFoodOrder(List<Guid> receivers);
 
-        public void SendNotificationAboutFoodIsArrived(List<Guid> receivers);
+        public Task SendNotificationAboutFoodIsArrived(List<Guid> receivers);
     }
 }

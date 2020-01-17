@@ -29,7 +29,7 @@ namespace HrApp
             };
                 
             var response = await repo.InsertOneAsync(entity, new DatabaseInsertOneOptions());
-            return response.Result.Id;
+            return response.Id;
         }
 
         public async Task UpdateMenuLunchTime(DateTime newTime, Menu menu)
@@ -78,20 +78,36 @@ namespace HrApp
 
         }
 
-        async Task<List<Guid>> IMenuRepository.GetEmployeesWhoOrderedFood(Menu menu)
+        /// <summary>
+        /// Gets all employees who can order the food and haven't done it yet
+        /// </summary>
+        /// <param name="menu"></param>
+        /// <returns></returns>
+        public async Task<List<Guid>> GetEmployeesWhoCanOrderFood(Menu menu)
         {
             var repo = new CodeMashRepository<MenuEntity>(Client);
-
-            var response = await repo.FindOneAsync(x => x.Id == menu.Id);
-
-            var menuEntity = response.Result;
+            var menuResponse = await repo.FindOneAsync(x => x.Id == menu.Id);
             
+            // all employees who are allowed to order the food (not in holidays,...)
+            var allEmployees = menuResponse.Employees;
+            
+            // Check who already did food reservation
             var employees = new List<string>();
+            employees.AddRange(menuResponse.MainFood);
+            employees.AddRange(menuResponse.Soup);
             
-            employees.AddRange(menuEntity.MainFood);
-            employees.AddRange(menuEntity.Soup);
-
-            return employees.Select(Guid.Parse).ToList();
+            // Collect only employees who don't have reservation yet
+            var employeesWhoCanDoReservation = allEmployees.Except(employees);
+            
+            var employeesRepo = new CodeMashRepository<EmployeeEntity>(Client);
+            var filter = Builders<EmployeeEntity>.Filter.In(x => x.Id, employeesWhoCanDoReservation); 
+            var projection = Builders<EmployeeEntity>.Projection.Include(x => x.UserId); 
+            var response = await employeesRepo.FindAsync<EmployeeEntity>(filter, projection);
+            
+            return response.Items
+                .Where(x => x.UserId != Guid.Empty)
+                .Select(x => x.UserId)
+                .ToList();
 
         }
     }

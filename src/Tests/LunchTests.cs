@@ -1,15 +1,15 @@
 using NSubstitute;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using CodeMash.Client;
-using CodeMash.Repository;
 using HrApp;
+using NSubstitute.Core.Arguments;
 using Xunit;
 
 namespace Tests
 {
-    public class TestsOfLunchOrderServers
+    public class LunchOrder
     {
         [Fact]
         public async Task Can_create_blank_menu_for_each_friday()
@@ -23,7 +23,7 @@ namespace Tests
 
             var closestFriday = DateTime.Now.StartOfWeek(DayOfWeek.Friday);
             
-            ILunchService lunchService = new LunchService
+            var lunchService = new LunchService
             {
                 HrService = hrServiceMock,
                 MenuRepository = repoMock
@@ -54,10 +54,8 @@ namespace Tests
                 .Returns(availableEmployeesFromDivision);
             
             var repoMock = Substitute.For<IMenuRepository>();
-
-            var closestFriday = DateTime.Now.StartOfWeek(DayOfWeek.Friday);
             
-            ILunchService lunchService = new LunchService
+            var lunchService = new LunchService
             {
                 HrService = hrServiceMock,
                 MenuRepository = repoMock
@@ -69,22 +67,75 @@ namespace Tests
             Assert.Equal("Division", menu.Division.Name);
             await repoMock.Received().InsertMenu(Arg.Any<Menu>());
         }
-
+        
+        
         [Fact]
-        public async Task Create_blank_menu()
+        public async Task Send_notification_to_employees_who_can_order_the_food()
         {
-            var division = new Division {Id = "5d88ae84a792110001fef326"};
-            
-            ILunchService lunchService = new LunchService
+            // Arrange
+            var availableEmployeesFromDivision = new List<EmployeeEntity>
             {
-                HrService = new HrService { EmployeesRepository = new EmployeesRepository() },
-                MenuRepository = new MenuRepository()
+                new EmployeeEntity {Id = "1", FirstName = "EmployeeA", UserId = Guid.NewGuid()},
+                new EmployeeEntity {Id = "2", FirstName = "EmployeeB", UserId = Guid.NewGuid()},
+                new EmployeeEntity {Id = "3", FirstName = "EmployeeC", UserId = Guid.NewGuid()},
+                new EmployeeEntity {Id = "4", FirstName = "EmployeeD", UserId = Guid.NewGuid()}
             };
             
-            var menu = await lunchService.CreateBlankMenu(division);
+            var division = new Division {Name = "Division"};
+            var menu = new Menu(DateTime.Now.AddDays(1), division, availableEmployeesFromDivision);
             
-            Assert.Equal("5d88ae84a792110001fef326", menu.Division.Id);
+            var repoMock = Substitute.For<IMenuRepository>();
+            repoMock.GetEmployeesWhoCanOrderFood(Arg.Any<Menu>())
+                .Returns(availableEmployeesFromDivision.Select(x => x.UserId).ToList());
+
+            var notificationSenderMock = Substitute.For<INotificationSender>();
             
+            var lunchService = new LunchService
+            {
+                MenuRepository = repoMock,
+                NotificationSender = notificationSenderMock
+            };
+            
+            // Act
+            await lunchService.SendReminderAboutFoodOrder(menu);
+                
+            // Assert
+            await notificationSenderMock.Received().SendReminderAboutFoodOrder(Arg.Any<List<Guid>>());
+            
+        }
+        
+        [Fact]
+        public async Task Throws_exception_if_reminder_is_to_early()
+        {
+            // Arrange
+            var division = new Division {Name = "Division"};
+            var menu = new Menu(DateTime.Now.AddHours(27), division, null);
+
+            var lunchService = new LunchService();
+            
+            // Act
+            var exception = await Assert.ThrowsAsync<BusinessException>(async () => await lunchService.SendReminderAboutFoodOrder(menu));
+            
+            // Assert
+            Assert.Equal("It's too early to send message", exception.Message);
+
+        }
+        
+        [Fact]
+        public async Task Throws_exception_if_reminder_is_in_the_past_date()
+        {
+            // Arrange
+            var division = new Division {Name = "Division"};
+            var menu = new Menu(DateTime.Now.AddHours(-1), division, null);
+
+            var lunchService = new LunchService();
+            
+            // Act
+            var exception = await Assert.ThrowsAsync<BusinessException>(async () => await lunchService.SendReminderAboutFoodOrder(menu));
+            
+            // Assert
+            Assert.Equal("Order time has passed", exception.Message);
+
         }
         
     }

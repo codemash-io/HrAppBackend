@@ -42,7 +42,7 @@
           "dependencies": {
             "CodeMash.Core": {
               "target": "Package",
-              "version": "[2.0.132, )"
+              "version": "[2.0.135, )"
             }
           },
           "imports": [
@@ -109,7 +109,7 @@
           "dependencies": {
             "CodeMash.Core": {
               "target": "Package",
-              "version": "[2.0.132, )"
+              "version": "[2.0.135, )"
             },
             "Microsoft.Extensions.Configuration.UserSecrets": {
               "target": "Package",

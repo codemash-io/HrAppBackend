@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Meeting_Room_Booking_System.Exceptions;
-using Meeting_Room_Booking_System.Interfaces;
-using Meeting_Room_Booking_System.Utils;
-
-namespace HrApp
+﻿namespace HrApp
 {
     public class RoomBookerService : IRoomBooker
     {
         public IRoomChecker RoomChecker { get; set; }
-        public IEmployeeChecker EmployeeChecker { get; set; }
+        public IHrService HrService { get; set; }
 
-        public RoomBookerService(IRoomChecker roomChecker, IEmployeeChecker employeeChecker)
+        public RoomBookerService(IRoomChecker roomChecker, IHrService hrService)
         {
             RoomChecker = roomChecker;
-            EmployeeChecker = employeeChecker;
+            HrService = hrService;
         }
 
         public bool BookRoom(Booking booking)

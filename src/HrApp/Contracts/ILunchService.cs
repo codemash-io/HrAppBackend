@@ -44,13 +44,19 @@ namespace HrApp
         /// </summary>
         /// <param name="menu"></param>
         public Task CloseMenu(Menu menu);
+        
+        /// <summary>
+        /// Send initial request to order the food
+        /// </summary>
+        /// <param name="menu"></param>
+        public Task<List<Guid>> SendMessageAboutFoodOrder(Menu menu);
 
         /// <summary>
         /// Sends reminder about upcoming food delivery.
         /// </summary>
         /// <param name="menu"></param>
         public Task SendReminderAboutFoodOrder(Menu menu);
-
+        
         /// <summary>
         /// Notify recipients about food is in the kitchen
         /// </summary>

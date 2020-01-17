@@ -1,17 +1,25 @@
-﻿using CodeMash.Models;
+﻿using System;
+using System.Collections.Generic;
+using CodeMash.Models;
 
 namespace HrApp
 {
-    [CollectionName("pc-employees")]
+    [Collection("pc-employees")]
     public class EmployeeEntity : Entity
     {
-        [FieldName("first_name")]
+        [Field("first_name")]
         public string FirstName { get; set; }
         
-        [FieldName("last_name")]
+        [Field("last_name")]
         public string LastName { get; set; }
         
-        [FieldName("division")]
+        [Field("division")]
         public string Division { get; set; }
+        
+        [Field("employees")]
+        public List<string> Employees { get; set; }
+        
+        [Field("application_user")]
+        public Guid UserId { get; set; }
     }
 }

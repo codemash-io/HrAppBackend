@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v3.0": {
       "Tests/1.0.0": {
         "dependencies": {
-          "CodeMash.Core": "2.0.132",
+          "CodeMash.Core": "2.0.135",
           "HrApp": "1.0.0",
           "Microsoft.Extensions.Configuration.UserSecrets": "3.1.0",
           "Microsoft.NET.Test.Sdk": "16.2.0",
@@ -43,7 +43,7 @@
           }
         }
       },
-      "CodeMash.Core/2.0.132": {
+      "CodeMash.Core/2.0.135": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "3.1.0",
           "Microsoft.Extensions.Configuration.Abstractions": "3.1.0",
@@ -2052,7 +2052,7 @@
       },
       "HrApp/1.0.0": {
         "dependencies": {
-          "CodeMash.Core": "2.0.132"
+          "CodeMash.Core": "2.0.135"
         },
         "runtime": {
           "HrApp.dll": {}
@@ -2073,12 +2073,12 @@
       "path": "castle.core/4.4.0",
       "hashPath": "castle.core.4.4.0.nupkg.sha512"
     },
-    "CodeMash.Core/2.0.132": {
+    "CodeMash.Core/2.0.135": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-TQCn5PlVjZHLuegEQiTEZkFVaJmbnrYttProhmDV11AJKXPjnLwTjo81Pl545mZI+x44qIgXoZU2pefvFgjfdA==",
-      "path": "codemash.core/2.0.132",
-      "hashPath": "codemash.core.2.0.132.nupkg.sha512"
+      "sha512": "sha512-V3MGPYVjjbaDk19RA+1cZ1KdoTFMXRO+Jxc6YtFVp9pgJWKALqHTg8fTYPUbnlvlZsVPJj6wbDJiZBMt6C0Zug==",
+      "path": "codemash.core/2.0.135",
+      "hashPath": "codemash.core.2.0.135.nupkg.sha512"
     },
     "coverlet.collector/1.0.1": {
       "type": "package",

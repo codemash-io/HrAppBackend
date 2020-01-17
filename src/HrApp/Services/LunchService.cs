@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace HrApp
@@ -92,11 +93,11 @@ namespace HrApp
         public async Task CloseMenu(Menu menu)
         {
             await MenuRepository.AdjustMenuStatus(menu, MenuStatus.Closed);
-        }     
+        }
 
-        public async Task SendReminderAboutFoodOrder(Menu menu)
+        public async Task<List<Guid>> SendMessageAboutFoodOrder(Menu menu)
         {
-            var isLunchTomorrow = IsLunchTomorrow(menu.LunchDate);
+            var isLunchTomorrow = IsLunchTodayOrTomorrow(menu.LunchDate);
             if (!isLunchTomorrow)
             {
                 throw new BusinessException("It's too early to send message");
@@ -107,23 +108,43 @@ namespace HrApp
                 throw new BusinessException("Order time has passed");
             }
 
-            var employees = await MenuRepository.GetEmployeesWhoOrderedFood(menu);
+            var employees = await MenuRepository.GetEmployeesWhoCanOrderFood(menu);
             
-            NotificationSender.SendReminderAboutFoodOrder(employees);
+            await NotificationSender.SendReminderAboutFoodOrder(employees);
+
+            return employees;
+        }
+
+        public async Task SendReminderAboutFoodOrder(Menu menu)
+        {
+            if (menu.LunchDate < DateTime.Now)
+            {
+                throw new BusinessException("Order time has passed");
+            }
+            
+            var isLunchTomorrow = IsLunchTodayOrTomorrow(menu.LunchDate);
+            if (!isLunchTomorrow)
+            {
+                throw new BusinessException("It's too early to send message");
+            }
+
+            var employees = await MenuRepository.GetEmployeesWhoCanOrderFood(menu);
+            
+            await NotificationSender.SendReminderAboutFoodOrder(employees);
 
         }
         public async Task SendNotificationThatFoodArrived(Menu menu)
         {
-            var employees = await MenuRepository.GetEmployeesWhoOrderedFood(menu);
+            var employees = await MenuRepository.GetEmployeesWhoCanOrderFood(menu);
                        
-            NotificationSender.SendNotificationAboutFoodIsArrived(employees);
+            await NotificationSender.SendNotificationAboutFoodIsArrived(employees);
             
         }
 
-        protected bool IsLunchTomorrow(DateTime lunchtime)
+        private bool IsLunchTodayOrTomorrow(DateTime lunchtime)
         {
-            var difference = (lunchtime - DateTime.Now).Days + 1;
-            return difference == 1;
+            var difference = lunchtime.Subtract(DateTime.Now).TotalHours;
+            return difference <= 26;
         }
 
         

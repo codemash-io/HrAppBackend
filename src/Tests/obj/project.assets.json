@@ -23,7 +23,7 @@
           "lib/netstandard1.5/Castle.Core.dll": {}
         }
       },
-      "CodeMash.Core/2.0.132": {
+      "CodeMash.Core/2.0.135": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "2.2.0",
@@ -3130,7 +3130,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.0",
         "dependencies": {
-          "CodeMash.Core": "2.0.132"
+          "CodeMash.Core": "2.0.135"
         },
         "compile": {
           "bin/placeholder/HrApp.dll": {}
@@ -3170,14 +3170,14 @@
         "readme.txt"
       ]
     },
-    "CodeMash.Core/2.0.132": {
-      "sha512": "TQCn5PlVjZHLuegEQiTEZkFVaJmbnrYttProhmDV11AJKXPjnLwTjo81Pl545mZI+x44qIgXoZU2pefvFgjfdA==",
+    "CodeMash.Core/2.0.135": {
+      "sha512": "V3MGPYVjjbaDk19RA+1cZ1KdoTFMXRO+Jxc6YtFVp9pgJWKALqHTg8fTYPUbnlvlZsVPJj6wbDJiZBMt6C0Zug==",
       "type": "package",
-      "path": "codemash.core/2.0.132",
+      "path": "codemash.core/2.0.135",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "codemash.core.2.0.132.nupkg.sha512",
+        "codemash.core.2.0.135.nupkg.sha512",
         "codemash.core.nuspec",
         "lib/netstandard2.0/CodeMash.Client.dll",
         "lib/netstandard2.0/CodeMash.Code.dll",
@@ -9669,7 +9669,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
-      "CodeMash.Core >= 2.0.132",
+      "CodeMash.Core >= 2.0.135",
       "HrApp >= 1.0.0",
       "Microsoft.Extensions.Configuration.UserSecrets >= 3.1.0",
       "Microsoft.NET.Test.Sdk >= 16.2.0",
@@ -9727,7 +9727,7 @@
         "dependencies": {
           "CodeMash.Core": {
             "target": "Package",
-            "version": "[2.0.132, )"
+            "version": "[2.0.135, )"
           },
           "Microsoft.Extensions.Configuration.UserSecrets": {
             "target": "Package",

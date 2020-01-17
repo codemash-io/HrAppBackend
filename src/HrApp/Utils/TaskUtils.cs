@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace HrApp
 {
-    public static class TaskUtils
+    /*public static class TaskUtils
     {
         /// <summary>
         /// Makes input word only first letter uppercase and others lowercase (meant for Enums)
@@ -30,5 +28,5 @@ namespace HrApp
                 timeLine.Employees.Add(employee);
             }
         }
-    }
+    }*/
 }

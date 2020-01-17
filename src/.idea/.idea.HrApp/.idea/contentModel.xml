@@ -19,14 +19,20 @@
           <e p="ILunchService.cs" t="Include" />
           <e p="IMenuRepository.cs" t="Include" />
           <e p="INotificationSender.cs" t="Include" />
+          <e p="IRoomBooker.cs" t="Include" />
+          <e p="IRoomChecker.cs" t="Include" />
         </e>
         <e p="Domain" t="Include">
+          <e p="Booking.cs" t="Include" />
           <e p="Division.cs" t="Include" />
+          <e p="Employee.cs" t="Include" />
           <e p="Food.cs" t="Include" />
           <e p="FoodItem.cs" t="Include" />
           <e p="FoodType.cs" t="Include" />
+          <e p="MeetingRooms.cs" t="Include" />
           <e p="Menu.cs" t="Include" />
           <e p="MenuStatus.cs" t="Include" />
+          <e p="WeekDays.cs" t="Include" />
         </e>
         <e p="Entities" t="Include">
           <e p="CountryEntity.cs" t="Include" />
@@ -54,11 +60,21 @@
           <e p="HrService.cs" t="Include" />
           <e p="LunchService.cs" t="Include" />
           <e p="NotificationSender.cs" t="Include" />
+          <e p="RoomBookerService.cs" t="Include" />
         </e>
         <e p="Utils" t="Include">
-          <e p="BusinessException.cs" t="Include" />
           <e p="DateTimeExtensions.cs" t="Include" />
+          <e p="Exceptions" t="Include">
+            <e p="BookingDoesNotExistException.cs" t="Include" />
+            <e p="BookingIsNotAvailableException.cs" t="Include" />
+            <e p="BookingPropertyIsInvalidException.cs" t="Include" />
+            <e p="BusinessException.cs" t="Include" />
+            <e p="EmployeeIsAttendingException.cs" t="Include" />
+            <e p="EmployeePropertyException.cs" t="Include" />
+            <e p="WrongDateInputException.cs" t="Include" />
+          </e>
           <e p="Settings.cs" t="Include" />
+          <e p="TaskUtils.cs" t="Include" />
         </e>
       </e>
       <e p="HrApp.sln" t="IncludeFlat" />
@@ -66,6 +82,7 @@
       <e p="Tests" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="LunchTests.cs" t="Include" />
+        <e p="LunchTests.Integration.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.0" t="Include">

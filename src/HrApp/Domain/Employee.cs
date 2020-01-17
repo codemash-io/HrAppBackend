@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Meeting_Room_Booking_System.Exceptions;
 
 namespace HrApp
 {
@@ -28,14 +26,15 @@ namespace HrApp
             throw new ArgumentNullException();
         }
 
+
         public static bool operator ==(Employee employee1, Employee employee2)
         {
-            return employee1.Equals(employee2);
+            return employee1 != null && employee1.Equals(employee2);
         }
 
         public static bool operator !=(Employee employee1, Employee employee2)
         {
-            return !employee1.Equals(employee2);
+            return employee1 != null && !employee1.Equals(employee2);
         }
 
         public void CheckEmployeeProperties()

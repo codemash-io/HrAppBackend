@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CodeMash.Client;
 using CodeMash.Notifications.Push.Services;
 using Isidos.CodeMash.ServiceContracts;
@@ -10,10 +11,10 @@ namespace HrApp
     {
         private static CodeMashClient Client => new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
 
-        public void SendReminderAboutFoodOrder(List<Guid> receivers)
+        public async Task SendReminderAboutFoodOrder(List<Guid> receivers)
         {
             var pushService = new CodeMashPushService(Client);
-            var response = pushService.SendPushNotification(
+            var response = await pushService.SendPushNotificationAsync(
                 new SendPushNotificationRequest
                 {
                     TemplateId = Guid.Parse(Settings.ReminderAboutFoodTemplateId),
@@ -22,10 +23,10 @@ namespace HrApp
             );
         }
 
-        public void SendNotificationAboutFoodIsArrived(List<Guid> receivers)
+        public async Task SendNotificationAboutFoodIsArrived(List<Guid> receivers)
         {
             var pushService = new CodeMashPushService(Client);
-            var response = pushService.SendPushNotification(
+            var response = await pushService.SendPushNotificationAsync(
                 new SendPushNotificationRequest
                 {
                     TemplateId = Guid.Parse(Settings.FoodArrivedTemplateId),
