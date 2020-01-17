@@ -1,4 +1,4 @@
-﻿namespace Meeting_Room_Booking_System.Booking_actions
+﻿namespace HrApp
 {
     public interface IEmployeeChecker
     {

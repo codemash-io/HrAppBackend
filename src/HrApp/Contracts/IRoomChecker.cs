@@ -1,4 +1,4 @@
-﻿namespace Meeting_Room_Booking_System.Interfaces
+﻿namespace HrApp
 {
     public interface IRoomChecker
     {

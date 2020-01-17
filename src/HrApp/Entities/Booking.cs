@@ -4,7 +4,7 @@ using System.Text;
 using Meeting_Room_Booking_System.Exceptions;
 using Meeting_Room_Booking_System.Utils;
 
-namespace Meeting_Room_Booking_System
+namespace HrApp
 {
     public class Booking
     {

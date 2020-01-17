@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Meeting_Room_Booking_System.Exceptions
+namespace HrApp
 {
     public class EmployeePropertyException : Exception
     {

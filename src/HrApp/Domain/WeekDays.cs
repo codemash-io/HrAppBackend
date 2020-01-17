@@ -1,4 +1,4 @@
-﻿namespace Meeting_Room_Booking_System
+﻿namespace HrApp
 {
     public enum WeekDays
     {

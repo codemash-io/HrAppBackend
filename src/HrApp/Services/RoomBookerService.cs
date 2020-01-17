@@ -5,7 +5,7 @@ using Meeting_Room_Booking_System.Exceptions;
 using Meeting_Room_Booking_System.Interfaces;
 using Meeting_Room_Booking_System.Utils;
 
-namespace Meeting_Room_Booking_System.Booking_actions
+namespace HrApp
 {
     public class RoomBookerService : IRoomBooker
     {

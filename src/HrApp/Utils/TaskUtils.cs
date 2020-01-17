@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Meeting_Room_Booking_System.Utils
+namespace HrApp
 {
     public static class TaskUtils
     {
