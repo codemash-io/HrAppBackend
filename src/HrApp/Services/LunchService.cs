@@ -110,7 +110,7 @@ namespace HrApp
 
             var employees = await MenuRepository.GetEmployeesWhoCanOrderFood(menu);
             
-            await NotificationSender.SendReminderAboutFoodOrder(employees);
+            await NotificationSender.SendReminderAboutFoodOrder(employees, menu.LunchDate);
 
             return employees;
         }
@@ -130,7 +130,7 @@ namespace HrApp
 
             var employees = await MenuRepository.GetEmployeesWhoCanOrderFood(menu);
             
-            await NotificationSender.SendReminderAboutFoodOrder(employees);
+            await NotificationSender.SendReminderAboutFoodOrder(employees, menu.LunchDate);
 
         }
         public async Task SendNotificationThatFoodArrived(Menu menu)

@@ -100,7 +100,7 @@ namespace Tests
             await lunchService.SendReminderAboutFoodOrder(menu);
                 
             // Assert
-            await notificationSenderMock.Received().SendReminderAboutFoodOrder(Arg.Any<List<Guid>>());
+            await notificationSenderMock.Received().SendReminderAboutFoodOrder(Arg.Any<List<Guid>>(), Arg.Any<DateTime>());
             
         }
         

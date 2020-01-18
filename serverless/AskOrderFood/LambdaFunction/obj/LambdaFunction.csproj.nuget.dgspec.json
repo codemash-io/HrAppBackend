@@ -1,0 +1,88 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/LambdaFunction.csproj": {}
+  },
+  "projects": {
+    "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/LambdaFunction.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/LambdaFunction.csproj",
+        "projectName": "LambdaFunction",
+        "projectPath": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/LambdaFunction.csproj",
+        "packagesPath": "/Users/domantasjovaisas/.nuget/packages/",
+        "outputPath": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/domantasjovaisas/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Amazon.Lambda.APIGatewayEvents": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "Amazon.Lambda.Core": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "Amazon.Lambda.Serialization.Json": {
+              "target": "Package",
+              "version": "[1.5.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

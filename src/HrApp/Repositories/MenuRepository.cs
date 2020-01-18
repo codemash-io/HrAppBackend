@@ -93,11 +93,20 @@ namespace HrApp
             
             // Check who already did food reservation
             var employees = new List<string>();
-            employees.AddRange(menuResponse.MainFood);
-            employees.AddRange(menuResponse.Soup);
+            
+            if (menuResponse.MainFood != null && menuResponse.MainFood.Any())
+                employees.AddRange(menuResponse.MainFood.SelectMany(x => x.Employees));
+            if (menuResponse.Soup != null && menuResponse.Soup.Any())
+                employees.AddRange(menuResponse.Soup.SelectMany(x => x.Employees));
+            if (menuResponse.Souces != null && menuResponse.Souces.Any())
+                employees.AddRange(menuResponse.Souces.SelectMany(x => x.Employees));
+            if (menuResponse.Drinks != null && menuResponse.Drinks.Any())
+                employees.AddRange(menuResponse.Drinks.SelectMany(x => x.Employees));
+
+
             
             // Collect only employees who don't have reservation yet
-            var employeesWhoCanDoReservation = allEmployees.Except(employees);
+            var employeesWhoCanDoReservation = allEmployees.Except(employees.Distinct());
             
             var employeesRepo = new CodeMashRepository<EmployeeEntity>(Client);
             var filter = Builders<EmployeeEntity>.Filter.In(x => x.Id, employeesWhoCanDoReservation); 
@@ -109,6 +118,62 @@ namespace HrApp
                 .Select(x => x.UserId)
                 .ToList();
 
+        }
+
+        public async Task<List<Guid>> GetEmployeesWhoOrderedFood(Menu menu)
+        {
+            var repo = new CodeMashRepository<MenuEntity>(Client);
+            var menuResponse = await repo.FindOneAsync(x => x.Id == menu.Id);
+            
+            
+             // Check who already did food reservation
+            var employees = new List<string>();
+            
+            if (menuResponse.MainFood != null && menuResponse.MainFood.Any())
+                employees.AddRange(menuResponse.MainFood.SelectMany(x => x.Employees));
+            if (menuResponse.Soup != null && menuResponse.Soup.Any())
+                employees.AddRange(menuResponse.Soup.SelectMany(x => x.Employees));
+            if (menuResponse.Souces != null && menuResponse.Souces.Any())
+                employees.AddRange(menuResponse.Souces.SelectMany(x => x.Employees));
+            if (menuResponse.Drinks != null && menuResponse.Drinks.Any())
+                employees.AddRange(menuResponse.Drinks.SelectMany(x => x.Employees));
+            
+            
+            var employeesRepo = new CodeMashRepository<EmployeeEntity>(Client);
+            var filter = Builders<EmployeeEntity>.Filter.In(x => x.Id, employees.Distinct()); 
+            var projection = Builders<EmployeeEntity>.Projection.Include(x => x.UserId); 
+            var response = await employeesRepo.FindAsync<EmployeeEntity>(filter, projection);
+            
+            return response.Items
+                .Where(x => x.UserId != Guid.Empty)
+                .Select(x => x.UserId)
+                .ToList();
+        }
+
+        public async Task<Menu> GetClosestMenu()
+        {
+            var repo = new CodeMashRepository<MenuEntity>(Client);
+            var filter = Builders<MenuEntity>.Filter.Eq("status", "InProcess");
+            var sort = Builders<MenuEntity>.Sort.Ascending(x => x.PlannedDate);
+            var response = await repo.FindAsync(filter, sort);
+
+            if (response == null || !response.Items.Any())
+            {
+                throw new BusinessException("Cannot find menu");
+            }
+
+            var closestMenuByDate = response.Items.FirstOrDefault();
+            
+            if (closestMenuByDate == null)
+            {
+                throw new BusinessException("Cannot find menu in database");
+            }
+            
+            return new Menu(
+                closestMenuByDate.PlannedDate, 
+                new Division { Id = closestMenuByDate.DivisionId }, 
+                closestMenuByDate.Employees.Select(x => new EmployeeEntity { Id = x}).ToList()
+            ) { Id = closestMenuByDate.Id };
         }
     }
 }

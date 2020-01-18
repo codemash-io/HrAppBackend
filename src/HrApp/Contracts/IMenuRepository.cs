@@ -21,6 +21,17 @@ namespace HrApp
         /// <returns></returns>
         Task<List<Guid>> GetEmployeesWhoCanOrderFood(Menu menu);
         
-        
+        /// <summary>
+        /// Gets all employees who made an order.
+        /// </summary>
+        /// <param name="menu"></param>
+        /// <returns></returns>
+        Task<List<Guid>> GetEmployeesWhoOrderedFood(Menu menu);
+
+        /// <summary>
+        /// Checks all menus which has state InProcess and gets with the lowest date.
+        /// </summary>
+        /// <returns></returns>
+        Task<Menu> GetClosestMenu();
     }
 }
