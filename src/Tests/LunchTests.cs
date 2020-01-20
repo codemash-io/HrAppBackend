@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HrApp;
-using NSubstitute.Core.Arguments;
 using Xunit;
 
 namespace Tests
@@ -138,5 +137,108 @@ namespace Tests
 
         }
         
+        [Fact]
+        public async Task Throws_exception_when_makes_order_and_employee_is_not_provided()
+        {
+            // Arrange
+            var lunchService = new LunchService();
+            
+            // Act
+            var exception = await Assert.ThrowsAsync<BusinessException>(
+                async () => await lunchService.OrderFood(null, new List<PersonalOrderPreference>(),  null));
+            
+            // Assert
+            Assert.Equal("Employee is not provided", exception.Message);
+
+        }
+        
+        [Fact]
+        public async Task Throws_exception_when_makes_order_and_employee_preferences_are_not_provided()
+        {
+            // Arrange
+            var lunchService = new LunchService();
+            
+            // Act
+            var exception = await Assert.ThrowsAsync<BusinessException>(
+                async () => await lunchService.OrderFood(new EmployeeEntity() { Id = "1"}, new List<PersonalOrderPreference>(),  null));
+            
+            // Assert
+            Assert.Equal("Please provide your wishes", exception.Message);
+
+        }
+        
+        [Fact]
+        public async Task Throws_exception_when_makes_order_and_menu_is_not_provided()
+        {
+            // Arrange
+            var lunchService = new LunchService();
+            var preferences = new List<PersonalOrderPreference>()
+            {
+                new PersonalOrderPreference {FoodNumber = 1, Type = FoodType.Main}
+            };
+            
+            // Act
+            var exception = await Assert.ThrowsAsync<BusinessException>(
+                async () => await lunchService.OrderFood(new EmployeeEntity() { Id = "1"}, preferences,  null));
+            
+            // Assert
+            Assert.Equal("Menu is not provided", exception.Message);
+
+        }
+        
+        [Fact]
+        public async Task Throws_exception_when_makes_order_and_menu_is_with_bad_status()
+        {
+            // Arrange
+            var lunchService = new LunchService();
+            var preferences = new List<PersonalOrderPreference>()
+            {
+                new PersonalOrderPreference {FoodNumber = 1, Type = FoodType.Main}
+            };
+            var division = new Division {Name = "Division"};
+            var menu = new Menu(DateTime.Now.AddHours(27), division, null)
+            {
+                Status = MenuStatus.Pending
+            };
+            // Act
+            var exception = await Assert.ThrowsAsync<BusinessException>(
+                async () => await lunchService.OrderFood(new EmployeeEntity() {Id = "1"}, preferences,  menu));
+            
+            // Assert
+            Assert.Equal("Menu is not available anymore", exception.Message);
+
+        }
+        
+        [Fact]
+        public async Task Throws_exception_when_makes_order_and_menu_is_provided_with_bad_status()
+        {
+            // Arrange
+            var division = new Division {Name = "Division"};
+            var menu = new Menu(DateTime.Now.AddHours(27), division, null)
+            {
+                Status = MenuStatus.InProcess
+            };
+            
+            var repoMock = Substitute.For<IMenuRepository>();
+
+            var lunchService = new LunchService()
+            {
+                MenuRepository = repoMock
+            };
+            var preferences = new List<PersonalOrderPreference>
+            {
+                new PersonalOrderPreference {FoodNumber = 1, Type = FoodType.Main}
+            };
+            
+            
+            // Act
+            await lunchService.OrderFood(new EmployeeEntity() { Id = "1"}, preferences,  menu);
+            
+            // Assert
+            await repoMock.Received().MakeEmployeeOrder(Arg.Any<Menu>(), Arg.Any<List<PersonalOrderPreference>>(),
+                Arg.Any<EmployeeEntity>());
+
+        }
+           
     }
 }

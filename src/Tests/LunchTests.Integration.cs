@@ -74,6 +74,17 @@ namespace Tests
            
         }
         
+        [Fact]
+        public async Task Make_food_order()
+        {
+            var repo = new MenuRepository();
+            var menu = await repo.GetClosestMenu();
+            var employees = await repo.GetEmployeesWhoOrderedFood(menu);
+            
+            Assert.True(employees.Count > 0);
+           
+        }
+        
         
         
     }

@@ -78,14 +78,27 @@ namespace HrApp
 
         public async Task OrderFood(EmployeeEntity employeeEntity, List<PersonalOrderPreference> preferences, Menu menu)
         {
-            if (menu.Status != MenuStatus.InProcess)
+            if (employeeEntity == null || string.IsNullOrEmpty(employeeEntity.Id))
             {
-                throw new BusinessException("Menu is not available anymore");
+                throw new BusinessException("Employee is not provided");
             }
+            
             if (preferences == null || !preferences.Any())
             {
                 throw new BusinessException("Please provide your wishes");
             }
+            
+            if (menu == null)
+            {
+                throw new BusinessException("Menu is not provided");
+            }
+            
+            if (menu.Status != MenuStatus.InProcess)
+            {
+                throw new BusinessException("Menu is not available anymore");
+            }
+            
+            
 
             await MenuRepository.MakeEmployeeOrder(menu, preferences, employeeEntity);
         }
