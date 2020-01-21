@@ -10,6 +10,7 @@ namespace HrApp.Services
 {
     public class ReportsService : IReportsService
     {
+        public IProjectRepository projectRepository { get; set; }
         public bool CanEmployeeAccessReports(EmployeeEntity employee)
         {
             if (employee.Role == 2)
@@ -21,13 +22,17 @@ namespace HrApp.Services
         public List<ProjectEntity> SortProjects(DateTime from, DateTime to, List<ProjectEntity> projects)
         {
             List<ProjectEntity> sortedProjects = new List<ProjectEntity>();
-            foreach (ProjectEntity project in projects)
+            sortedProjects = projectRepository.SortProjects(from, to).Result;
+
+          /*  foreach (ProjectEntity project in projects)
             {
                 if (project.DateCreated >= from && project.DateCreated <= to)
                 {
                     sortedProjects.Add(project);
                 }
-            }
+            }*/
+
+
             return sortedProjects;
         }
     }
