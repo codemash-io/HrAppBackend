@@ -9,8 +9,13 @@ namespace HrApp
     public class NotificationSender: INotificationSender
     {
         private static CodeMashClient Client => new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
+        private static int SyncDecisionMakingCount;
 
-        public void SendReminderAboutFoodOrder(List<Guid> receivers)
+        static NotificationSender()
+        {
+            SyncDecisionMakingCount = 0;
+        }
+        public void SendAsyncNotificationsToDecide(List<Guid> receivers)
         {
             var pushService = new CodeMashPushService(Client);
             var response = pushService.SendPushNotification(
@@ -22,16 +27,18 @@ namespace HrApp
             );
         }
 
-        public void SendNotificationAboutFoodIsArrived(List<Guid> receivers)
+        public void SendNotificationToDecide(List<Guid> receivers)
         {
             var pushService = new CodeMashPushService(Client);
             var response = pushService.SendPushNotification(
                 new SendPushNotificationRequest
                 {
                     TemplateId = Guid.Parse(Settings.FoodArrivedTemplateId),
-                    Users = receivers
+                    Users = new List<Guid> { receivers[SyncDecisionMakingCount] }
                 }
             );
+
+            SyncDecisionMakingCount++;
         }
     }
 }

@@ -2,7 +2,7 @@ using CodeMash.Models;
 
 namespace HrApp
 {
-    [CollectionName("Foods")]
+    [Collection("Foods")]
     public class FoodEntity : Entity
     {
         public string Name { get; set; }

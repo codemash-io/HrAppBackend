@@ -17,26 +17,9 @@ namespace LambdaFunction
     {
         public async Task<APIGatewayProxyResponse> Handler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
         {
-            var division = new Division { Id = "5d88ae84a792110001fef326"};
-
-            var lunchService = new LunchService
-            {
-                HrService = new HrService
-                {
-                    EmployeesRepository = new EmployeesRepository()
-                },
-                MenuRepository = new MenuRepository()
-            };
-
-            var menu = await lunchService.CreateBlankMenu(division);
-            var body = new Dictionary<string, string>
-            {
-                { "menu", menu.Id }
-            };
-
             return new APIGatewayProxyResponse
             {
-                Body = JsonConvert.SerializeObject(body),
+                Body = JsonConvert.SerializeObject("Hello world"),
                 StatusCode = 200,
                 Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
             };

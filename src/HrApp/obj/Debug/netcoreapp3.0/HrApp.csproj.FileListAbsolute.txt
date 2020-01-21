@@ -22,3 +22,15 @@
 /Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.RazorTargetAssemblyInfo.cache
 /Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.dll
 /Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/obj/Debug/netcoreapp3.0/HrApp.pdb
+D:\dev\Github\AssetManagerHR\src\HrApp\bin\Debug\netcoreapp3.0\Properties\launchSettings.json
+D:\dev\Github\AssetManagerHR\src\HrApp\bin\Debug\netcoreapp3.0\HrApp.deps.json
+D:\dev\Github\AssetManagerHR\src\HrApp\bin\Debug\netcoreapp3.0\HrApp.dll
+D:\dev\Github\AssetManagerHR\src\HrApp\bin\Debug\netcoreapp3.0\HrApp.pdb
+D:\dev\Github\AssetManagerHR\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.csprojAssemblyReference.cache
+D:\dev\Github\AssetManagerHR\src\HrApp\obj\Debug\netcoreapp3.0\staticwebassets\HrApp.StaticWebAssets.Manifest.cache
+D:\dev\Github\AssetManagerHR\src\HrApp\obj\Debug\netcoreapp3.0\staticwebassets\HrApp.StaticWebAssets.xml
+D:\dev\Github\AssetManagerHR\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.AssemblyInfoInputs.cache
+D:\dev\Github\AssetManagerHR\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.AssemblyInfo.cs
+D:\dev\Github\AssetManagerHR\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.RazorTargetAssemblyInfo.cache
+D:\dev\Github\AssetManagerHR\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.dll
+D:\dev\Github\AssetManagerHR\src\HrApp\obj\Debug\netcoreapp3.0\HrApp.pdb

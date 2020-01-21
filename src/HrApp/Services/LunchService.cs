@@ -109,14 +109,14 @@ namespace HrApp
 
             var employees = await MenuRepository.GetEmployeesWhoOrderedFood(menu);
             
-            NotificationSender.SendReminderAboutFoodOrder(employees);
+            NotificationSender.SendAsyncNotificationsToDecide(employees);
 
         }
         public async Task SendNotificationThatFoodArrived(Menu menu)
         {
             var employees = await MenuRepository.GetEmployeesWhoOrderedFood(menu);
                        
-            NotificationSender.SendNotificationAboutFoodIsArrived(employees);
+            NotificationSender.SendNotificationToDecide(employees);
             
         }
 
@@ -125,9 +125,5 @@ namespace HrApp
             var difference = (lunchtime - DateTime.Now).Days + 1;
             return difference == 1;
         }
-
-        
-
-
     }
 }

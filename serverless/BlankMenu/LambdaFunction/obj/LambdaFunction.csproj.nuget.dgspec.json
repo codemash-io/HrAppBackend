@@ -1,28 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/BlankMenu/LambdaFunction/LambdaFunction.csproj": {}
+    "D:\\dev\\Github\\AssetManagerHR\\serverless\\BlankMenu\\LambdaFunction\\LambdaFunction.csproj": {}
   },
   "projects": {
-    "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/BlankMenu/LambdaFunction/LambdaFunction.csproj": {
+    "D:\\dev\\Github\\AssetManagerHR\\serverless\\BlankMenu\\LambdaFunction\\LambdaFunction.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/BlankMenu/LambdaFunction/LambdaFunction.csproj",
+        "projectUniqueName": "D:\\dev\\Github\\AssetManagerHR\\serverless\\BlankMenu\\LambdaFunction\\LambdaFunction.csproj",
         "projectName": "LambdaFunction",
-        "projectPath": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/BlankMenu/LambdaFunction/LambdaFunction.csproj",
-        "packagesPath": "/Users/domantasjovaisas/.nuget/packages/",
-        "outputPath": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/BlankMenu/LambdaFunction/obj/",
+        "projectPath": "D:\\dev\\Github\\AssetManagerHR\\serverless\\BlankMenu\\LambdaFunction\\LambdaFunction.csproj",
+        "packagesPath": "C:\\Users\\benux\\.nuget\\packages\\",
+        "outputPath": "D:\\dev\\Github\\AssetManagerHR\\serverless\\BlankMenu\\LambdaFunction\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+          "D:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/domantasjovaisas/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\benux\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -72,12 +76,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "rhel.7.2-x64": {
-          "#import": []
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
