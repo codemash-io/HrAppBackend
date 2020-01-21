@@ -3,25 +3,25 @@ using System;
 
 namespace HrApp
 {
-    [CollectionName("pc-employees")]
+    [Collection("Employees")]
     public class EmployeeEntity : Entity
     {
-        [FieldName("first_name")]
+        [Field("first_name")]
         public string FirstName { get; set; }
         
-        [FieldName("last_name")]
+        [Field("last_name")]
         public string LastName { get; set; }
         
-        [FieldName("division")]
+        [Field("division")]
         public string Division { get; set; }
 
-        [FieldName("role")]
+        [Field("role")]
         public int Role { get; set; }
 
-        [FieldName("budget")]
+        [Field("budget")]
         public int Budget { get; set; }
 
-        [FieldName("time_worked")]
+        [Field("time_worked")]
         public double TimeWorked { get; set; }
 
     }

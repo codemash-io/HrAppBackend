@@ -10,6 +10,8 @@ namespace HrApp.Contracts
     { 
         Task<CommitEntity> InsertCommit(Commit commit);
         Task<List<CommitEntity>> GetCommitsByEmployee(EmployeeEntity employee);
-
+        Task AddEmployeeToCommit(string commitId, string employeeId);
+        Task<CommitEntity> GetCommitByDesc(string desc);
+        Task<CommitEntity> GetCommitById(string commitId);
     }
 }

@@ -4,22 +4,22 @@ using CodeMash.Models;
 
 namespace HrApp
 {
-    [CollectionName("LunchMenus")]
+    [Collection("LunchMenus")]
     public class MenuEntity : Entity
     {
         public string Status { get; set; } = MenuStatus.Pending.ToString();
         
-        [FieldName("planned_lunch_date")]
+        [Field("planned_lunch_date")]
         public DateTime PlannedDate { get; set; }
-        [FieldName("division")]
+        [Field("division")]
         public string DivisionId { get; set; }
-        [FieldName("employees")]
+        [Field("employees")]
         public List<string> Employees { get; set; }
         
-        [FieldName("main_dish_options")]
+        [Field("main_dish_options")]
         public List<string> MainFood { get; set; } = new List<string>();
         
-        [FieldName("soup")]
+        [Field("soup")]
         public List<string> Soup { get; set; } = new List<string>();
     }
 
@@ -28,7 +28,7 @@ namespace HrApp
     {
         public int Number { get; set; }
         
-        [FieldName("employees")]
+        [Field("employees")]
         public List<string> Employees { get; set; }
     }
     

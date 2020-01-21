@@ -10,9 +10,10 @@ namespace HrApp.Contracts
     public interface IProjectRepository
     {
         Task<string> InsertProject(Project project);
-        Task AddCommtToProject(string commitId, string projectId);
-        Task AddEmployeeToProject(Employee employee, Project project);
+        Task AddCommitToProject(string commitId, string projectId);
+        Task AddEmployeeToProject(string employeeId, string projectId);
         Task<List<ProjectEntity>> SortProjects(DateTime from, DateTime to);
-        Task<ProjectEntity> GetProject(string projectId);
+        Task<ProjectEntity> GetProjectById(string projectId);
+        Task<ProjectEntity> GetProjectByName(string name);
     }
 }

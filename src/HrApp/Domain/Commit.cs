@@ -11,6 +11,10 @@ namespace HrApp.Domain
             TimeWorked = timeWorked;
             CommitDate = DateTime.Now;
         }
+
+        public Commit()
+        {
+        }
         public string Id { get; set; }
         public string Description { get; set; }
         public DateTime CommitDate { get; set; }

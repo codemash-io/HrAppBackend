@@ -18,13 +18,13 @@ namespace HrApp.Repositories
         public async Task<List<CommitEntity>> GetCommitsByEmployee(EmployeeEntity employee)
         {
             var repo = new CodeMashRepository<CommitEntity>(Client);
-            var filter = Builders<CommitEntity>.Filter.Eq("employee", BsonObjectId.Create(employee));
+            var filter = Builders<CommitEntity>.Filter.Eq("employee", BsonObjectId.Create(employee.Id));
             var commits = await repo.FindAsync(filter, new DatabaseFindOptions()
             {
                 PageNumber = 0,
                 PageSize = 100
             });
-            return commits.Result;
+            return commits.Items;
         }
 
         public async Task<CommitEntity> InsertCommit(Commit commit)
@@ -39,14 +39,40 @@ namespace HrApp.Repositories
             var entity = new CommitEntity
             {
                 Description = commit.Description,
-                TimeWorked = commit.TimeWorked,
+                TimeWorked = Math.Round(commit.TimeWorked, 1),
                 CommitDate = commit.CommitDate,
                 Employee = commit.Employee.Id
             };
 
             var response = await repo.InsertOneAsync(entity, new DatabaseInsertOneOptions());
-            return response.Result;
+            return response;
         }
 
+        public async Task AddEmployeeToCommit(string commitId, string employeeId)
+        {
+            var repo = new CodeMashRepository<CommitEntity>(Client);
+
+            var a = await repo.UpdateOneAsync(x => x.Id == commitId,
+                            Builders<CommitEntity>.Update.Set(x => x.Employee, employeeId), null);
+
+        }
+
+        public async Task<CommitEntity> GetCommitByDesc(string desc)
+        {
+            var repo = new CodeMashRepository<CommitEntity>(Client);
+            var filter = Builders<CommitEntity>.Filter.Eq("description", BsonString.Create(desc));
+            var commit = await repo.FindOneAsync(filter, new DatabaseFindOneOptions());
+
+            return commit;
+        }
+
+
+        public async Task<CommitEntity> GetCommitById(string commitId)
+        {
+            var repo = new CodeMashRepository<CommitEntity>(Client);
+            var commit = await repo.FindOneAsync(x => x.Id == commitId, new DatabaseFindOneOptions());
+
+            return commit;
+        }
     }
 }

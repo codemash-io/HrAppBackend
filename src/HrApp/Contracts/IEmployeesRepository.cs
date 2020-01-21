@@ -9,5 +9,7 @@ namespace HrApp
         Task<List<EmployeeEntity>> GetEmployees(Division division);
 
         Task UpdateEmployeeTimeWorked(string employeeId, double time);
+        Task<EmployeeEntity> GetEmployeeByLastName(string lastname);
+        Task<EmployeeEntity> GetEmployeeById(string employeeId);
     }
 }

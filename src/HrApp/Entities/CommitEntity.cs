@@ -3,19 +3,19 @@ using CodeMash.Models;
 
 namespace HrApp.Entities
 {
-    [CollectionName("Commits")]
+    [Collection("Commits")]
     public class CommitEntity : Entity
     {
-        [FieldName("description")]
+        [Field("description")]
         public string Description { get; set; }
 
-        [FieldName("commit_date")]
+        [Field("commit_date")]
         public DateTime CommitDate { get; set; }
 
-        [FieldName("time_worked")]
+        [Field("time_worked")]
         public double TimeWorked { get; set; } // in hours
 
-        [FieldName("employee")]
+        [Field("employee")]
         public string Employee { get; set; }
     }
 }

@@ -15,11 +15,15 @@ namespace HrApp.Services
         public IEmployeesRepository EmployeeRepository { get; set; }
 
         //start - stop method
-        public async void LogHours(EmployeeEntity employee, ProjectEntity project, TimeSpan time, string description)
+        public async Task LogHours(EmployeeEntity employee, ProjectEntity project, TimeSpan time, string description)
         {
             if (!CheckIfEmployeeCanWorkOnTheProject(employee, project))
             {
                 throw new BusinessException("You cannot work on a project not assigned to you");
+            }
+            else if(time > TimeSpan.FromHours(16))
+            {
+                throw new BusinessException("You cannot work more than 16h!");
             }
             else
             {
@@ -27,11 +31,11 @@ namespace HrApp.Services
                 Commit commit = new Commit(employee, description, time.TotalHours);
 
                 //adding commit to db
-                 var commitId = await CommitRepository.InsertCommit(commit);
-                 commit.Id = commitId.Id;
+                var commitId = await CommitRepository.InsertCommit(commit);
+                commit.Id = commitId.Id;
 
                 //adding commit to a project
-                await ProjectRepository.AddCommtToProject(commit.Id, project.Id);
+                await ProjectRepository.AddCommitToProject(commit.Id, project.Id);
 
 
                 //adding time employee worked on current project
@@ -39,18 +43,17 @@ namespace HrApp.Services
                 await EmployeeRepository.UpdateEmployeeTimeWorked(employee.Id, totalTime);
 
 
-                if (CheckForEmployeeOvertime(employee))
+               /* if (CheckForEmployeeOvertime(employee))
                 {
                     //should i send notification here?
                     var message = "Jus dirbote viršvalandžius";
-                }
+                }*/
             }
         }
 
         //multiple projects - multiple hours method
 
-        //do i get list of commits or lit of commitEntities??
-        public void LogHours(List<ProjectEntity> projects, List<Commit> commits)
+        public async Task LogHours(List<ProjectEntity> projects, List<Commit> commits)
         {
             //checking for empty lists
             if (projects == null)
@@ -80,17 +83,16 @@ namespace HrApp.Services
                 else
                 {
                     //adding commits to db
-                    var commitId = CommitRepository.InsertCommit(commits[i]);
-                    commits[i].Id = commitId.Result.Id;
-
-
-                    //adding commits to a projects
-                    ProjectRepository.AddCommtToProject(commits[i].Id, projects[i].Id);
+                    var commit = await CommitRepository.InsertCommit(commits[i]);
+                    commits[i].Id = commit.Id;
 
 
                     //adding time employee worked on current project
                     var totalTime = commits[i].Employee.TimeWorked + commits[i].TimeWorked;
-                    EmployeeRepository.UpdateEmployeeTimeWorked(commits[i].Employee.Id, totalTime);
+                    await EmployeeRepository.UpdateEmployeeTimeWorked(commits[i].Employee.Id, totalTime);
+
+                    //adding commits to a projects
+                    await ProjectRepository.AddCommitToProject(commits[i].Id, projects[i].Id);
 
                 }
             }

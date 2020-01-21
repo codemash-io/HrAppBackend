@@ -4,25 +4,25 @@ using System.Collections.Generic;
 
 namespace HrApp.Entities
 {
-    [CollectionName("Commits")]
+    [Collection("Projects")]
     public class ProjectEntity : Entity
     {
-        [FieldName("name")]
+        [Field("name")]
         public string Name { get; set; }
 
-        [FieldName("description")]
+        [Field("description")]
         public string Description { get; set; }
 
-        [FieldName("project_budget")]
+        [Field("budget")]
         public double Budget { get; set; }            //project budget in hours
 
-        [FieldName("date_created")]
+        [Field("date_created")]
         public DateTime DateCreated { get; set; }
 
-        [FieldName("employees")]
+        [Field("employees")]
         public List<string> Employees { get; set; }
 
-        [FieldName("commits")]
+        [Field("commits")]
         public List<string> Commits { get; set; }
     }
 }

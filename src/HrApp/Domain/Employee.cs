@@ -25,5 +25,8 @@ namespace HrApp.Domain
             Role = role;
             TimeWorked = 0;
         }
+
+        public Employee()
+        { }
     }    
 }

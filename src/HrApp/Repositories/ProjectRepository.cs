@@ -16,18 +16,19 @@ namespace HrApp.Repositories
     {
         private static CodeMashClient Client => new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
 
-        public async Task AddCommtToProject(string commitId, string projectId)
+        public async Task AddCommitToProject(string commitId, string projectId)
+        {
+            var repo = new CodeMashRepository<ProjectEntity>(Client);
+            var a = await repo.UpdateOneAsync(x => x.Id == projectId,
+                Builders<ProjectEntity>.Update.AddToSet("commits", commitId), null);
+
+        }
+
+        public async Task AddEmployeeToProject(string employeeId, string projectId)
         {
             var repo = new CodeMashRepository<ProjectEntity>(Client);
             await repo.UpdateOneAsync(x => x.Id == projectId,
-            Builders<ProjectEntity>.Update.AddToSet($"commits.items", commitId), null);
-        }
-
-        public async Task AddEmployeeToProject(Employee employee, Project project)
-        {
-            var repo = new CodeMashRepository<ProjectEntity>(Client);
-            await repo.UpdateOneAsync(x => x.Id == project.Id,
-            Builders<ProjectEntity>.Update.AddToSet($"employees.items[{employee}]", employee.Id), null);
+                Builders<ProjectEntity>.Update.AddToSet("employees", employeeId), null);
         }
 
         public async Task<string> InsertProject(Project project)
@@ -43,14 +44,14 @@ namespace HrApp.Repositories
             {
                 Name = project.Name,
                 Description = project.Description,
-                Budget = project.Budget,
+                Budget = Math.Round(project.Budget, 1),
                 Employees = project.Employees.Select(x => x.Id).ToList(),
                 DateCreated = project.DateCreated,
                 Commits = project.Commits.Select(x => x.Id).ToList()
             };
 
             var response = await repo.InsertOneAsync(entity, new DatabaseInsertOneOptions());
-            return response.Result.Id;
+            return response.Id;
         }
 
 
@@ -64,15 +65,23 @@ namespace HrApp.Repositories
                 PageNumber = 0,
                 PageSize = 100
             });
-            return sortedProjeccts.Result;
+            return sortedProjeccts.Items;
         }
 
-        public async Task<ProjectEntity> GetProject(string projectId)
+        public async Task<ProjectEntity> GetProjectById(string projectId)
         {
             var repo = new CodeMashRepository<ProjectEntity>(Client);
             var pro = await repo.FindOneByIdAsync(projectId, new DatabaseFindOneOptions());
 
-            return pro.Result;
+            return pro;
+        }
+
+        public async Task<ProjectEntity> GetProjectByName(string name)
+        {
+            var repo = new CodeMashRepository<ProjectEntity>(Client);
+            var pro = await repo.FindOneAsync(x => x.Name == name, new DatabaseFindOneOptions());
+
+            return pro;
         }
 
 
