@@ -58,9 +58,57 @@ namespace HrApp.Repositories
         public async Task<List<ProjectEntity>> SortProjects(DateTime from, DateTime to)
         {
             var repo = new CodeMashRepository<ProjectEntity>(Client);
-            //need to filter from-tos
-            var filter = Builders<ProjectEntity>.Filter.Eq("date_created", to);
-            var sortedProjeccts = await repo.FindAsync(x => x.DateCreated == BsonDateTime.Create(from), new DatabaseFindOptions()
+
+            //conversion to unix format 
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var date_to = (DateTime.SpecifyKind(to, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+            var date_from = (DateTime.SpecifyKind(from, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+
+            FilterDefinition<ProjectEntity>[] filters =
+            {
+                Builders<ProjectEntity>.Filter.Gt("date_created", date_from),
+                Builders<ProjectEntity>.Filter.Lt("date_created", date_to)
+            };
+           
+            var filter = Builders<ProjectEntity>.Filter.And(filters);
+
+            var sortedProjeccts = await repo.FindAsync(filter, new DatabaseFindOptions()
+            {
+                PageNumber = 0,
+                PageSize = 100
+            });
+            return sortedProjeccts.Items;
+        }
+
+        public async Task<List<ProjectEntity>> SortProjectsFrom(DateTime from)
+        {
+            var repo = new CodeMashRepository<ProjectEntity>(Client);
+
+            //conversion to unix format 
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var date_from = (DateTime.SpecifyKind(from, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+
+            var filter = Builders<ProjectEntity>.Filter.Gt("date_created", date_from);
+
+            var sortedProjeccts = await repo.FindAsync(filter, new DatabaseFindOptions()
+            {
+                PageNumber = 0,
+                PageSize = 100
+            });
+            return sortedProjeccts.Items;
+        }
+
+        public async Task<List<ProjectEntity>> SortProjectsTo(DateTime to)
+        {
+            var repo = new CodeMashRepository<ProjectEntity>(Client);
+
+            //conversion to unix format 
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var date_to = (DateTime.SpecifyKind(to, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+
+            var filter = Builders<ProjectEntity>.Filter.Lt("date_created", date_to);
+
+            var sortedProjeccts = await repo.FindAsync(filter, new DatabaseFindOptions()
             {
                 PageNumber = 0,
                 PageSize = 100
@@ -83,7 +131,6 @@ namespace HrApp.Repositories
 
             return pro;
         }
-
 
     }
 }

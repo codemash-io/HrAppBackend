@@ -15,7 +15,7 @@ namespace HrApp.Services
         public IEmployeesRepository EmployeeRepository { get; set; }
 
         //start - stop method
-        public async Task LogHours(EmployeeEntity employee, ProjectEntity project, TimeSpan time, string description)
+        public async void LogHours(EmployeeEntity employee, ProjectEntity project, TimeSpan time, string description)
         {
             if (!CheckIfEmployeeCanWorkOnTheProject(employee, project))
             {
@@ -43,17 +43,17 @@ namespace HrApp.Services
                 await EmployeeRepository.UpdateEmployeeTimeWorked(employee.Id, totalTime);
 
 
-               /* if (CheckForEmployeeOvertime(employee))
+                /*if (CheckForEmployeeOvertime(employee))
                 {
                     //should i send notification here?
-                    var message = "Jus dirbote viršvalandžius";
+                    var message = "You worked overtime";
                 }*/
             }
         }
 
         //multiple projects - multiple hours method
 
-        public async Task LogHours(List<ProjectEntity> projects, List<Commit> commits)
+        public async void LogHours(List<ProjectEntity> projects, List<Commit> commits)
         {
             //checking for empty lists
             if (projects == null)

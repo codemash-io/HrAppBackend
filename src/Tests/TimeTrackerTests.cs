@@ -6,13 +6,12 @@ using NUnit.Framework;
 using HrApp.Contracts;
 using HrApp.Domain;
 using HrApp.Entities;
-using HrApp.Repositories;
 using HrApp.Services;
 using System.Collections.Generic;
 
 namespace Tests
 {
-    public class TimeTrackerTests
+    class TimeTrackerTests
     {
         ITimeTrackerService trackerMock;
         ICommitRepository commitMock;
@@ -28,7 +27,6 @@ namespace Tests
             employeeMock = Substitute.For<IEmployeesRepository>();
         }
 
-
         [Test]
         public async Task TestCanLogHoursStartStop()
         {
@@ -36,10 +34,12 @@ namespace Tests
 
             List<string> list = new List<string>();
             list.Add("20");
+            List<string> commit_list = new List<string>();
+            list.Add("c");
 
             EmployeeEntity emp = new EmployeeEntity { Id = "20" };
-            ProjectEntity pro = new ProjectEntity { Employees = list, Id = "2" };
-         
+            ProjectEntity pro = new ProjectEntity { Employees = list, Id = "2", Commits = commit_list };
+
 
             ITimeTrackerService trackerService = new TimeTrackerService
             {
@@ -53,10 +53,10 @@ namespace Tests
             trackerMock.CheckIfEmployeeCanWorkOnTheProject(
                 Arg.Any<EmployeeEntity>(), Arg.Any<ProjectEntity>()).Returns(true);
 
+            trackerMock.CheckForEmployeeOvertime(Arg.Any<EmployeeEntity>()).Returns(false);
 
-            await trackerService.LogHours(emp, pro, new TimeSpan(2, 2, 2), "desc");
 
-
+            trackerService.LogHours(emp, pro, new TimeSpan(2, 2, 2), "desc");
 
             await commitMock.Received().InsertCommit(Arg.Any<Commit>());
             await projectMock.Received().AddCommitToProject(Arg.Any<string>(), Arg.Any<string>());
@@ -103,14 +103,11 @@ namespace Tests
                 EmployeeRepository = employeeMock
             };
 
-            await trackerService.LogHours(projectsList, commitsList);
-
+            trackerService.LogHours(projectsList, commitsList);
 
             await commitMock.Received().InsertCommit(Arg.Any<Commit>());
             await projectMock.Received().AddCommitToProject(Arg.Any<string>(), Arg.Any<string>());
             await employeeMock.Received().UpdateEmployeeTimeWorked(Arg.Any<string>(), Arg.Any<double>());
         }
-      
-
     }
 }

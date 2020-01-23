@@ -1,9 +1,7 @@
-﻿using NSubstitute;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using HrApp;
 using System;
 using NUnit.Framework;
-using HrApp.Contracts;
 using HrApp.Domain;
 using HrApp.Entities;
 using HrApp.Repositories;
@@ -18,6 +16,7 @@ namespace Tests
         ProjectRepository proRepo;
         CommitRepository commRepo;
         TimeTrackerService tracker;
+        ReportsService reporter;
 
         [SetUp]
         public void Setup()
@@ -30,6 +29,10 @@ namespace Tests
                 CommitRepository = commRepo,
                 ProjectRepository = proRepo,
                 EmployeeRepository = empRepo
+            };
+            reporter = new ReportsService
+            {
+                projectRepository = proRepo
             };
 
         }
@@ -122,15 +125,34 @@ namespace Tests
             Assert.AreEqual(1, project.Result.Employees.Count);
         }
         [Test]
-        public async Task TestCanSortProjects()
+        public void TestCanSortProjectsFromTo()
+        {      
+            var from = new DateTime(2020, 01, 05);
+            var to = new DateTime(2020, 01, 22);
+
+            var projects = reporter.SortProjects(from, to);
+
+            Assert.AreEqual(3, projects.Count);
+        }
+
+        [Test]
+        public void TestCanSortProjectsFrom()
         {
-            var from = new DateTime(2020, 01, 14);
-            var to = new DateTime(2020, 01, 14, 02,00,00);
+            var from = new DateTime(2020, 01, 05);
 
-            var projects = await proRepo.SortProjects(from, to);
+            var projects = reporter.SortProjectsFrom(from);
 
-            Assert.AreEqual(4, projects.Count);
+            Assert.AreEqual(3, projects.Count);
+        }
 
+        [Test]
+        public void TestCanSortProjectsTo()
+        {
+            var to = new DateTime(2020, 01, 22);
+
+            var projects = reporter.SortProjectsTo(to);
+
+            Assert.AreEqual(3, projects.Count);
         }
 
         [Test]
@@ -140,7 +162,7 @@ namespace Tests
             var employee = await empRepo.GetEmployeeByLastName("t");
 
 
-            await tracker.LogHours(employee, project, new TimeSpan(2, 15, 23), "testas");
+            tracker.LogHours(employee, project, new TimeSpan(2, 15, 23), "testas");
         }
 
         [Test]
@@ -148,7 +170,6 @@ namespace Tests
         {
             var project = await proRepo.GetProjectByName("testas3");
             var employee = await empRepo.GetEmployeeByLastName("t");
-            
 
             var proList = new List<ProjectEntity>();
             proList.Add(project);
@@ -157,15 +178,14 @@ namespace Tests
             var commList = new List<Commit>();
             commList.Add(commit);
 
-            await tracker.LogHours(proList, commList);
+            tracker.LogHours(proList, commList);
         }
 
-        [Test]
+       /* [Test]
         public async Task TestIfWorkedMoreThanPossible()
         {
             var project = await proRepo.GetProjectByName("testas3");
             var employee = await empRepo.GetEmployeeByLastName("t");
-
 
             var proList = new List<ProjectEntity>();
             proList.Add(project);
@@ -178,6 +198,6 @@ namespace Tests
 
             Assert.Throws<BusinessException>( async () => await tracker.LogHours(proList, commList));
         }
-
+        */
     }
 }
