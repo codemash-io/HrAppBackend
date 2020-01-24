@@ -7,8 +7,8 @@ namespace HrApp
     public interface INotificationSender
     {
 
-        public Task SendReminderAboutFoodOrder(List<Guid> receivers, DateTime lunchTime);
+        Task SendReminderAboutFoodOrder(List<Guid> receivers, DateTime lunchTime);
 
-        public Task SendNotificationAboutFoodIsArrived(List<Guid> receivers);
+        Task SendNotificationAboutFoodIsArrived(List<Guid> receivers);
     }
 }

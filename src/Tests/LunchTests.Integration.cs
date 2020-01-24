@@ -85,6 +85,24 @@ namespace Tests
            
         }
         
+        [Fact]
+        public async Task Make_food_order_for_employee()
+        {
+            var repo = new MenuRepository();
+            var menu = await repo.GetClosestMenu();
+
+            var employee = new EmployeeEntity {Id = "5d8ca4aa07f6fe000114ba01"};
+
+            var preferences = new List<PersonalOrderPreference>()
+            {
+                new PersonalOrderPreference() {Type = FoodType.Main, FoodNumber = 1},
+                new PersonalOrderPreference() {Type = FoodType.Soup, FoodNumber = 1},
+            };
+            
+            await repo.MakeEmployeeOrder(menu, preferences, employee);
+           
+        }
+        
         
         
     }

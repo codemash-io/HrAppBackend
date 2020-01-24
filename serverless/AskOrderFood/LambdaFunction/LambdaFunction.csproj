@@ -11,6 +11,7 @@
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.5.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
@@ -21,9 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="HrApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\src\HrApp\bin\Debug\netcoreapp3.0\HrApp.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\..\src\HrApp\HrApp.csproj" />
   </ItemGroup>
   
 </Project>

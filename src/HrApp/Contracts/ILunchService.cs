@@ -14,7 +14,7 @@ namespace HrApp
         /// automatically each monday (add only these employees who is not in holiday)
         /// </summary>
         /// <returns></returns>
-        public Task<Menu> CreateBlankMenu(Division division); 
+        Task<Menu> CreateBlankMenu(Division division); 
 
         
         /// <summary>
@@ -22,14 +22,14 @@ namespace HrApp
         /// </summary>
         /// <param name="lunchtime"></param>
         /// <param name="menu"></param>
-        public Task AdjustMenuLunchTime(DateTime lunchtime, Menu menu);
+        Task AdjustMenuLunchTime(DateTime lunchtime, Menu menu);
         
         /// <summary>
         /// Publish Menu
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
-        public Task PublishMenu(Menu menu);    
+        Task PublishMenu(Menu menu);    
         
         /// <summary>
         /// Order food for employee
@@ -37,32 +37,32 @@ namespace HrApp
         /// <param name="employeeEntity"></param>
         /// <param name="preferences"></param>
         /// <param name="menu"></param>
-        public Task OrderFood(EmployeeEntity employeeEntity, List<PersonalOrderPreference> preferences, Menu menu);
+        Task OrderFood(EmployeeEntity employeeEntity, List<PersonalOrderPreference> preferences, Menu menu);
         
         /// <summary>
         /// Menu is closed and additional orders should be declined 
         /// </summary>
         /// <param name="menu"></param>
-        public Task CloseMenu(Menu menu);
+        Task CloseMenu(Menu menu);
         
         /// <summary>
         /// Send initial request to order the food
         /// </summary>
         /// <param name="menu"></param>
-        public Task<List<Guid>> SendMessageAboutFoodOrder(Menu menu);
+        Task<List<Guid>> SendMessageAboutFoodOrder(Menu menu);
 
         /// <summary>
         /// Sends reminder about upcoming food delivery.
         /// </summary>
         /// <param name="menu"></param>
-        public Task SendReminderAboutFoodOrder(Menu menu);
+        Task SendReminderAboutFoodOrder(Menu menu);
         
         /// <summary>
         /// Notify recipients about food is in the kitchen
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
-        public Task SendNotificationThatFoodArrived(Menu menu);
+        Task SendNotificationThatFoodArrived(Menu menu);
 
     }
 }

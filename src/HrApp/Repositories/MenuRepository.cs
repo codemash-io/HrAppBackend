@@ -50,6 +50,22 @@ namespace HrApp
             // TODO: clear all the preferences
             var service = new CodeMashRepository<MenuEntity>(Client);
 
+            await service.UpdateOneAsync(x => x.Id == menu.Id,
+                Builders<MenuEntity>.Update.Pull($"main_dish_options.$[].employees", employeeEntity.Id)
+            );
+            
+            await service.UpdateOneAsync(x => x.Id == menu.Id,
+                Builders<MenuEntity>.Update.Pull($"soups.$[].employees", employeeEntity.Id)
+            );
+            
+            await service.UpdateOneAsync(x => x.Id == menu.Id,
+                Builders<MenuEntity>.Update.Pull($"drinks.$[].employees", employeeEntity.Id)
+            );
+            
+            await service.UpdateOneAsync(x => x.Id == menu.Id,
+                Builders<MenuEntity>.Update.Pull($"souces.$[].employees", employeeEntity.Id)
+            );
+
             var mainCourse = FindPreference(FoodType.Main);
             
             if (mainCourse != null)

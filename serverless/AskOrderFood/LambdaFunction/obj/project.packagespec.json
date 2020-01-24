@@ -18,7 +18,11 @@
     },
     "frameworks": {
       "netcoreapp2.1": {
-        "projectReferences": {}
+        "projectReferences": {
+          "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/HrApp.csproj": {
+            "projectPath": "/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/src/HrApp/HrApp.csproj"
+          }
+        }
       }
     },
     "warningProperties": {
@@ -55,6 +59,10 @@
           "target": "Package",
           "version": "[2.1.0, )",
           "autoReferenced": true
+        },
+        "MongoDB.Driver": {
+          "target": "Package",
+          "version": "[2.10.1, )"
         },
         "Newtonsoft.Json": {
           "target": "Package",
