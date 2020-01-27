@@ -39,7 +39,7 @@ namespace HrApp.Repositories
             var entity = new CommitEntity
             {
                 Description = commit.Description,
-                TimeWorked = Math.Round(commit.TimeWorked, 1),
+                TimeWorked = Math.Round(commit.TimeWorked, 2),
                 CommitDate = commit.CommitDate,
                 Employee = commit.Employee.Id
             };

@@ -30,7 +30,7 @@ namespace HrApp
             var repo = new CodeMashRepository<EmployeeEntity>(Client);
 
             await repo.UpdateOneAsync(x => x.Id == employeeId,
-                Builders<EmployeeEntity>.Update.Set(x => x.TimeWorked, Math.Round(time, 1)), null);
+                Builders<EmployeeEntity>.Update.Set(x => x.TimeWorked, Math.Round(time, 2)), null);
         }
 
         public async Task<EmployeeEntity> GetEmployeeByLastName(string lastname)
