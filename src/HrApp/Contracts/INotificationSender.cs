@@ -5,9 +5,7 @@ namespace HrApp
 {
     public interface INotificationSender
     {
-
-        public void SendReminderAboutFoodOrder(List<Guid> receivers);
-
-        public void SendNotificationAboutFoodIsArrived(List<Guid> receivers);
+        void SendReminderAboutFoodOrder(List<Guid> receivers);
+        void SendNotificationAboutFoodIsArrived(List<Guid> receivers);
     }
 }

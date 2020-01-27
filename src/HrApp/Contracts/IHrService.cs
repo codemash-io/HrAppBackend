@@ -6,6 +6,6 @@ namespace HrApp
 {
     public interface IHrService
     {
-        public Task<List<EmployeeEntity>> GetEmployeesWhoWorksOnLunchDay(Division division, DateTime lunchDate);
+        Task<List<EmployeeEntity>> GetEmployeesWhoWorksOnLunchDay(Division division, DateTime lunchDate);
     }
 }

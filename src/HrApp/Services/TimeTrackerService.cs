@@ -3,7 +3,6 @@ using HrApp.Domain;
 using HrApp.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HrApp.Services
@@ -15,7 +14,7 @@ namespace HrApp.Services
         public IEmployeesRepository EmployeeRepository { get; set; }
 
         //start - stop method
-        public async void LogHours(EmployeeEntity employee, ProjectEntity project, TimeSpan time, string description)
+        public async Task LogHours(EmployeeEntity employee, ProjectEntity project, TimeSpan time, string description)
         {
             if (!CheckIfEmployeeCanWorkOnTheProject(employee, project))
             {
@@ -37,7 +36,6 @@ namespace HrApp.Services
                 //adding commit to a project
                 await ProjectRepository.AddCommitToProject(commit.Id, project.Id);
 
-
                 //adding time employee worked on current project
                 var totalTime = employee.TimeWorked + time.TotalHours;
                 await EmployeeRepository.UpdateEmployeeTimeWorked(employee.Id, totalTime);
@@ -52,8 +50,7 @@ namespace HrApp.Services
         }
 
         //multiple projects - multiple hours method
-
-        public async void LogHours(List<ProjectEntity> projects, List<Commit> commits)
+        public async Task LogHours(List<ProjectEntity> projects, List<Commit> commits)
         {
             //checking for empty lists
             if (projects == null)
