@@ -27,13 +27,13 @@ namespace LambdaFunction
     {
         public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
-            /*var input = lambdaEvent.Input.Data;
+            var input = lambdaEvent.Input.Data;
             var data = JsonConvert.DeserializeObject<PreferencesDto>(input);
             
             var repo = new MenuRepository();
             var menu = await repo.GetClosestMenu();
             
-            await repo.MakeEmployeeOrder(menu, data.Preferences, new EmployeeEntity { Id = data.Id });*/
+            await repo.MakeEmployeeOrder(menu, data.Preferences, new EmployeeEntity { Id = data.Id });
 
 
             return new APIGatewayProxyResponse
