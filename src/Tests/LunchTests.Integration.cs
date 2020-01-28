@@ -97,12 +97,14 @@ namespace Tests
             {
                 new PersonalOrderPreference() {Type = FoodType.Main, FoodNumber = 1},
                 new PersonalOrderPreference() {Type = FoodType.Soup, FoodNumber = 1},
+                new PersonalOrderPreference() {Type = FoodType.Drinks, FoodNumber = 1},
+                new PersonalOrderPreference() {Type = FoodType.Souce, FoodNumber = 1},
             };
             
             await repo.MakeEmployeeOrder(menu, preferences, employee);
            
         }
-        
+        // preferences : [{ Type : "Main", FoodNumber : 1 },]
         
         
     }

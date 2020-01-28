@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CodeMash.Client;
 using CodeMash.Repository;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace HrApp
@@ -51,19 +52,19 @@ namespace HrApp
             var service = new CodeMashRepository<MenuEntity>(Client);
 
             await service.UpdateOneAsync(x => x.Id == menu.Id,
-                Builders<MenuEntity>.Update.Pull($"main_dish_options.$[].employees", employeeEntity.Id)
+                Builders<MenuEntity>.Update.Pull($"main_dish_options.$[].employees",  ObjectId.Parse(employeeEntity.Id))
             );
             
             await service.UpdateOneAsync(x => x.Id == menu.Id,
-                Builders<MenuEntity>.Update.Pull($"soups.$[].employees", employeeEntity.Id)
+                Builders<MenuEntity>.Update.Pull($"soups.$[].employees", ObjectId.Parse(employeeEntity.Id))
             );
             
             await service.UpdateOneAsync(x => x.Id == menu.Id,
-                Builders<MenuEntity>.Update.Pull($"drinks.$[].employees", employeeEntity.Id)
+                Builders<MenuEntity>.Update.Pull($"drinks.$[].employees", ObjectId.Parse(employeeEntity.Id))
             );
             
             await service.UpdateOneAsync(x => x.Id == menu.Id,
-                Builders<MenuEntity>.Update.Pull($"souces.$[].employees", employeeEntity.Id)
+                Builders<MenuEntity>.Update.Pull($"souces.$[].employees", ObjectId.Parse(employeeEntity.Id))
             );
 
             var mainCourse = FindPreference(FoodType.Main);
@@ -71,7 +72,7 @@ namespace HrApp
             if (mainCourse != null)
             {
                 await service.UpdateOneAsync(x => x.Id == menu.Id,
-                    Builders<MenuEntity>.Update.AddToSet($"main_dish_options.items[{mainCourse.FoodNumber}].employees", employeeEntity.Id), null);
+                    Builders<MenuEntity>.Update.AddToSet($"main_dish_options.{mainCourse.FoodNumber - 1}.employees", ObjectId.Parse(employeeEntity.Id)), null);
             }
             
             var soup = FindPreference(FoodType.Soup);
@@ -79,9 +80,25 @@ namespace HrApp
             if (soup != null)
             {
                 await service.UpdateOneAsync(x => x.Id == menu.Id,
-                    Builders<MenuEntity>.Update.AddToSet($"soups.items[{soup.FoodNumber}].employees", employeeEntity.Id), null);
+                    Builders<MenuEntity>.Update.AddToSet($"soups.{soup.FoodNumber - 1}.employees", ObjectId.Parse(employeeEntity.Id)), null);
             }
-            // TODO: add extra
+            
+            var drink = FindPreference(FoodType.Drinks);
+
+            if (drink != null)
+            {
+                await service.UpdateOneAsync(x => x.Id == menu.Id,
+                    Builders<MenuEntity>.Update.AddToSet($"drinks.{drink.FoodNumber - 1}.employees", ObjectId.Parse(employeeEntity.Id)), null);
+            }
+            
+            var souce = FindPreference(FoodType.Souce);
+
+            if (souce != null)
+            {
+                await service.UpdateOneAsync(x => x.Id == menu.Id,
+                    Builders<MenuEntity>.Update.AddToSet($"souces.{souce.FoodNumber - 1}.employees", ObjectId.Parse(employeeEntity.Id)), null);
+            }
+            
             
         }
 
