@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Tests
 {
-    class TimeTrackerIntegrationTests
+    class TimeTrackerIntegrations
     {
         EmployeesRepository empRepo;
         ProjectRepository proRepo;

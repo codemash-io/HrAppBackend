@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Tests
 {
-    class TimeTrackerTests
+    class TimeTracker
     {
         ITimeTrackerService trackerMock;
         ICommitRepository commitMock;

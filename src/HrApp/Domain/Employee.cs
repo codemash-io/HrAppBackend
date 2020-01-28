@@ -8,6 +8,9 @@ namespace HrApp
     public class Employee
     {
         public string Id { get; set; }
+        
+        public string Email { get; set; }
+        public string Name { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Division { get; set; }
@@ -25,9 +28,39 @@ namespace HrApp
             Role = role;
             TimeWorked = 0;
         }
+        
 
         public Employee()
         { }
-    }    
-}
 
+
+        public override bool Equals(object otherEmployee)
+        {
+            if(!ReferenceEquals(otherEmployee, null))
+                return Email.Equals(((Employee)otherEmployee).Email);
+
+            throw new ArgumentNullException();
+        }
+
+
+        public static bool operator ==(Employee employee1, Employee employee2)
+        {
+            return employee1 != null && employee1.Equals(employee2);
+        }
+
+        public static bool operator !=(Employee employee1, Employee employee2)
+        {
+            return employee1 != null && !employee1.Equals(employee2);
+        }
+
+        public void CheckEmployeeProperties()
+        {
+            if(String.IsNullOrEmpty(Email))
+                throw new EmployeePropertyException("Employee email is wrong or null");
+
+            if(String.IsNullOrEmpty(Name))
+                throw new EmployeePropertyException("Employee name property is null");
+        }
+    }
+
+}
