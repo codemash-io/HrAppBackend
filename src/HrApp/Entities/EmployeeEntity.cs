@@ -1,9 +1,11 @@
+
 ﻿using CodeMash.Models;
 using System;
 
 namespace HrApp
 {
-    [Collection("Employees")]
+
+    [Collection("pc-employees")]
     public class EmployeeEntity : Entity
     {
         [Field("first_name")]
@@ -15,6 +17,7 @@ namespace HrApp
         [Field("division")]
         public string Division { get; set; }
 
+
         [Field("role")]
         public int Role { get; set; }
 
@@ -23,6 +26,12 @@ namespace HrApp
 
         [Field("time_worked")]
         public double TimeWorked { get; set; }
+        
+        [Field("employees")]
+        public List<string> Employees { get; set; }
+        
+        [Field("application_user")]
+        public Guid UserId { get; set; }
 
     }
 }

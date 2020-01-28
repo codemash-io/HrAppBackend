@@ -1,0 +1,15 @@
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/bin/Debug/netcoreapp2.1/appsettings.json
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/bin/Debug/netcoreapp2.1/LambdaFunction.deps.json
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/bin/Debug/netcoreapp2.1/LambdaFunction.runtimeconfig.json
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/bin/Debug/netcoreapp2.1/LambdaFunction.runtimeconfig.dev.json
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/bin/Debug/netcoreapp2.1/LambdaFunction.dll
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/bin/Debug/netcoreapp2.1/LambdaFunction.pdb
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/bin/Debug/netcoreapp2.1/HrApp.dll
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/bin/Debug/netcoreapp2.1/HrApp.pdb
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/obj/Debug/netcoreapp2.1/LambdaFunction.csprojAssemblyReference.cache
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/obj/Debug/netcoreapp2.1/LambdaFunction.AssemblyInfoInputs.cache
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/obj/Debug/netcoreapp2.1/LambdaFunction.AssemblyInfo.cs
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/obj/Debug/netcoreapp2.1/LambdaFunction.csproj.CopyComplete
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/obj/Debug/netcoreapp2.1/LambdaFunction.dll
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/obj/Debug/netcoreapp2.1/LambdaFunction.pdb
+/Users/domantasjovaisas/Projects/PresentConnection/HrAppBackend/serverless/AskOrderFood/LambdaFunction/bin/Debug/netcoreapp2.1/Properties/launchSettings.json

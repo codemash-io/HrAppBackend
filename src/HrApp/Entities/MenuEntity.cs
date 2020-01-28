@@ -17,10 +17,16 @@ namespace HrApp
         public List<string> Employees { get; set; }
         
         [Field("main_dish_options")]
-        public List<string> MainFood { get; set; } = new List<string>();
+        public List<MenuItem> MainFood { get; set; } = new List<MenuItem>();
         
         [Field("soup")]
-        public List<string> Soup { get; set; } = new List<string>();
+        public List<MenuItem> Soup { get; set; } = new List<MenuItem>();
+        
+        [Field("drinks")]
+        public List<MenuItem> Drinks { get; set; } = new List<MenuItem>();
+        
+        [Field("souces")]
+        public List<MenuItem> Souces { get; set; } = new List<MenuItem>();
     }
 
 
