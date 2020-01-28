@@ -56,7 +56,7 @@ namespace HrApp
         /// </summary>
         /// <param name="menu"></param>
         Task SendReminderAboutFoodOrder(Menu menu);
-        
+
         /// <summary>
         /// Notify recipients about food is in the kitchen
         /// </summary>

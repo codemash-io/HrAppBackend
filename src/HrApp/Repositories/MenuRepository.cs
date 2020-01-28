@@ -120,6 +120,9 @@ namespace HrApp
                 employees.AddRange(menuResponse.Drinks.SelectMany(x => x.Employees));
 
 
+
+            var menuEntity = response;
+
             
             // Collect only employees who don't have reservation yet
             var employeesWhoCanDoReservation = allEmployees.Except(employees.Distinct());
