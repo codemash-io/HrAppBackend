@@ -27,101 +27,6 @@
             </e>
           </e>
         </e>
-        <e p="out" t="Include">
-          <e p="Amazon.Lambda.APIGatewayEvents.dll" t="Include" />
-          <e p="Amazon.Lambda.Core.dll" t="Include" />
-          <e p="Amazon.Lambda.Serialization.Json.dll" t="Include" />
-          <e p="appsettings.json" t="Include" />
-          <e p="Archive.zip" t="Include" />
-          <e p="CodeMash.Client.dll" t="Include" />
-          <e p="CodeMash.Code.dll" t="Include" />
-          <e p="CodeMash.Data.dll" t="Include" />
-          <e p="CodeMash.Files.dll" t="Include" />
-          <e p="CodeMash.Interfaces.dll" t="Include" />
-          <e p="CodeMash.Logs.dll" t="Include" />
-          <e p="CodeMash.Membership.dll" t="Include" />
-          <e p="CodeMash.Models.dll" t="Include" />
-          <e p="CodeMash.Notifications.dll" t="Include" />
-          <e p="CodeMash.Project.dll" t="Include" />
-          <e p="CodeMash.Repository.dll" t="Include" />
-          <e p="DnsClient.dll" t="Include" />
-          <e p="HrApp.dll" t="Include" />
-          <e p="HrApp.pdb" t="Include" />
-          <e p="LambdaFunction.deps.json" t="Include" />
-          <e p="LambdaFunction.dll" t="Include" />
-          <e p="LambdaFunction.pdb" t="Include" />
-          <e p="LambdaFunction.runtimeconfig.json" t="Include" />
-          <e p="Microsoft.AspNetCore.Cryptography.Internal.dll" t="Include" />
-          <e p="Microsoft.AspNetCore.Cryptography.KeyDerivation.dll" t="Include" />
-          <e p="Microsoft.AspNetCore.Hosting.Abstractions.dll" t="Include" />
-          <e p="Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" t="Include" />
-          <e p="Microsoft.AspNetCore.Http.Abstractions.dll" t="Include" />
-          <e p="Microsoft.AspNetCore.Http.dll" t="Include" />
-          <e p="Microsoft.AspNetCore.Http.Extensions.dll" t="Include" />
-          <e p="Microsoft.AspNetCore.Http.Features.dll" t="Include" />
-          <e p="Microsoft.AspNetCore.WebUtilities.dll" t="Include" />
-          <e p="Microsoft.Bcl.AsyncInterfaces.dll" t="Include" />
-          <e p="Microsoft.Extensions.Configuration.Abstractions.dll" t="Include" />
-          <e p="Microsoft.Extensions.Configuration.Binder.dll" t="Include" />
-          <e p="Microsoft.Extensions.Configuration.dll" t="Include" />
-          <e p="Microsoft.Extensions.Configuration.FileExtensions.dll" t="Include" />
-          <e p="Microsoft.Extensions.Configuration.Json.dll" t="Include" />
-          <e p="Microsoft.Extensions.DependencyInjection.Abstractions.dll" t="Include" />
-          <e p="Microsoft.Extensions.DependencyInjection.dll" t="Include" />
-          <e p="Microsoft.Extensions.FileProviders.Abstractions.dll" t="Include" />
-          <e p="Microsoft.Extensions.FileProviders.Physical.dll" t="Include" />
-          <e p="Microsoft.Extensions.FileSystemGlobbing.dll" t="Include" />
-          <e p="Microsoft.Extensions.Hosting.Abstractions.dll" t="Include" />
-          <e p="Microsoft.Extensions.Logging.Abstractions.dll" t="Include" />
-          <e p="Microsoft.Extensions.ObjectPool.dll" t="Include" />
-          <e p="Microsoft.Extensions.Options.dll" t="Include" />
-          <e p="Microsoft.Extensions.Primitives.dll" t="Include" />
-          <e p="Microsoft.Net.Http.Headers.dll" t="Include" />
-          <e p="Microsoft.Win32.SystemEvents.dll" t="Include" />
-          <e p="MongoDB.Bson.dll" t="Include" />
-          <e p="MongoDB.Driver.Core.dll" t="Include" />
-          <e p="MongoDB.Driver.dll" t="Include" />
-          <e p="MongoDB.Libmongocrypt.dll" t="Include" />
-          <e p="Newtonsoft.Json.dll" t="Include" />
-          <e p="runtimes" t="Include">
-            <e p="unix" t="Include">
-              <e p="lib" t="Include">
-                <e p="netcoreapp2.0" t="Include">
-                  <e p="System.Drawing.Common.dll" t="Include" />
-                </e>
-                <e p="netstandard2.0" t="Include">
-                  <e p="System.Private.ServiceModel.dll" t="Include" />
-                </e>
-              </e>
-            </e>
-            <e p="win" t="Include">
-              <e p="lib" t="Include">
-                <e p="netcoreapp2.0" t="Include">
-                  <e p="Microsoft.Win32.SystemEvents.dll" t="Include" />
-                  <e p="System.Drawing.Common.dll" t="Include" />
-                  <e p="System.Text.Encoding.CodePages.dll" t="Include" />
-                </e>
-                <e p="netstandard2.0" t="Include">
-                  <e p="System.Private.ServiceModel.dll" t="Include" />
-                </e>
-              </e>
-            </e>
-          </e>
-          <e p="ServiceContracts.dll" t="Include" />
-          <e p="ServiceStack.Client.dll" t="Include" />
-          <e p="ServiceStack.Common.dll" t="Include" />
-          <e p="ServiceStack.dll" t="Include" />
-          <e p="ServiceStack.Interfaces.dll" t="Include" />
-          <e p="ServiceStack.Text.dll" t="Include" />
-          <e p="SharpCompress.dll" t="Include" />
-          <e p="System.Drawing.Common.dll" t="Include" />
-          <e p="System.Runtime.CompilerServices.Unsafe.dll" t="Include" />
-          <e p="System.ServiceModel.dll" t="Include" />
-          <e p="System.ServiceModel.Primitives.dll" t="Include" />
-          <e p="System.Text.Encoding.CodePages.dll" t="Include" />
-          <e p="System.Text.Encodings.Web.dll" t="Include" />
-          <e p="System.Text.Json.dll" t="Include" />
-        </e>
         <e p="Request" t="Include">
           <e p="CustomEventRequest.cs" t="Include" />
           <e p="Data" t="Include">
@@ -159,16 +64,21 @@
     <e p="$PROJECT_DIR$/../../src/HrApp" t="IncludeRecursive">
       <e p="bin" t="ExcludeRecursive" />
       <e p="Contracts" t="Include">
+        <e p="ICommitRepository.cs" t="Include" />
         <e p="IEmployeesRepository.cs" t="Include" />
         <e p="IHrService.cs" t="Include" />
         <e p="ILunchService.cs" t="Include" />
         <e p="IMenuRepository.cs" t="Include" />
         <e p="INotificationSender.cs" t="Include" />
+        <e p="IProjectRepository.cs" t="Include" />
+        <e p="IReportsService.cs" t="Include" />
         <e p="IRoomBooker.cs" t="Include" />
         <e p="IRoomChecker.cs" t="Include" />
+        <e p="ITimeTrackerService.cs" t="Include" />
       </e>
       <e p="Domain" t="Include">
         <e p="Booking.cs" t="Include" />
+        <e p="Commit.cs" t="Include" />
         <e p="Division.cs" t="Include" />
         <e p="Employee.cs" t="Include" />
         <e p="Food.cs" t="Include" />
@@ -177,15 +87,18 @@
         <e p="MeetingRooms.cs" t="Include" />
         <e p="Menu.cs" t="Include" />
         <e p="MenuStatus.cs" t="Include" />
+        <e p="Project.cs" t="Include" />
         <e p="WeekDays.cs" t="Include" />
       </e>
       <e p="Entities" t="Include">
+        <e p="CommitEntity.cs" t="Include" />
         <e p="CountryEntity.cs" t="Include" />
         <e p="EmployeeEntity.cs" t="Include" />
         <e p="FoodEntity.cs" t="Include" />
         <e p="FoodSupplierEntity.cs" t="Include" />
         <e p="MenuEntity.cs" t="Include" />
         <e p="MenuItem.cs" t="Include" />
+        <e p="ProjectEntity.cs" t="Include" />
       </e>
       <e p="HrApp.csproj" t="IncludeRecursive" />
       <e p="obj" t="ExcludeRecursive">
@@ -199,14 +112,18 @@
         <e p="launchSettings.json" t="Include" />
       </e>
       <e p="Repositories" t="Include">
+        <e p="CommitRepository.cs" t="Include" />
         <e p="EmployeesRepository.cs" t="Include" />
         <e p="MenuRepository.cs" t="Include" />
+        <e p="ProjectRepository.cs" t="Include" />
       </e>
       <e p="Services" t="Include">
         <e p="HrService.cs" t="Include" />
         <e p="LunchService.cs" t="Include" />
         <e p="NotificationSender.cs" t="Include" />
+        <e p="ReportsService.cs" t="Include" />
         <e p="RoomBookerService.cs" t="Include" />
+        <e p="TimeTrackerService.cs" t="Include" />
       </e>
       <e p="Utils" t="Include">
         <e p="DateTimeExtensions.cs" t="Include" />

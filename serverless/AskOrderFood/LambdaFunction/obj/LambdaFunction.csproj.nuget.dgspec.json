@@ -129,7 +129,7 @@
           "dependencies": {
             "CodeMash.Core": {
               "target": "Package",
-              "version": "[2.0.135, )"
+              "version": "[2.0.137, )"
             },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",

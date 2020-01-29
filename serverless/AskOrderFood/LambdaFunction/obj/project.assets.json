@@ -36,14 +36,14 @@
           "lib/netstandard2.0/Amazon.Lambda.Serialization.Json.dll": {}
         }
       },
-      "CodeMash.Core/2.0.135": {
+      "CodeMash.Core/2.0.137": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "2.2.0",
           "Microsoft.Extensions.Configuration.Abstractions": "2.2.0",
           "Microsoft.Extensions.Configuration.FileExtensions": "2.2.0",
           "Microsoft.Extensions.Configuration.Json": "2.2.0",
-          "MongoDB.Driver": "2.8.1",
+          "MongoDB.Driver": "2.10.1",
           "Newtonsoft.Json": "12.0.3",
           "ServiceStack": "5.7.0"
         },
@@ -2558,7 +2558,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.1",
         "dependencies": {
-          "CodeMash.Core": "2.0.135"
+          "CodeMash.Core": "2.0.137"
         },
         "compile": {
           "bin/placeholder/HrApp.dll": {}
@@ -2615,14 +2615,14 @@
         "lib/netstandard2.0/Amazon.Lambda.Serialization.Json.xml"
       ]
     },
-    "CodeMash.Core/2.0.135": {
-      "sha512": "V3MGPYVjjbaDk19RA+1cZ1KdoTFMXRO+Jxc6YtFVp9pgJWKALqHTg8fTYPUbnlvlZsVPJj6wbDJiZBMt6C0Zug==",
+    "CodeMash.Core/2.0.137": {
+      "sha512": "HRMwaoILyPpiQGw1VK9AolraC4iBgyOSsCamMQWlonRB4YUPhRr3gi1LwSEtBVza4DMHarIvaIurUvQc5/3niQ==",
       "type": "package",
-      "path": "codemash.core/2.0.135",
+      "path": "codemash.core/2.0.137",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "codemash.core.2.0.135.nupkg.sha512",
+        "codemash.core.2.0.137.nupkg.sha512",
         "codemash.core.nuspec",
         "lib/netstandard2.0/CodeMash.Client.dll",
         "lib/netstandard2.0/CodeMash.Code.dll",

@@ -52,7 +52,7 @@
           }
         }
       },
-      "CodeMash.Core/2.0.135": {
+      "CodeMash.Core/2.0.137": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "3.1.1",
           "Microsoft.Extensions.Configuration.Abstractions": "3.1.1",
@@ -1567,7 +1567,7 @@
       },
       "HrApp/1.0.0": {
         "dependencies": {
-          "CodeMash.Core": "2.0.135"
+          "CodeMash.Core": "2.0.137"
         },
         "runtime": {
           "HrApp.dll": {}
@@ -1602,12 +1602,12 @@
       "path": "amazon.lambda.serialization.json/1.5.0",
       "hashPath": "amazon.lambda.serialization.json.1.5.0.nupkg.sha512"
     },
-    "CodeMash.Core/2.0.135": {
+    "CodeMash.Core/2.0.137": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-V3MGPYVjjbaDk19RA+1cZ1KdoTFMXRO+Jxc6YtFVp9pgJWKALqHTg8fTYPUbnlvlZsVPJj6wbDJiZBMt6C0Zug==",
-      "path": "codemash.core/2.0.135",
-      "hashPath": "codemash.core.2.0.135.nupkg.sha512"
+      "sha512": "sha512-HRMwaoILyPpiQGw1VK9AolraC4iBgyOSsCamMQWlonRB4YUPhRr3gi1LwSEtBVza4DMHarIvaIurUvQc5/3niQ==",
+      "path": "codemash.core/2.0.137",
+      "hashPath": "codemash.core.2.0.137.nupkg.sha512"
     },
     "DnsClient/1.2.0": {
       "type": "package",
