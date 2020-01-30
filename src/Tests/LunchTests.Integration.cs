@@ -105,7 +105,29 @@ namespace Tests
            
         }
         // preferences : [{ Type : "Main", FoodNumber : 1 },]
-        
-        
+        [Fact]
+
+        public async Task Test_Generate_Word()
+        {
+            var repo = new WordCreator()
+            {
+                FileRepo = new FileRepository(),
+               // VacationRepo = new VacationRepository()
+            };
+            EmployeeEntity employee = new EmployeeEntity()
+            {
+                FirstName = "Aurimas",
+                LastName = "Valauskas",
+                Division = "Kaunas",
+                Address = "Paðilës 37",
+                Id = "5e1dcf60d1930300012f1106"
+
+            };
+            var DateFrom = new DateTime(2020, 01, 28);
+            var DateTo = new DateTime(2020, 01, 30);
+
+            await repo.GenerateWordAsync(DateFrom, DateTo, employee, " Kasmetiniø atostogø");
+        }
+
     }
 }
