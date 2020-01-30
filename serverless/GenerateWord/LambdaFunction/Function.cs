@@ -42,17 +42,25 @@ namespace LambdaFunction
         /// <returns></returns>
         public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
-            // - Get environment variable
-            var employeeid = Environment.GetEnvironmentVariable("employee");
-            var datefrom = DateTime.Parse(Environment.GetEnvironmentVariable("dateFrom"));
-            var dateTo = DateTime.Parse(Environment.GetEnvironmentVariable("dateTo"));
-            var type = Environment.GetEnvironmentVariable("type");
-            var text = Environment.GetEnvironmentVariable("text");
+             //- Get environment variable
+             var employeeId = Environment.GetEnvironmentVariable("employee");
+        //     var dateFrom = DateTime.Parse(Environment.GetEnvironmentVariable("dateFrom"));
+           //  var dateTo = DateTime.Parse(Environment.GetEnvironmentVariable("dateTo"));
+             var text = Environment.GetEnvironmentVariable("text");
+             var absenceRequest = Environment.GetEnvironmentVariable("abscence_request");
+
 
             var service = new CodeMashRepository<EmployeeEntity>(Client);
 
             var person = await service.FindOneByIdAsync(
-                    employeeid,
+                    employeeId,
+                    new DatabaseFindOneOptions()
+                );
+
+            var serviceAbsence = new CodeMashRepository<AbsenceRequestEntity>(Client);
+
+            var absenceRequesInfo = await serviceAbsence.FindOneByIdAsync(
+                    absenceRequest,
                     new DatabaseFindOneOptions()
                 );
 
@@ -60,15 +68,15 @@ namespace LambdaFunction
             {
                 FileRepo = new FileRepository()
             };
-            await word.GenerateWordAsync(datefrom, dateTo, person, text);
+            await word.GenerateWordAsync(person, text, absenceRequesInfo);
                                  
 
             var response = new
             {
-                employeeid, 
-                datefrom,
-                dateTo,
-                type,
+                employeeId,
+             //   dateFrom,
+            //   dateTo,
+                absenceRequest,
                 person,                
                 lambdaEvent,
             };

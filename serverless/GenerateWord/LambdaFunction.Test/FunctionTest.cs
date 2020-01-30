@@ -27,7 +27,7 @@ namespace LambdaFunction.Tests
         public async Task Handler_can_return_response()
         {
             // Init function
-            var function = new Function(exampleServiceMock.Object);
+            var function = new Function();
 
             // Get response from function
             var result = await function.Handler(new CustomEventRequest<BasicInput>(), new TestLambdaContext());

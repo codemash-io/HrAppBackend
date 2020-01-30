@@ -112,7 +112,6 @@ namespace Tests
             var repo = new WordCreator()
             {
                 FileRepo = new FileRepository(),
-               // VacationRepo = new VacationRepository()
             };
             EmployeeEntity employee = new EmployeeEntity()
             {
@@ -123,10 +122,16 @@ namespace Tests
                 Id = "5e1dcf60d1930300012f1106"
 
             };
+            AbsenceRequestEntity abscence = new AbsenceRequestEntity()
+            {
+                AbsenceStart = new DateTime(2020, 02, 02),
+                AbsenceEnd = new DateTime(2020, 02, 02),
+                Id = "5e32c947f06da80001a12f4a"
+            };
             var DateFrom = new DateTime(2020, 01, 28);
-            var DateTo = new DateTime(2020, 01, 30);
+            var DateTo = new DateTime(2020, 02, 25);
 
-            await repo.GenerateWordAsync(DateFrom, DateTo, employee, " Kasmetiniø atostogø");
+            await repo.GenerateWordAsync( employee, " Kasmetiniø atostogø", abscence);
         }
 
     }

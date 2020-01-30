@@ -18,7 +18,7 @@ namespace HrApp
             throw new NotImplementedException();
         }
 
-        public async Task<string> UploadFile(string fileName, DocumentCore doc)
+        public async Task<string> UploadFile(string fileName, DocumentCore doc,string abscenceId)
         {
             var filesService = new CodeMashFilesService(Client);
             string key;
@@ -40,8 +40,10 @@ namespace HrApp
                     var response = await filesService.UploadRecordFileAsync(byteArray, fileName,
                         new UploadRecordFileRequest
                         {
-                            UniqueFieldName = "request",
-                            CollectionName = "vacationrequest"
+                            UniqueFieldName = "absence_description",
+                            CollectionName = "absence-requests",
+                            RecordId = abscenceId
+
                         }
                     );
                     key = response.Key;
