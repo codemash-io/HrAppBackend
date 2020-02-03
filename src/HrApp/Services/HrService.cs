@@ -11,5 +11,10 @@ namespace HrApp
         {
             return await EmployeesRepository.GetEmployees(division);
         }
+
+        public bool EmployeesAreNotAttending(Employee[] employees)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\Tests.csproj": {}
+    "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\Tests.csproj": {}
   },
   "projects": {
-    "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj": {
+    "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
+        "projectUniqueName": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj",
         "projectName": "HrApp",
-        "projectPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
+        "projectPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj",
         "packagesPath": "C:\\Users\\benux\\.nuget\\packages\\",
-        "outputPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\obj\\",
+        "outputPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Microsoft\\Xamarin\\NuGet\\",
@@ -23,14 +23,14 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.0"
+          "netcoreapp2.1"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.0": {
+          "netcoreapp2.1": {
             "projectReferences": {}
           }
         },
@@ -41,11 +41,17 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.0": {
+        "netcoreapp2.1": {
           "dependencies": {
             "CodeMash.Core": {
               "target": "Package",
-              "version": "[2.0.135, )"
+              "version": "[2.0.137, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
             }
           },
           "imports": [
@@ -58,26 +64,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\Tests.csproj": {
+    "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\Tests.csproj",
+        "projectUniqueName": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\Tests.csproj",
         "projectName": "Tests",
-        "projectPath": "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\Tests.csproj",
+        "projectPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\Tests.csproj",
         "packagesPath": "C:\\Users\\benux\\.nuget\\packages\\",
-        "outputPath": "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\obj\\",
+        "outputPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Microsoft\\Xamarin\\NuGet\\",
@@ -98,8 +96,8 @@
         "frameworks": {
           "netcoreapp3.0": {
             "projectReferences": {
-              "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj": {
-                "projectPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj"
+              "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj": {
+                "projectPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj"
               }
             }
           }
@@ -115,7 +113,7 @@
           "dependencies": {
             "CodeMash.Core": {
               "target": "Package",
-              "version": "[2.0.135, )"
+              "version": "[2.0.137, )"
             },
             "Microsoft.Extensions.Configuration.UserSecrets": {
               "target": "Package",
@@ -129,6 +127,14 @@
               "target": "Package",
               "version": "[4.2.1, )"
             },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.12.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[3.16.1, )"
+            },
             "coverlet.collector": {
               "target": "Package",
               "version": "[1.0.1, )"
@@ -139,7 +145,7 @@
             },
             "xunit": {
               "target": "Package",
-              "version": "[2.4.0, )"
+              "version": "[2.4.1, )"
             },
             "xunit.assert": {
               "target": "Package",
@@ -161,9 +167,6 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

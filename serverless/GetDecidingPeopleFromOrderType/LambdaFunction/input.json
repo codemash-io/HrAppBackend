@@ -1,0 +1,21 @@
+{
+    "request": "2132132321 Skaiciais",
+    "user": "353e5ee9-f7f8-47b1-a93e-69b4ddd72c2f",
+    "status": "Processing",
+    "items": [
+      {
+        "price": {
+          "value": 5,
+          "currency": "EUR"
+        },
+        "description": "puodeliu"
+      }
+    ],
+    "order_type": "5e2aa8d12fe37a00015a2b06",
+    "should_be_approved_by": [
+      "353e5ee9-f7f8-47b1-a93e-69b4ddd72c2f"
+    ],
+    "approved_by": [],
+    "declined_by": [],
+    "_id": "5e2fe27abebcee0001f9f7d3"
+  }

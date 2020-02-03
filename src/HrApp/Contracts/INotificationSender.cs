@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HrApp
 {
     public interface INotificationSender
     {
 
-        void SendAsyncNotificationsToDecide(List<Guid> receivers);
+  
+        Task SendReminderAboutFoodOrder(List<Guid> receivers, DateTime lunchTime);
 
-        void SendNotificationToDecide(List<Guid> receivers);
+        Task SendNotificationAboutFoodIsArrived(List<Guid> receivers);
+
     }
 }

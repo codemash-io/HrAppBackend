@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CodeMash.Client;
 using CodeMash.Notifications.Push.Services;
 using Isidos.CodeMash.ServiceContracts;
@@ -9,36 +10,34 @@ namespace HrApp
     public class NotificationSender: INotificationSender
     {
         private static CodeMashClient Client => new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
-        private static int SyncDecisionMakingCount;
 
-        static NotificationSender()
-        {
-            SyncDecisionMakingCount = 0;
-        }
-        public void SendAsyncNotificationsToDecide(List<Guid> receivers)
+        public async Task SendReminderAboutFoodOrder(List<Guid> receivers, DateTime lunchTime)
         {
             var pushService = new CodeMashPushService(Client);
-            var response = pushService.SendPushNotification(
+            var response = await pushService.SendPushNotificationAsync(
                 new SendPushNotificationRequest
                 {
                     TemplateId = Guid.Parse(Settings.ReminderAboutFoodTemplateId),
-                    Users = receivers
+                    Users = receivers,
+                    Postpone = (long)1000 * 60 * 60,
+                    Tokens = new Dictionary<string, string>
+                    {
+                        {"LunchDate", lunchTime.ToShortDateString()}
+                    }
                 }
             );
         }
 
-        public void SendNotificationToDecide(List<Guid> receivers)
+        public async Task SendNotificationAboutFoodIsArrived(List<Guid> receivers)
         {
             var pushService = new CodeMashPushService(Client);
-            var response = pushService.SendPushNotification(
+            var response = await pushService.SendPushNotificationAsync(
                 new SendPushNotificationRequest
                 {
                     TemplateId = Guid.Parse(Settings.FoodArrivedTemplateId),
-                    Users = new List<Guid> { receivers[SyncDecisionMakingCount] }
+                    Users = receivers
                 }
             );
-
-            SyncDecisionMakingCount++;
         }
     }
 }
