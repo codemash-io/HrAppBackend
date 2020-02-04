@@ -27,7 +27,9 @@ using System;
 
         [Field("time_worked")]
         public double TimeWorked { get; set; }
-        
+        [Field("address")]
+        public string Address { get; set; }
+
         [Field("employees")]
         public List<string> Employees { get; set; }
         

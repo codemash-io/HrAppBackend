@@ -18,6 +18,7 @@ namespace HrApp
         // timeworked  should be set to zero at the start of each the month
         public double TimeWorked { get; set; } //employee actual work time during month
         public int Budget { get; set; } //monthly budget in hours (160h when full time)  
+        public string Address { get; set; }
 
         public Employee(string firstName, string lastName, string division, int budget, int role)
         {
