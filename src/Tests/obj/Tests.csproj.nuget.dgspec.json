@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\Tests.csproj": {}
+    "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj": {
+    "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj",
+        "projectUniqueName": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
         "projectName": "HrApp",
-        "projectPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj",
+        "projectPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
         "packagesPath": "C:\\Users\\benux\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\obj\\",
+        "outputPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Microsoft\\Xamarin\\NuGet\\",
@@ -68,14 +68,14 @@
         }
       }
     },
-    "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\Tests.csproj": {
+    "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\Tests.csproj",
+        "projectUniqueName": "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\Tests.csproj",
         "projectName": "Tests",
-        "projectPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\Tests.csproj",
+        "projectPath": "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\Tests.csproj",
         "packagesPath": "C:\\Users\\benux\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\Tests\\obj\\",
+        "outputPath": "D:\\dev\\Github\\AssetManagerHR\\src\\Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Microsoft\\Xamarin\\NuGet\\",
@@ -96,8 +96,8 @@
         "frameworks": {
           "netcoreapp3.0": {
             "projectReferences": {
-              "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj": {
-                "projectPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj"
+              "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj": {
+                "projectPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj"
               }
             }
           }

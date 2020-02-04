@@ -8111,11 +8111,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj",
+      "projectUniqueName": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
       "projectName": "HrApp",
-      "projectPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\HrApp.csproj",
+      "projectPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
       "packagesPath": "C:\\Users\\benux\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\benux\\Desktop\\HrAppBackend-master\\src\\HrApp\\obj\\",
+      "outputPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Microsoft\\Xamarin\\NuGet\\",
