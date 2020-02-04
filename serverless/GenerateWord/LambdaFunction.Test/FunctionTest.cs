@@ -30,7 +30,7 @@ namespace LambdaFunction.Tests
             var function = new Function();
 
             // Get response from function
-            var result = await function.Handler(new CustomEventRequest<BasicInput>(), new TestLambdaContext());
+            var result = await function.Handler(new CustomEventRequest<CollectionTriggerInput>() {} , new TestLambdaContext());
             var resultBody = JsonConvert.DeserializeObject<JObject>(result.Body);
 
             // Assert

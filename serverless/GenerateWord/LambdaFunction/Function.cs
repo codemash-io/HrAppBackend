@@ -20,19 +20,17 @@ namespace LambdaFunction
     public class Function
     {
         private readonly IExampleService _exampleService;
-        
-        // (Required if adding other constructors. Otherwise, optional.) A default constructor
-        // called by Lambda. If you are adding your custom constructors,
-        // default constructor with no parameters must be added
-        public Function() : this (new ExampleService()) {}
 
-        // (Optional) An example of injecting a service. As a default constructor is called by Lambda
-        // this constructor has to be called from default constructor
-        public Function(IExampleService exampleService)
+        public class AbsenceClass
         {
-            _exampleService = exampleService;
+           
+            [JsonProperty(PropertyName = "employee")]
+            public string Employee { get; set; }
+            [JsonProperty(PropertyName = "_id")]
+            public string Absence { get; set; }
+
+
         }
-       
         private static CodeMashClient Client => new CodeMashClient(HrApp.Settings.ApiKey, HrApp.Settings.ProjectId);
         /// <summary>
         /// (Required) Entry method of your Lambda function.
@@ -40,27 +38,27 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<CollectionTriggerInput> lambdaEvent, ILambdaContext context)
         {
-             //- Get environment variable
-             var employeeId = Environment.GetEnvironmentVariable("employee");
-        //     var dateFrom = DateTime.Parse(Environment.GetEnvironmentVariable("dateFrom"));
-           //  var dateTo = DateTime.Parse(Environment.GetEnvironmentVariable("dateTo"));
-             var text = Environment.GetEnvironmentVariable("text");
-             var absenceRequest = Environment.GetEnvironmentVariable("abscence_request");
+            var reason = Environment.GetEnvironmentVariable("reason");
+            var type = Environment.GetEnvironmentVariable("type");
+            var end = Environment.GetEnvironmentVariable("end");
+            var absencetype = Environment.GetEnvironmentVariable("absencetype");
+            var days = Environment.GetEnvironmentVariable("days");
+            var records = lambdaEvent.Input.NewRecord;
+
+            AbsenceClass items = JsonConvert.DeserializeObject<AbsenceClass>(records);
 
 
             var service = new CodeMashRepository<EmployeeEntity>(Client);
-
             var person = await service.FindOneByIdAsync(
-                    employeeId,
+                    items.Employee,
                     new DatabaseFindOneOptions()
                 );
 
             var serviceAbsence = new CodeMashRepository<AbsenceRequestEntity>(Client);
-
             var absenceRequesInfo = await serviceAbsence.FindOneByIdAsync(
-                    absenceRequest,
+                    items.Absence,
                     new DatabaseFindOneOptions()
                 );
 
@@ -68,15 +66,10 @@ namespace LambdaFunction
             {
                 FileRepo = new FileRepository()
             };
-            await word.GenerateWordAsync(person, text, absenceRequesInfo);
-                                 
-
+            await word.GenerateWordAsync(person, reason, absenceRequesInfo, end, absencetype, days);
+                       
             var response = new
             {
-                employeeId,
-             //   dateFrom,
-            //   dateTo,
-                absenceRequest,
                 person,                
                 lambdaEvent,
             };
