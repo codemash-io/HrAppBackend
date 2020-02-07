@@ -14,7 +14,7 @@ namespace Tests
         [Fact]
         public async Task Create_blank_menu()
         {
-            var division = new Division {Id = "5d88ae84a792110001fef326"};
+            var division = new Division {Id = "5e144e04e39c590001d31fcd" };
             
             var lunchService = new LunchService
             {
@@ -24,7 +24,7 @@ namespace Tests
             
             var menu = await lunchService.CreateBlankMenu(division);
             
-            Assert.Equal("5d88ae84a792110001fef326", menu.Division.Id);
+            Assert.Equal("5e144e04e39c590001d31fcd", menu.Division.Id);
             
         }
         
@@ -106,7 +106,35 @@ namespace Tests
         }
         // preferences : [{ Type : "Main", FoodNumber : 1 },]
 
-      
+        [Fact]
+        public async Task Get_Employees_Who_Works_On_Lunch_Day()
+        {
+            var repo = new HrService() {
+                EmployeesRepository = new EmployeesRepository()
+            };
+            var division = new Division() { Id = "5e144e04e39c590001d31fcd" };
+            var employees = await repo.GetEmployeesWhoWorksOnLunchDay(division,new DateTime(2020,02,13).Date);
+            Assert.True(employees.Count > 0);
+        }
+
+        [Fact]
+        public async Task Adjust_Lunch_day_Test()
+        {
+
+            var division = new Division() { Id = "5e144e04e39c590001d31fcd" };
+            var repo = new LunchService()
+            {
+                HrService = new HrService() { EmployeesRepository = new EmployeesRepository()},
+                MenuRepository = new MenuRepository(),
+                NotificationSender = new NotificationSender()
+            };
+            var closestFriday = DateTime.Now.StartOfWeek(DayOfWeek.Friday).AddHours(12);
+            var menu = new Menu(closestFriday, division, new List<EmployeeEntity>()) { Id = "5e3c016f214efe00018721ab" };
+            var previousDateEmployees = new List<string>() { "5e3aca299ae79b0001a9db38", "5e3aca1b9ae79b0001a9db13" };
+            await repo.AdjustMenuLunchTime(new DateTime(2020, 02, 09), menu);
+            
+        }
+
 
     }
 }

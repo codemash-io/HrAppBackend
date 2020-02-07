@@ -26,6 +26,6 @@ namespace HrApp
         [Field("declined_by")]
         public List<Guid> DeclindeBy { get; set; } = new List<Guid>();
         [Field("absence_description")]
-        public List<string> file { get; set; } = new List<string>();  //maybe GUID
+        public List<object> file { get; set; } = new List<object>(); 
     }
 }

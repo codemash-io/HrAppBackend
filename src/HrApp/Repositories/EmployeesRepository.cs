@@ -25,6 +25,57 @@ namespace HrApp
             return employees.Items;
         }
 
+        public async Task<List<EmployeeEntity>> GetEmployeesWhoAreNotInBussinessTrip(Division division, DateTime lunchDate)
+        {
+            var repo = new CodeMashRepository<EmployeeEntity>(Client);
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            lunchDate = lunchDate.AddHours(4);
+            var lunchTime = (DateTime.SpecifyKind(lunchDate, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+         
+            FilterDefinition<EmployeeEntity>[] filters =
+           {
+                Builders<EmployeeEntity>.Filter.Eq("division", BsonObjectId.Create(division.Id)),
+                !(Builders<EmployeeEntity>.Filter.Gte("business_trips.to", lunchTime) & Builders<EmployeeEntity>.Filter.Lte("business_trips.from", lunchTime))               
+            };
+
+            var filter = Builders<EmployeeEntity>.Filter.And(filters);              
+            var employeesNotInBussinessTrip = await repo.FindAsync(filter, new DatabaseFindOptions()
+            {
+                PageNumber = 0,
+                PageSize = 100
+            });        
+
+            return employeesNotInBussinessTrip.Items;
+        }
+        public async Task<List<EmployeeEntity>> GetEmployeesWhoNotAbsence(List<EmployeeEntity> employees, DateTime lunchDate)
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            lunchDate = lunchDate.AddHours(4);
+            var lunchTime = (DateTime.SpecifyKind(lunchDate, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+
+            var repo = new CodeMashRepository<AbsenceRequestEntity>(Client);
+
+            FilterDefinition<AbsenceRequestEntity>[] filters =
+            {
+                Builders<AbsenceRequestEntity>.Filter.Gte("end", lunchTime),
+                Builders<AbsenceRequestEntity>.Filter.Lte("start", lunchTime),
+                Builders<AbsenceRequestEntity>.Filter.Eq("status", AbsenceRequestStatus.Approved.ToString())
+            };
+            var filter = Builders<AbsenceRequestEntity>.Filter.And(filters);
+            var absenceList = await repo.FindAsync(filter, new DatabaseFindOptions()
+            {
+                PageNumber = 0,
+                PageSize = 100
+            });
+           
+            foreach (var absence in absenceList.Items)
+            {
+                employees.RemoveAll(r => r.Id == absence.Employee);
+            }
+
+            return employees;
+        }
+
         public async Task UpdateEmployeeTimeWorked(string employeeId, double time)
         {
             var repo = new CodeMashRepository<EmployeeEntity>(Client);
@@ -50,6 +101,6 @@ namespace HrApp
             return employee;
         }
 
-
+       
     }
 }

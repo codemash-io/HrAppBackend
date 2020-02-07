@@ -13,10 +13,7 @@ namespace HrApp
     public class FileRepository : IFileRepository
     {
         private static CodeMashClient Client => new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
-        public Task GetFileId()
-        {
-            throw new NotImplementedException();
-        }
+     
 
         public async Task<string> UploadFile(string fileName, DocumentCore doc,string abscenceId)
         {
@@ -48,11 +45,7 @@ namespace HrApp
                     );
                     key = response.Key;
                 
-            }
-
-
-
-           
+            }          
             
             return key;
         }

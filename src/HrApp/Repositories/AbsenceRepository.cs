@@ -16,16 +16,10 @@ namespace HrApp
             var repo = new CodeMashRepository<AbsenceRequestEntity>(Client);
             //   var response = await repo.UpdateOneAsync("5e32c947f06da80001a12f4a", ,new DatabaseInsertOneOptions());
             AbsenceRequestStatus status = AbsenceRequestStatus.Approved;
-            try
-            {
-                 repo.UpdateOne(x => x.Id == "5e32c947f06da80001a12f4a",
+
+                 repo.UpdateOne(x => x.Id == "5e3ac1529ae79b0001a86e92",
                   Builders<AbsenceRequestEntity>.Update.Set(x => x.Status, status.ToString()), null);
-            }
-            catch (Exception ex)
-            { 
-            
-            }
-           
+        
             
         }
     }

@@ -36,9 +36,25 @@ namespace HrApp
         public async Task UpdateMenuLunchTime(DateTime newTime, Menu menu)
         {
             var repo = new CodeMashRepository<MenuEntity>(Client);
-            
+            var entity = new MenuEntity
+            {
+                Employees = menu.Employees.Select(x => x.Id).ToList(),
+            };
+
             await repo.UpdateOneAsync(x => x.Id == menu.Id,
-                Builders<MenuEntity>.Update.Set(x => x.PlannedDate, newTime), null);
+                Builders<MenuEntity>.Update.Set(x => x.Employees, entity.Employees), new DatabaseUpdateOneOptions
+                {
+                    BypassDocumentValidation = true
+                }) ;
+            newTime = newTime.AddHours(2);
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var lunchTime = (DateTime.SpecifyKind(newTime, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+           
+            await repo.UpdateOneAsync(x => x.Id == menu.Id,
+                   Builders<MenuEntity>.Update.Set("planned_lunch_date", lunchTime), new DatabaseUpdateOneOptions
+                   {
+                       BypassDocumentValidation = true
+                   });           
         }
 
         public async Task MakeEmployeeOrder(Menu menu, List<PersonalOrderPreference> preferences, EmployeeEntity employeeEntity)
@@ -104,11 +120,9 @@ namespace HrApp
 
         public async Task AdjustMenuStatus(Menu menu, MenuStatus status)
         {
-            var repo = new CodeMashRepository<MenuEntity>(Client);
-            
+            var repo = new CodeMashRepository<MenuEntity>(Client);            
             await repo.UpdateOneAsync(x => x.Id == menu.Id,
-                Builders<MenuEntity>.Update.Set(x => x.Status, status.ToString()), null);
-
+                Builders<MenuEntity>.Update.Set("status", status.ToString()), null);
         }
 
         /// <summary>
@@ -182,6 +196,24 @@ namespace HrApp
                 .ToList();
         }
 
+
+        public async Task<List<Guid>> GetEmployeesWhoAreNewInMenu(Menu menu, List<string> PreviousDateEMployees, List<string> newDateAllEmployees)
+        {
+            var newDateNewEmployees = newDateAllEmployees.Except(PreviousDateEMployees.Distinct());
+
+            var employeesRepo = new CodeMashRepository<EmployeeEntity>(Client);
+            var filter = Builders<EmployeeEntity>.Filter.In(x => x.Id, newDateNewEmployees.Distinct());
+            var projection = Builders<EmployeeEntity>.Projection.Include(x => x.UserId);
+            var response = await employeesRepo.FindAsync<EmployeeEntity>(filter, projection);
+
+            return response.Items
+                .Where(x => x.UserId != Guid.Empty)
+                .Select(x => x.UserId)
+                .ToList();
+        }
+
+
+
         public async Task<Menu> GetClosestMenu()
         {
             var repo = new CodeMashRepository<MenuEntity>(Client);
@@ -207,5 +239,35 @@ namespace HrApp
                 closestMenuByDate.Employees.Select(x => new EmployeeEntity { Id = x}).ToList()
             ) { Id = closestMenuByDate.Id };
         }
+
+        public async Task CleanOrders(Menu menu)
+        {
+            var service = new CodeMashRepository<MenuEntity>(Client);
+
+            await service.UpdateOneAsync(x => x.Id == menu.Id,
+               Builders<MenuEntity>.Update.Unset($"main_dish_options.$[].employees")
+           );
+
+            await service.UpdateOneAsync(x => x.Id == menu.Id,
+               Builders<MenuEntity>.Update.Unset($"drinks.$[].employees")
+           ) ;
+
+            await service.UpdateOneAsync(x => x.Id == menu.Id,
+               Builders<MenuEntity>.Update.Unset($"soups.$[].employees")
+           );
+
+            await service.UpdateOneAsync(x => x.Id == menu.Id,
+               Builders<MenuEntity>.Update.Unset($"souces.$[].employees")
+           );
+
+            await service.UpdateOneAsync(x => x.Id == menu.Id,
+               Builders<MenuEntity>.Update.Unset($"employees"),new DatabaseUpdateOneOptions
+               {
+                   BypassDocumentValidation = true
+               }
+           );
+        }
+
+       
     }
 }
