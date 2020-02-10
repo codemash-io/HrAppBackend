@@ -13,6 +13,6 @@ namespace HrApp
         Task SendNotificationAboutFoodIsArrived(List<Guid> receivers);
 
         Task SendNotificationForNewReceiversAboutLunchDate(List<Guid> receivers, DateTime lunchTime);
-
+        Task SendNotificationAboutLunchDateChanges(List<Guid> receivers, DateTime lunchTime);
     }
 }

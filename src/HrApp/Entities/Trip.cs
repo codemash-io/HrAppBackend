@@ -17,8 +17,8 @@ namespace HrApp
         [Field("notes")]
         public string Notes { get; set; }
         [Field("payment_document")]
-        public List<string> PaymentDocuments { get; set; }
+        public List<object> PaymentDocuments { get; set; }
         [Field("trip_documents")]
-        public List<string> TripDocuments { get; set; }
+        public List<object> TripDocuments { get; set; }
     }
 }

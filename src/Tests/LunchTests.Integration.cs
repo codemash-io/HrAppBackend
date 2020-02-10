@@ -131,7 +131,7 @@ namespace Tests
             var closestFriday = DateTime.Now.StartOfWeek(DayOfWeek.Friday).AddHours(12);
             var menu = new Menu(closestFriday, division, new List<EmployeeEntity>()) { Id = "5e3c016f214efe00018721ab" };
             var previousDateEmployees = new List<string>() { "5e3aca299ae79b0001a9db38", "5e3aca1b9ae79b0001a9db13" };
-            await repo.AdjustMenuLunchTime(new DateTime(2020, 02, 09), menu);
+            await repo.AdjustMenuLunchTime(new DateTime(2020, 02, 19), menu, previousDateEmployees);
             
         }
 

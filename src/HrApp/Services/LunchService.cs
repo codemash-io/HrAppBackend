@@ -55,12 +55,10 @@ namespace HrApp
             }
             await MenuRepository.CleanOrders(menu);
 
-            menu.Employees = await HrService.GetEmployeesWhoWorksOnLunchDay(menu.Division, lunchtime);
-
-            var newDateAllEmployees = menu.Employees.Select(x => x.Id).ToList();            
-
+            menu.Employees = await HrService.GetEmployeesWhoWorksOnLunchDay(menu.Division, lunchtime);                              
             await MenuRepository.UpdateMenuLunchTime(lunchtime, menu);
 
+            var newDateAllEmployees = menu.Employees.Select(x => x.Id).ToList();
             if (IsLunchDayInNearest2Days(lunchtime))
             {
                 var employees = await MenuRepository.GetEmployeesWhoAreNewInMenu(menu, PreviousDateEMployees, newDateAllEmployees);

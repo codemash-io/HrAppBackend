@@ -39,11 +39,7 @@ namespace HrApp
             };
 
             var filter = Builders<EmployeeEntity>.Filter.And(filters);              
-            var employeesNotInBussinessTrip = await repo.FindAsync(filter, new DatabaseFindOptions()
-            {
-                PageNumber = 0,
-                PageSize = 100
-            });        
+            var employeesNotInBussinessTrip = await repo.FindAsync(filter, new DatabaseFindOptions());        
 
             return employeesNotInBussinessTrip.Items;
         }
@@ -62,11 +58,7 @@ namespace HrApp
                 Builders<AbsenceRequestEntity>.Filter.Eq("status", AbsenceRequestStatus.Approved.ToString())
             };
             var filter = Builders<AbsenceRequestEntity>.Filter.And(filters);
-            var absenceList = await repo.FindAsync(filter, new DatabaseFindOptions()
-            {
-                PageNumber = 0,
-                PageSize = 100
-            });
+            var absenceList = await repo.FindAsync(filter, new DatabaseFindOptions());
            
             foreach (var absence in absenceList.Items)
             {

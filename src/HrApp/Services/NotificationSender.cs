@@ -56,5 +56,22 @@ namespace HrApp
                 }
             );
         }
+
+        public async Task SendNotificationAboutLunchDateChanges(List<Guid> receivers, DateTime lunchTime)
+        {
+            var pushService = new CodeMashPushService(Client);
+            var response = await pushService.SendPushNotificationAsync(
+                new SendPushNotificationRequest
+                {
+                    TemplateId = Guid.Parse(Settings.DateChangedTemplateId),
+                    Users = receivers,
+                    Postpone = (long)1000 * 60 * 60,
+                    Tokens = new Dictionary<string, string>
+                    {
+                        {"LunchDate", lunchTime.ToShortDateString()}
+                    }
+                }
+            );
+        }
     }
 }

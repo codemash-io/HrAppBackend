@@ -48,7 +48,7 @@ namespace HrApp
                 }) ;
             newTime = newTime.AddHours(2);
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var lunchTime = (DateTime.SpecifyKind(newTime, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+            var lunchTime = (long)(DateTime.SpecifyKind(newTime, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
            
             await repo.UpdateOneAsync(x => x.Id == menu.Id,
                    Builders<MenuEntity>.Update.Set("planned_lunch_date", lunchTime), new DatabaseUpdateOneOptions
@@ -261,7 +261,8 @@ namespace HrApp
            );
 
             await service.UpdateOneAsync(x => x.Id == menu.Id,
-               Builders<MenuEntity>.Update.Unset($"employees"),new DatabaseUpdateOneOptions
+               Builders<MenuEntity>.Update.Unset($"employees"),
+               new DatabaseUpdateOneOptions
                {
                    BypassDocumentValidation = true
                }
