@@ -45,6 +45,7 @@ namespace Tests
             var repo = new AbsenceRepository();
             await repo.UpdateStatus();
 
+
         }
 
     }

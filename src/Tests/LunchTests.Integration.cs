@@ -105,7 +105,6 @@ namespace Tests
            
         }
         // preferences : [{ Type : "Main", FoodNumber : 1 },]
-
         [Fact]
         public async Task Get_Employees_Who_Works_On_Lunch_Day()
         {
