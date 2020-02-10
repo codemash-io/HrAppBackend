@@ -131,5 +131,13 @@ namespace HrApp.Repositories
             return pro;
         }
 
+        public async Task<List<ProjectEntity>> GetAllProjects()
+        {
+            var repo = new CodeMashRepository<ProjectEntity>(Client);
+            var pro = await repo.FindAsync(x => true, new DatabaseFindOptions());
+
+            return pro.Items;
+        }
+
     }
 }

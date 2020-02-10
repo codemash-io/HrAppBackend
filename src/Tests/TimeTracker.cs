@@ -56,7 +56,7 @@ namespace Tests
             trackerMock.CheckForEmployeeOvertime(Arg.Any<EmployeeEntity>()).Returns(false);
 
 
-            trackerService.LogHours(emp, pro, new TimeSpan(2, 2, 2), "desc");
+            await trackerService.LogHours(emp, pro, new TimeSpan(2, 2, 2), "desc");
 
             await commitMock.Received().InsertCommit(Arg.Any<Commit>());
             await projectMock.Received().AddCommitToProject(Arg.Any<string>(), Arg.Any<string>());
@@ -103,7 +103,7 @@ namespace Tests
                 EmployeeRepository = employeeMock
             };
 
-            trackerService.LogHours(projectsList, commitsList);
+            await trackerService.LogHours(projectsList, commitsList);
 
             await commitMock.Received().InsertCommit(Arg.Any<Commit>());
             await projectMock.Received().AddCommitToProject(Arg.Any<string>(), Arg.Any<string>());
