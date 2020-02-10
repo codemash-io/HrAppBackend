@@ -2,7 +2,6 @@
 using HrApp.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HrApp.Contracts
@@ -14,9 +13,11 @@ namespace HrApp.Contracts
         Task AddEmployeeToProject(string employeeId, string projectId);
         Task<ProjectEntity> GetProjectById(string projectId);
         Task<ProjectEntity> GetProjectByName(string name);
+        Task<List<ProjectEntity>> GetAllProjects();
         //reports
         Task<List<ProjectEntity>> SortProjects(DateTime from, DateTime to);
         Task<List<ProjectEntity>> SortProjectsFrom(DateTime from);
         Task<List<ProjectEntity>> SortProjectsTo(DateTime to);
+
     }
 }
