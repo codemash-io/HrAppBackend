@@ -64,7 +64,7 @@ namespace Tests
 
             var emp = empRepo.GetEmployeeByLastName("t");
             var commit = commRepo.GetCommitByDesc("testas");
-
+       
             await commRepo.AddEmployeeToCommit(commit.Result.Id, emp.Result.Id);
 
             commit = commRepo.GetCommitById(commit.Result.Id);
@@ -126,7 +126,7 @@ namespace Tests
         }
         [Test]
         public void TestCanSortProjectsFromTo()
-        {
+        {      
             var from = new DateTime(2020, 01, 05);
             var to = new DateTime(2020, 01, 22);
 
@@ -162,7 +162,7 @@ namespace Tests
             var employee = await empRepo.GetEmployeeByLastName("t");
 
 
-            await tracker.LogHours(employee, project, new TimeSpan(2, 15, 23), "testas");
+            tracker.LogHours(employee, project, new TimeSpan(2, 15, 23), "testas");
         }
 
         [Test]
@@ -178,26 +178,26 @@ namespace Tests
             var commList = new List<Commit>();
             commList.Add(commit);
 
-            await tracker.LogHours(proList, commList);
+            tracker.LogHours(proList, commList);
         }
 
-        /* [Test]
-         public async Task TestIfWorkedMoreThanPossible()
-         {
-             var project = await proRepo.GetProjectByName("testas3");
-             var employee = await empRepo.GetEmployeeByLastName("t");
+       /* [Test]
+        public async Task TestIfWorkedMoreThanPossible()
+        {
+            var project = await proRepo.GetProjectByName("testas3");
+            var employee = await empRepo.GetEmployeeByLastName("t");
 
-             var proList = new List<ProjectEntity>();
-             proList.Add(project);
+            var proList = new List<ProjectEntity>();
+            proList.Add(project);
 
-             Commit commit = new Commit(employee, "d", 18.61);
-             var commList = new List<Commit>();
-             commList.Add(commit);
+            Commit commit = new Commit(employee, "d", 18.61);
+            var commList = new List<Commit>();
+            commList.Add(commit);
 
-             await tracker.LogHours(proList, commList);
+            await tracker.LogHours(proList, commList);
 
-             Assert.Throws<BusinessException>( async () => await tracker.LogHours(proList, commList));
-         }
-         */
+            Assert.Throws<BusinessException>( async () => await tracker.LogHours(proList, commList));
+        }
+        */
     }
 }

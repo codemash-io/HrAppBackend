@@ -3,6 +3,7 @@ using CodeMash.Repository;
 using HrApp.Contracts;
 using HrApp.Domain;
 using HrApp.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,7 @@ namespace HrApp.Repositories
             return response.Id;
         }
 
+
         public async Task<List<ProjectEntity>> SortProjects(DateTime from, DateTime to)
         {
             var repo = new CodeMashRepository<ProjectEntity>(Client);
@@ -66,7 +68,7 @@ namespace HrApp.Repositories
                 Builders<ProjectEntity>.Filter.Gt("date_created", date_from),
                 Builders<ProjectEntity>.Filter.Lt("date_created", date_to)
             };
-
+           
             var filter = Builders<ProjectEntity>.Filter.And(filters);
 
             var sortedProjeccts = await repo.FindAsync(filter, new DatabaseFindOptions()
@@ -128,12 +130,6 @@ namespace HrApp.Repositories
 
             return pro;
         }
-        public async Task<List<ProjectEntity>> GetAllProjects()
-        {
-            var repo = new CodeMashRepository<ProjectEntity>(Client);
-            var pro = await repo.FindAsync(x => true, new DatabaseFindOptions());
 
-            return pro.Items;
-        }
     }
 }

@@ -13,14 +13,19 @@ namespace HrApp
     public class FileRepository : IFileRepository
     {
         private static CodeMashClient Client => new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
+        public Task GetFileId()
+        {
+            throw new NotImplementedException();
+        }
 
-        public async Task<string> UploadFile(string fileName, DocumentCore doc, string abscenceId)
+        public async Task<string> UploadFile(string fileName, DocumentCore doc,string abscenceId)
         {
             var filesService = new CodeMashFilesService(Client);
             string key;
 
             using (MemoryStream ms = new MemoryStream())
             {
+
                 doc.Save(ms, new DocxSaveOptions());
 
                 ms.Seek(0, SeekOrigin.Begin);
@@ -31,19 +36,24 @@ namespace HrApp
                 {
                     byteArray[count++] =
                         Convert.ToByte(ms.ReadByte());
-                }
-                var response = await filesService.UploadRecordFileAsync(byteArray, fileName,
-                    new UploadRecordFileRequest
-                    {
-                        UniqueFieldName = "absence_description",
-                        CollectionName = "absence-requests",
-                        RecordId = abscenceId
+                }                            
+                    var response = await filesService.UploadRecordFileAsync(byteArray, fileName,
+                        new UploadRecordFileRequest
+                        {
+                            UniqueFieldName = "absence_description",
+                            CollectionName = "absence-requests",
+                            RecordId = abscenceId
 
-                    }
-                );
-                key = response.Key;
-
+                        }
+                    );
+                    key = response.Key;
+                
             }
+
+
+
+           
+            
             return key;
         }
     }

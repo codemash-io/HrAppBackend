@@ -1,8 +1,9 @@
-using CodeMash.Models;
-using System;
-using System.Collections.Generic;
 
-namespace HrApp
+﻿using CodeMash.Models;
+using System;
+ using System.Collections.Generic;
+
+ namespace HrApp
 {
 
     [Collection("pc-employees")]
@@ -10,12 +11,13 @@ namespace HrApp
     {
         [Field("first_name")]
         public string FirstName { get; set; }
-
+        
         [Field("last_name")]
         public string LastName { get; set; }
-
+        
         [Field("division")]
         public string Division { get; set; }
+
 
         [Field("role")]
         public int Role { get; set; }
@@ -30,12 +32,9 @@ namespace HrApp
 
         [Field("employees")]
         public List<string> Employees { get; set; }
-
+        
         [Field("application_user")]
         public Guid UserId { get; set; }
-
-        [Field("personal_identification_number")]
-        public string PersonalId { get; set; }
 
     }
 }
