@@ -22,7 +22,7 @@ namespace HrApp
         /// </summary>
         /// <param name="lunchtime"></param>
         /// <param name="menu"></param>
-        Task AdjustMenuLunchTime(DateTime lunchtime, Menu menu);
+        Task AdjustMenuLunchTime(DateTime lunchtime, Menu menu, List<string> PreviousDateEMployees);
         
         /// <summary>
         /// Publish Menu

@@ -17,8 +17,7 @@ using System;
         
         [Field("division")]
         public string Division { get; set; }
-
-
+        
         [Field("role")]
         public int Role { get; set; }
 
@@ -36,5 +35,16 @@ using System;
         [Field("application_user")]
         public Guid UserId { get; set; }
 
+        [Field("business_trips")]
+        public List<Trip> BussinessTrips { get; set; }
+
+        [Field("personal_identification_number")]
+        public string PersonalId { get; set; }
+
+        
+
     }
+
+   
+
 }
