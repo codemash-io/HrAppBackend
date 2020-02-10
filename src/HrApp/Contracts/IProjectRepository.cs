@@ -14,6 +14,7 @@ namespace HrApp.Contracts
         Task AddEmployeeToProject(string employeeId, string projectId);
         Task<ProjectEntity> GetProjectById(string projectId);
         Task<ProjectEntity> GetProjectByName(string name);
+        Task<List<ProjectEntity>> GetAllProjects();
         //reports
         Task<List<ProjectEntity>> SortProjects(DateTime from, DateTime to);
         Task<List<ProjectEntity>> SortProjectsFrom(DateTime from);

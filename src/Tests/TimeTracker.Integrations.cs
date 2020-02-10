@@ -162,7 +162,7 @@ namespace Tests
             var employee = await empRepo.GetEmployeeByLastName("t");
 
 
-            tracker.LogHours(employee, project, new TimeSpan(2, 15, 23), "testas");
+            await tracker.LogHours(employee, project, new TimeSpan(2, 15, 23), "testas");
         }
 
         [Test]
@@ -178,7 +178,7 @@ namespace Tests
             var commList = new List<Commit>();
             commList.Add(commit);
 
-            tracker.LogHours(proList, commList);
+            await tracker.LogHours(proList, commList);
         }
 
        /* [Test]
