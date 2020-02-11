@@ -16,7 +16,7 @@ namespace HrApp.Services
 
             var types = orderRulesRepo.Find();
 
-            return types.Items.First(x => x.OrderType == orderTypeString).Roles;
+            return types.Items.First(x => x.Type == orderTypeString).Roles;
         }
 
         public List<User> GetUsersByRoles(List<string> roles)

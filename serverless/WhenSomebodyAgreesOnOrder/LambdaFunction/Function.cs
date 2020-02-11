@@ -21,14 +21,17 @@ namespace LambdaFunction
     {
         public async Task<APIGatewayProxyResponse> AcceptOrder(CustomEventRequest<CollectionTriggerInput> lambdaEvent)
         {
-            var formerRecord = JsonConvert.DeserializeObject<WishlistEntity>(lambdaEvent.Input.FormerRecord);
+            var oldRecord = JsonConvert.DeserializeObject<WishlistEntity>(lambdaEvent.Input.FormerRecord);
             var newRecord = JsonConvert.DeserializeObject<WishlistEntity>(lambdaEvent.Input.NewRecord);
             var wishlistRepo = new CodeMashRepository<WishlistEntity>(HrApp.Settings.Client);
 
-            if (newRecord.ApprovedBy.Count == newRecord.ShouldBeApprovedBy.Count)
+            if (oldRecord.ApprovedBy.Count < newRecord.ApprovedBy.Count)
             {
-                newRecord.Status = "Approved";
-                await wishlistRepo.ReplaceOneAsync(x => x.Id == newRecord.Id, newRecord);
+                if (newRecord.ApprovedBy.Count == newRecord.ShouldBeApprovedBy.Count)
+                {
+                    newRecord.Status = "Approved";
+                    await wishlistRepo.ReplaceOneAsync(x => x.Id == newRecord.Id, newRecord);
+                }
             }
 
             return new APIGatewayProxyResponse

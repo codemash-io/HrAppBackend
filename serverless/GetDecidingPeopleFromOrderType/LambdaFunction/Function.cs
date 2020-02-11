@@ -24,30 +24,24 @@ namespace LambdaFunction
             var formerRecord = JsonConvert.DeserializeObject<WishlistEntity>(lambdaEvent.Input.FormerRecord);
             var newRecord = JsonConvert.DeserializeObject<WishlistEntity>(lambdaEvent.Input.NewRecord);
 
-            if (formerRecord.Status == "Pending" && newRecord.Status == "Processing")
-            {
-                var orderRulesDb = new CodeMashRepository<WishlistDecisionRule>(HrApp.Settings.Client);
-                var usersDb = new CodeMashMembershipService(HrApp.Settings.Client);
-                var wishlistDb = new CodeMashRepository<WishlistEntity>(HrApp.Settings.Client);
+            var wishlistDb = new CodeMashRepository<WishlistEntity>(HrApp.Settings.Client);
+            var orderRulesDb = new CodeMashRepository<WishlistDecisionRule>(HrApp.Settings.Client);
+            var usersDb = new CodeMashMembershipService(HrApp.Settings.Client);
 
-                var allUsers = usersDb.GetUsersList(new GetUsersRequest()).Result;
-                var types = orderRulesDb.Find();
+            var orderRules = orderRulesDb.Find().Items;
+            var allUsers = usersDb.GetUsersList(new GetUsersRequest());
+            var orderType = newRecord.OrderType;
 
-                var roles = types
-                    .Items
-                    .First(x => x.OrderType == newRecord.OrderType)
-                    .Roles;
+            var roles = orderRules.First(x => x.Type == orderType).Roles;
 
-                var shouldBeApprovedByList = (from role in roles
-                                              from user in allUsers
-                                              where user.Roles.Any(x => x.Name == role)
-                                              select user.Id)
-                    .ToList();
+            var shouldBeApprovedByList = (from role in roles
+                                          from user in allUsers.Result
+                                          where user.Roles.Any(x => x.Name == role)
+                                          select user.Id).ToList();
 
-                newRecord.ShouldBeApprovedBy = shouldBeApprovedByList.ToList();
+            newRecord.ShouldBeApprovedBy = shouldBeApprovedByList.ToList();
 
-                wishlistDb.ReplaceOne(x => x.Id == formerRecord.Id, newRecord);
-            }
+            wishlistDb.ReplaceOne(x => x.Id == formerRecord.Id, newRecord);
 
             return new APIGatewayProxyResponse
             {

@@ -73,7 +73,7 @@ namespace LambdaFunction
         {
             var taxonomy = new CodeMashTermsService(client);
 
-            var competencies = taxonomy.Find<CompetencyLevelMeta>("CompetencyLevelMeta", entity => true);
+            var competencies = taxonomy.Find<CompetencyLevelMeta>("CompetencyLevel", entity => true);
             //var junior = competencies.List.First(x => x.Meta.Name)
 
             return competencies.List.First().Meta.NetPrice.Value.ToString();
