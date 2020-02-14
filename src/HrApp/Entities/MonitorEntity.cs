@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace HrApp.Domain
 {
+    [Collection("screen-displays")]
     public class MonitorEntity : CustomEntity
     {
         [Field("code")]

@@ -20,7 +20,7 @@ namespace HrApp.Repositories
         {
             var repo = new CodeMashRepository<ProjectEntity>(Client);
             var a = await repo.UpdateOneAsync(x => x.Id == projectId,
-                Builders<ProjectEntity>.Update.AddToSet($"commits", commitId), null);
+                Builders<ProjectEntity>.Update.AddToSet("commits", commitId), null);
         }
 
         public async Task AddEmployeeToProject(string employeeId, string projectId)

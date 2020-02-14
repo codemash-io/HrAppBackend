@@ -21,5 +21,18 @@ namespace HrApp.Domain
         [Field("description")]
         [JsonProperty("description")]
         public string Description { get; set; }
+
+        public CashDTO GetCashDto()
+        {
+            var startTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var dateTime = startTime.AddMilliseconds(Date);
+
+            return new CashDTO
+            {
+                Amount = this.Amount,
+                Date = $"{dateTime.Year}-{dateTime.Month:D2}-{dateTime.Day:D2}",
+                Description = this.Description
+            };
+        }
     }
 }

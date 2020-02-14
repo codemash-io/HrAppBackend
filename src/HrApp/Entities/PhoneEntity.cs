@@ -8,6 +8,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace HrApp.Entities
 {
+    [Collection("phones")]
     public class PhoneEntity : CustomEntity
     {
         [Field("model")]

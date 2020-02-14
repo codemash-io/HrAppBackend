@@ -1,19 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.APIGatewayEvents;
-using CodeMash.Client;
 using CodeMash.Repository;
-using HrApp;
 using HrApp.Domain;
 using HrApp.Entities;
-using LambdaFunction.Inputs;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.PatternContexts;
 using Newtonsoft.Json;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -23,55 +15,55 @@ namespace LambdaFunction
 {
     public class Function
     {
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<CollectionTriggerInput> lambdaEvent)
+        public APIGatewayProxyResponse Handler(string applicationUserId)
         {
-            var client = new CodeMashClient(HrApp.Settings.ApiKey, HrApp.Settings.ProjectId);
-            var taxonomy = new CodeMashTermsService(client);
-            var userRecord = JObject.Parse(lambdaEvent.Input.NewRecord);
-            var level = JObject.Parse(userRecord["level"].ToString()).ToString();
-            var levels = taxonomy.Find<CompetencyLevelMeta>("CompetencyLevelMeta", x => true).List;
+            var usersRepo = new CodeMashRepository<UserDbEntity>(HrApp.Settings.Client);
+            var monitorsRepo = new CodeMashRepository<MonitorEntity>(HrApp.Settings.Client);
+            var computersRepo = new CodeMashRepository<ComputerEntity>(HrApp.Settings.Client);
+            var phonesRepo = new CodeMashRepository<PhoneEntity>(HrApp.Settings.Client);
+            var taxonomy = new CodeMashTermsService(HrApp.Settings.Client);
 
-            var monitorsRepo = new CodeMashRepository<MonitorEntity>(client);
-            var computersRepo = new CodeMashRepository<ComputerEntity>(client);
-            var phonesRepo = new CodeMashRepository<PhoneEntity>(client);
+            var userRecord = usersRepo.FindOne(x => x.ApplicationUser == applicationUserId);
+            userRecord.business_trips.ForEach(x => x.MapCountry());
 
-            var competencyLevel = levels.First(x => x.Id == level);
+            var competencyLevel = taxonomy.Find<CompetencyLevelMeta>("competency-level", entity => true)
+                .List.First(x => x.Id == userRecord.level);
+            var monitors = userRecord.Monitors.Select(x => monitorsRepo.FindOneById(x)).ToList();
+            var computers = userRecord.Computers.Select(x => computersRepo.FindOneById(x)).ToList();
+            var phones = userRecord.Phones.Select(x => phonesRepo.FindOneById(x)).ToList();
 
-            var funds = JArray.Parse(userRecord["cash"].ToString())
-                .Select(x => JsonConvert.DeserializeObject<Cash>(x.ToString()))
-                .ToList();
-
-            var trips = JArray.Parse(userRecord["business_trips"].ToString())
-                .Select(x => JsonConvert.DeserializeObject<Trip>(x.ToString()))
-                .ToList();
-
-            trips.ForEach(x => x.MapCountry(client));
-
-            var monitors = JArray.Parse(userRecord["monitors"].ToString())
-                .Select(x => x.ToString())
-                .ToList();
-
-            var computers = JArray.Parse(userRecord["computers"].ToString())
-                .Select(x => x.ToString())
-                .ToList();
-
-            var phones = JArray.Parse(userRecord["phones"].ToString()).Select(x => x.ToString()).ToList();
-
-            var allStuff = new EmployeeInfoDto
+            var trainingsCash = new Price
             {
-                Phones = phones.Select(x => phonesRepo.FindOneByIdAsync(x).Result).ToList(),
-                Computers = computers.Select(x => computersRepo.FindOneByIdAsync(x).Result).ToList(),
-                Monitors = monitors.Select(x => monitorsRepo.FindOneByIdAsync(x).Result).ToList(),
-                Trips = trips.ToList(),
-                Funds = funds.ToList(),
-                CompetencyLevelMeta = competencyLevel.Meta
+                Value = competencyLevel.Meta.Training.Value - userRecord.Trainings.Sum(x => x.Amount.Value),
+                Currency = competencyLevel.Meta.Training.Currency
+            };
+
+            var budgetFundCash = new Price
+            {
+                Value = competencyLevel.Meta.BudgetFund.Value - userRecord.Cash.Sum(x => x.Amount.Value),
+                Currency = competencyLevel.Meta.BudgetFund.Currency
+            };
+
+            var employeeDto = new EmployeeDTO
+            {
+                CompetencyLevel = competencyLevel.Name,
+                Computers = computers,
+                Monitors = monitors,
+                Phones = phones,
+                Trainings = userRecord.Trainings.Select(x => x.GetCashDto()).ToList(),
+                Trips = userRecord.business_trips.Select(x => x.GeTripDto()).ToList(),
+                CashPurchases = userRecord.Cash.Select(x => x.GetCashDto()).ToList(),
+                TrainingsCash = competencyLevel.Meta.Training,
+                TrainingsCashLeft = trainingsCash,
+                BudgetFund = competencyLevel.Meta.BudgetFund,
+                BudgetFundLeft = budgetFundCash
             };
 
             return new APIGatewayProxyResponse
             {
-                Body = JsonConvert.SerializeObject(allStuff),
+                Body = JsonConvert.SerializeObject(employeeDto),
                 StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
+                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } },
             };
         }
     }
