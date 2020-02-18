@@ -1,0 +1,24 @@
+﻿<Window x:Class="TimeTrackerApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeTrackerApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="346" Width="387">
+    <Grid Height="591" Margin="0,0,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="550*"/>
+            <RowDefinition Height="207*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Background="Azure" Margin="0,0,0,133">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="CallGraphButton" Content="Log in (Office 365)" HorizontalAlignment="Right" Padding="5" Click="CallGraphButton_Click" Margin="5" FontFamily="Segoe Ui"/>
+            </StackPanel>
+            <Label Content="Result Info" Margin="0,0,0,-5" FontFamily="Segoe Ui" ></Label>
+            <TextBox x:Name="ResultText" TextWrapping="Wrap" MinHeight="120" Margin="5" FontFamily="Segoe Ui"/>
+            <Label Content="Token Info" Margin="0,0,0,-5" FontFamily="Segoe Ui" />
+            <TextBox x:Name="TokenInfoText" TextWrapping="Wrap" MinHeight="70" Margin="5" FontFamily="Segoe Ui"/>
+        </StackPanel>
+    </Grid>
+</Window>

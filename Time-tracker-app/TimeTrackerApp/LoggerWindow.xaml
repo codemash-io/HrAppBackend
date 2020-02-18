@@ -1,0 +1,190 @@
+﻿<Window x:Class="TimeTrackerApp.LoggerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeTrackerApp"
+        mc:Ignorable="d"
+        Title="LoggerWindow" Height="1008" Width="624" Icon="Icon-60.png">
+    <Window.Resources>
+        <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="OnChecking">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="25"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="OnUnchecking">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+                                <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                                    <SplineThicknessKeyFrame KeyTime="00:00:00.3000000" Value="1,1,1,1"/>
+                                </ThicknessAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+
+                        <DockPanel x:Name="dockPanel">
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" RecognizesAccessKey="True" VerticalAlignment="Center"/>
+                            <Grid Margin="5,5,0,5" Width="50" Background="#FFC0CCD9">
+                                <TextBlock Text="I" TextWrapping="Wrap" FontWeight="Bold" FontSize="12" HorizontalAlignment="Right" Margin="0,0,3,0"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="2,0,0,0" FontSize="12" FontWeight="Bold" Text="O" TextWrapping="Wrap"/>
+                                <Border HorizontalAlignment="Left" x:Name="slider" Width="23" BorderThickness="1,1,1,1" CornerRadius="3,3,3,3" RenderTransformOrigin="0.5,0.5" Margin="1,1,1,1">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            <SkewTransform AngleX="0" AngleY="0"/>
+                                            <RotateTransform Angle="0"/>
+                                            <TranslateTransform X="0" Y="0"/>
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                    <Border.BorderBrush>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                                            <GradientStop Color="#FF4490FF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.BorderBrush>
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF8AB4FF" Offset="1"/>
+                                            <GradientStop Color="#FFD1E2FF" Offset="0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                            </Grid>
+                        </DockPanel>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnUnchecking}" x:Name="OnUnchecking_BeginStoryboard"/>
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard"/>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RoundCorner" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="2">
+                                <Border.Background>
+                                    <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                        <RadialGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5" 
+                                                        ScaleX="1.5" ScaleY="1.5"/>
+                                                <TranslateTransform X="0.02" Y="0.3"/>
+                                            </TransformGroup>
+                                        </RadialGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="1" Color="#00000000"/>
+                                        <GradientStop Offset="0.3" Color="#FFFFFFFF"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="Bold">
+                                </ContentPresenter>
+                            </Border>
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <RadialGradientBrush GradientOrigin="0.496,1.052">
+                                            <RadialGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                                    <TranslateTransform X="0.02" Y="0.3"/>
+                                                </TransformGroup>
+                                            </RadialGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#00000000" Offset="1"/>
+                                            <GradientStop Color="#FF303030" Offset="0.3"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF33962B"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MyButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                            BorderThickness="1"
+                            Padding="4,2" 
+                            BorderBrush="DarkGray" 
+                            CornerRadius="3" 
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="Icon-60.png"/>
+    </Window.Background>
+    <Grid Height="995">
+        <Grid.Background>
+            <ImageBrush ImageSource="logo-screen.png"/>
+        </Grid.Background>
+        <Label x:Name="ErrorLabel" Content="" FontFamily="{StaticResource Heebo-Bold}" Foreground="Red" Width="604" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,74,0,0" Visibility="Visible" FontSize="22"/>
+        <DataGrid x:Name="DataGrid" HorizontalAlignment="Center" Height="154" VerticalAlignment="Top" Width="478" FontSize="16"  Margin="0,681,0,0" Visibility="Collapsed" IsEnabled="False"/>
+        <Button x:Name="CommitButton" Style="{StaticResource MyButtonStyle}" FontFamily="{StaticResource Heebo-Bold}" Content="Commit" HorizontalAlignment="Left" Margin="344,874,0,0" Height="48" VerticalAlignment="Top" Width="204" FontSize="22" Click="CommitButton_Click" Foreground="#FFFDFBED" Background="#FFF15A23" FontWeight="Normal" Visibility="Visible"/>
+        <Label x:Name="ProjectLabel" FontFamily="{StaticResource Heebo-Bold}"  Content="Select project" HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" FontSize="36" Height="53" Margin="179,110,0,0" Foreground="#FFFDFBED"/>
+        <ComboBox x:Name="DropdownList" HorizontalAlignment="Left" Height="39" VerticalAlignment="Top" Width="272" FontSize="22" Margin="179,168,0,0" Foreground="Black" Background="#FFE20505"/>
+        <Label x:Name="DescriptionLabel" Content="Description" FontFamily="{StaticResource Heebo-Bold}" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="272" FontSize="36" Margin="174,589,0,0" Foreground="#FFFDFBED" Visibility="Visible"/>
+        <TextBox x:Name="DescriptionTextBox" FontFamily="{StaticResource Heebo-Regular}" HorizontalAlignment="Left" Margin="174,657,0,0" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="102" VerticalAlignment="Top" Foreground="Black" Width="272" Background="White" FontSize="22" Visibility="Visible"/>
+        <Button Click="StartButton_Click" x:Name="StartButton" Style="{StaticResource MyButtonStyle}" FontFamily="{StaticResource Heebo-Bold}" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Height="62"  Width="272" FontSize="36" Foreground="#FFFDFBED" Background="#FFF15A23" RenderTransformOrigin="1,0" Margin="174,456,0,0" Visibility="Visible"/>
+        <Label x:Name="ClockLabel" Content="00:00:" FontFamily="{StaticResource Heebo-Bold}" HorizontalAlignment="Left" Height="88" VerticalAlignment="Top" Width="195" FontSize="72" Margin="177,284,0,0" RenderTransformOrigin="0.566,0.838" Background="{x:Null}" FontStyle="Normal" Foreground="#FFFDFBED" Visibility="Visible"/>
+        <StackPanel HorizontalAlignment="Center" Height="69" VerticalAlignment="Top" Width="641" Background="#FFF15A23">
+        </StackPanel>
+        <Button x:Name="DiscardButton" Style="{StaticResource MyButtonStyle}" FontFamily="{StaticResource Heebo-Bold}" Content="Discard" HorizontalAlignment="Right" Margin="0,874,350,0" Height="48" VerticalAlignment="Top" Width="204" FontSize="22" Click="DiscardButton_Click" Foreground="#FFFDFBED" Background="#FFF15A23" Visibility="Visible"/>
+        <CheckBox x:Name="StopwatchSlider" HorizontalAlignment="Left" Style="{DynamicResource CheckBoxStyle1}" VerticalAlignment="Top" Content="" Margin="529,22,0,0" FontFamily="{DynamicResource Heebo-Bold}" IsChecked="True" Unchecked="StopwatchSlider_Unchecked" Checked="StopwatchSlider_Checked"/>
+        <Label Content="Stopwatch" HorizontalAlignment="Left" Height="50" Margin="331,9,0,0" VerticalAlignment="Top" Width="188" FontFamily="{DynamicResource Heebo-Regular}" FontSize="36" Foreground="#FFFDFBED"/>
+        <Button x:Name="SaveButton" Content="Save" Style="{StaticResource MyButtonStyle}" HorizontalAlignment="Left" Height="51" Margin="414,596,0,0" VerticalAlignment="Top" Width="137" FontSize="22" FontFamily="{DynamicResource Heebo-Bold}" Background="#FFF15A23" Foreground="#FFFDFBED" Visibility="Collapsed" Click="SaveButton_Click"/>
+        <Label x:Name="TimeLabel" Content="Time" HorizontalAlignment="Left" Height="52" Margin="177,233,0,0" VerticalAlignment="Top" Width="97" FontSize="36" FontFamily="{DynamicResource Heebo-Bold}" Foreground="#FFFDFBED" Visibility="Collapsed"/>
+        <TextBox x:Name="HoursTextBox" HorizontalAlignment="Left" Height="53" Margin="177,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" FontFamily="{DynamicResource Heebo-Regular}" FontSize="38" Visibility="Collapsed"/>
+        <TextBox x:Name="MinuteTextBox" HorizontalAlignment="Left" Height="53" Margin="299,290,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" FontSize="38" FontFamily="{DynamicResource Heebo-Regular}" Visibility="Collapsed"/>
+        <Label x:Name="HourLabel" Content="h" HorizontalAlignment="Left" Margin="264,290,0,0" VerticalAlignment="Top" FontFamily="{DynamicResource Heebo-Bold}" FontSize="36" Foreground="#FFFDFBED" Visibility="Collapsed"/>
+        <Label x:Name="MinuteLabel" Content="min" HorizontalAlignment="Left" Margin="379,290,0,0" VerticalAlignment="Top" FontFamily="{DynamicResource Heebo-Bold}" FontSize="36" Foreground="#FFFDFBED" Visibility="Collapsed"/>
+        <Label x:Name="SecondsLabel" Content="00" HorizontalAlignment="Left" Height="60" Margin="372,306,0,0" VerticalAlignment="Top" Width="71" FontSize="48" FontFamily="{DynamicResource Heebo-Bold}" Foreground="#FFFDFBED"/>
+    </Grid>
+</Window>
