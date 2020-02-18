@@ -8104,27 +8104,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\benux\\.nuget\\packages\\": {},
-    "D:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\benas\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
+      "projectUniqueName": "C:\\Users\\benas\\source\\repos\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
       "projectName": "HrApp",
-      "projectPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
-      "packagesPath": "C:\\Users\\benux\\.nuget\\packages\\",
-      "outputPath": "D:\\dev\\Github\\AssetManagerHR\\src\\HrApp\\obj\\",
+      "projectPath": "C:\\Users\\benas\\source\\repos\\Github\\AssetManagerHR\\src\\HrApp\\HrApp.csproj",
+      "packagesPath": "C:\\Users\\benas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\benas\\source\\repos\\Github\\AssetManagerHR\\src\\HrApp\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "D:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\benux\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\benas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
