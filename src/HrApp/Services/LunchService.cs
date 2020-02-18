@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace HrApp
@@ -33,9 +34,9 @@ namespace HrApp
         }
         
         
-        public async Task AdjustMenuLunchTime(DateTime lunchtime, Menu menu)
+        public async Task AdjustMenuLunchTime(DateTime lunchtime, Menu menu, List<string> PreviousDateEMployees)
         {
-            if (lunchtime.DayOfWeek == DayOfWeek.Saturday || lunchtime.DayOfWeek == DayOfWeek.Sunday || lunchtime.DayOfWeek == DayOfWeek.Monday)
+            /*if (lunchtime.DayOfWeek == DayOfWeek.Saturday || lunchtime.DayOfWeek == DayOfWeek.Sunday || lunchtime.DayOfWeek == DayOfWeek.Monday)
             {
                 throw new BusinessException("Wrong date has been applied because it is a weekend");
             } 
@@ -45,13 +46,25 @@ namespace HrApp
             {
                 throw new BusinessException("Today you are not able to set a lunch day");
             }
-            
+            */
             if (DateTime.Now > lunchtime)
             {
-                throw new BusinessException("Menu not created yet");
+                await MenuRepository.AdjustMenuStatus(menu, MenuStatus.Canceled);
+                
+               // throw new BusinessException("Menu not created yet");
             }
+            await MenuRepository.CleanOrders(menu);
 
+            menu.Employees = await HrService.GetEmployeesWhoWorksOnLunchDay(menu.Division, lunchtime);                              
             await MenuRepository.UpdateMenuLunchTime(lunchtime, menu);
+
+            var newDateAllEmployees = menu.Employees.Select(x => x.Id).ToList();
+            if (IsLunchDayInNearest2Days(lunchtime))
+            {
+                var employees = await MenuRepository.GetEmployeesWhoAreNewInMenu(menu, PreviousDateEMployees, newDateAllEmployees);
+                await NotificationSender.SendNotificationForNewReceiversAboutLunchDate(employees, lunchtime);            
+            }       
+
         } 
 
         public async Task PublishMenu(Menu menu)
@@ -159,6 +172,11 @@ namespace HrApp
             return difference <= 26;
         }
 
+        private bool IsLunchDayInNearest2Days(DateTime lunchtime)
+        {            
+            var difference = lunchtime.Subtract(DateTime.Now).TotalHours;
+            return difference <= 50;
+        }
         
 
 

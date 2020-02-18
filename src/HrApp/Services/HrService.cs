@@ -9,7 +9,17 @@ namespace HrApp
         public IEmployeesRepository EmployeesRepository { get; set; }
         public async Task<List<EmployeeEntity>> GetEmployeesWhoWorksOnLunchDay(Division division, DateTime lunchDate)
         {
-            return await EmployeesRepository.GetEmployees(division);
+           
+
+            var employees = await EmployeesRepository.GetEmployeesWhoAreNotInBussinessTrip(division, lunchDate);
+        
+            return await EmployeesRepository.GetEmployeesWhoNotAbsence(employees, lunchDate);
+         
+        }
+
+        public bool EmployeesAreNotAttending(Employee[] employees)
+        {
+            throw new NotImplementedException();
         }
 
         public bool EmployeesAreNotAttending(Employee[] employees)

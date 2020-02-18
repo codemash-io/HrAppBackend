@@ -4,7 +4,8 @@ using System;
  using System.Collections.Generic;
 
  namespace HrApp
- {
+{
+
     [Collection("pc-employees")]
     public class EmployeeEntity : Entity
     {
@@ -16,7 +17,7 @@ using System;
         
         [Field("division")]
         public string Division { get; set; }
-
+        
         [Field("role")]
         public int Role { get; set; }
 
@@ -25,12 +26,25 @@ using System;
 
         [Field("time_worked")]
         public double TimeWorked { get; set; }
-        
+        [Field("address")]
+        public string Address { get; set; }
+
         [Field("employees")]
         public List<string> Employees { get; set; }
         
         [Field("application_user")]
         public Guid UserId { get; set; }
 
+        [Field("business_trips")]
+        public List<Trip> BussinessTrips { get; set; }
+
+        [Field("personal_identification_number")]
+        public string PersonalId { get; set; }
+
+        
+
     }
- }
+
+   
+
+}
