@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 namespace LambdaFunction.Inputs
 {
     public class CollectionTriggerInput : BasicInput
@@ -11,3 +12,18 @@ namespace LambdaFunction.Inputs
         public string TriggerType { get; set; }
     }
 }
+=======
+namespace LambdaFunction.Inputs
+{
+    public class CollectionTriggerInput : BasicInput
+    {
+        public string CollectionName { get; set; }
+        
+        public string FormerRecord { get; set; }
+        
+        public string NewRecord { get; set; }
+        
+        public string TriggerType { get; set; }
+    }
+}
+>>>>>>> master

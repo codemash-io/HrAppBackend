@@ -20,7 +20,7 @@ namespace HrApp
             }
             
             // TODO: Check if Friday is not a day-off in that Division? 
-            var closestFriday = DateTime.Now.StartOfWeek(DayOfWeek.Friday).AddHours(12);
+            var closestFriday = DateTimeExtensions.StartOfWeek(DateTime.Now, DayOfWeek.Friday).AddHours(12);
             
             var employees = await HrService.GetEmployeesWhoWorksOnLunchDay(division, closestFriday);
             
