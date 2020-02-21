@@ -11,5 +11,6 @@ namespace HrApp
         public static string ReminderAboutFoodTemplateId { get; set; } = "5e79f236-a85e-4833-8f98-581e626895bf";
         public static string FoodArrivedTemplateId { get; set; } = "35858c5a-45ce-4a86-826a-4aca77c35d8f";
         public static CodeMashClient Client { get; set; } = new CodeMashClient(ApiKey, ProjectId);
+        public static string DateChangedTemplateId { get; set; }//was added
     }
 }
