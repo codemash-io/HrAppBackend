@@ -23,7 +23,7 @@ namespace LambdaFunction
             var phonesRepo = new CodeMashRepository<PhoneEntity>(HrApp.Settings.Client);
             var taxonomy = new CodeMashTermsService(HrApp.Settings.Client);
 
-            var userRecord = usersRepo.FindOne(x => x.ApplicationUser == applicationUserId);
+            var userRecord = usersRepo.FindOne(x => x.application_User == applicationUserId);
             userRecord.business_trips.ForEach(x => x.MapCountry());
 
             var competencyLevel = taxonomy.Find<CompetencyLevelMeta>("competency-level", entity => true)

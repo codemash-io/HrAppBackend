@@ -21,10 +21,5 @@ namespace HrApp
         {
             throw new NotImplementedException();
         }
-
-        public bool EmployeesAreNotAttending(Employee[] employees)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -38,7 +38,10 @@ namespace HrApp.Entities
         [JsonProperty("business_trips")]
         public List<Trip> business_trips { get; set; }
 
+        [Field("business_email")]
+        public string BusinessEmail { get; set; }
+
         [Field("application_user")]
-        public string ApplicationUser { get; set; }
+        public string application_User { get; set; }
     }
 }
