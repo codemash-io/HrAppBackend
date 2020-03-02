@@ -1,12 +1,10 @@
-
-﻿using CodeMash.Models;
+using CodeMash.Models;
 using System;
- using System.Collections.Generic;
+using System.Collections.Generic;
 
  namespace HrApp
-{
-
-    [Collection("pc-employees")]
+ {
+     [Collection("pc-employees")]
     public class EmployeeEntity : Entity
     {
         [Field("first_name")]
@@ -40,11 +38,6 @@ using System;
 
         [Field("personal_identification_number")]
         public string PersonalId { get; set; }
-
-        
-
     }
 
-   
-
-}
+ }
