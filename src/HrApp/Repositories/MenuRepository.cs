@@ -197,9 +197,9 @@ namespace HrApp
         }
 
 
-        public async Task<List<Guid>> GetEmployeesWhoAreNewInMenu(Menu menu, List<string> PreviousDateEMployees, List<string> newDateAllEmployees)
+        public async Task<List<Guid>> GetEmployeesWhoAreNewInMenu(Menu menu, List<string> previousDateEmployees, List<string> newDateAllEmployees)
         {
-            var newDateNewEmployees = newDateAllEmployees.Except(PreviousDateEMployees.Distinct());
+            var newDateNewEmployees = newDateAllEmployees.Except(previousDateEmployees.Distinct());
 
             var employeesRepo = new CodeMashRepository<EmployeeEntity>(Client);
             var filter = Builders<EmployeeEntity>.Filter.In(x => x.Id, newDateNewEmployees.Distinct());

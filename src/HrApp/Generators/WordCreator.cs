@@ -33,7 +33,7 @@ namespace HrApp
             var key = await FileRepo.UploadFile(fileName, doc, absenceRequest.Id);
         }
 
-        public void GenerateEmploeeReportWord(EmployeeEntity employee, DateTime startDate, DateTime endDate)
+        public void GenerateEmployeeReportWord(EmployeeEntity employee, DateTime startDate, DateTime endDate)
         {
             string fileName = @"" + employee.FirstName + "_" + employee.LastName + "_"
                 + String.Format("{0:d}", startDate) + "_"

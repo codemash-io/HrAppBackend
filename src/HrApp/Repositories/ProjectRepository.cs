@@ -60,23 +60,23 @@ namespace HrApp.Repositories
 
             //conversion to unix format 
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var date_to = (DateTime.SpecifyKind(to, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
-            var date_from = (DateTime.SpecifyKind(from, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+            var dateTo = (DateTime.SpecifyKind(to, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+            var dateFrom = (DateTime.SpecifyKind(from, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
 
             FilterDefinition<ProjectEntity>[] filters =
             {
-                Builders<ProjectEntity>.Filter.Gt("date_created", date_from),
-                Builders<ProjectEntity>.Filter.Lt("date_created", date_to)
+                Builders<ProjectEntity>.Filter.Gt("date_created", dateFrom),
+                Builders<ProjectEntity>.Filter.Lt("date_created", dateTo)
             };
            
             var filter = Builders<ProjectEntity>.Filter.And(filters);
 
-            var sortedProjeccts = await repo.FindAsync(filter, new DatabaseFindOptions()
+            var sortedProjects = await repo.FindAsync(filter, new DatabaseFindOptions()
             {
                 PageNumber = 0,
                 PageSize = 100
             });
-            return sortedProjeccts.Items;
+            return sortedProjects.Items;
         }
 
         public async Task<List<ProjectEntity>> SortProjectsFrom(DateTime from)
@@ -85,9 +85,9 @@ namespace HrApp.Repositories
 
             //conversion to unix format 
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var date_from = (DateTime.SpecifyKind(from, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+            var dateFrom = (DateTime.SpecifyKind(from, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
 
-            var filter = Builders<ProjectEntity>.Filter.Gt("date_created", date_from);
+            var filter = Builders<ProjectEntity>.Filter.Gt("date_created", dateFrom);
 
             var sortedProjeccts = await repo.FindAsync(filter, new DatabaseFindOptions()
             {
@@ -103,9 +103,9 @@ namespace HrApp.Repositories
 
             //conversion to unix format 
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var date_to = (DateTime.SpecifyKind(to, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
+            var dateTo = (DateTime.SpecifyKind(to, DateTimeKind.Local).ToUniversalTime() - epoch).TotalMilliseconds;
 
-            var filter = Builders<ProjectEntity>.Filter.Lt("date_created", date_to);
+            var filter = Builders<ProjectEntity>.Filter.Lt("date_created", dateTo);
 
             var sortedProjeccts = await repo.FindAsync(filter, new DatabaseFindOptions()
             {

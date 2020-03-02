@@ -54,7 +54,7 @@ namespace Tests
             var empRepo = new EmployeesRepository();
             var employee = await empRepo.GetEmployeeByLastName("t");
 
-            repo.GenerateEmploeeReportWord(employee, new DateTime(2020, 02, 03), new DateTime(2020, 02, 09));
+            repo.GenerateEmployeeReportWord(employee, new DateTime(2020, 02, 03), new DateTime(2020, 02, 09));
         }
 
         [Fact]

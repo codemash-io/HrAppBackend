@@ -273,7 +273,7 @@ namespace HrApp.Generators
             throw new NotImplementedException();
         }
 
-        public void GenerateEmploeeReportWord(EmployeeEntity employee, DateTime startDate, DateTime endDate)
+        public void GenerateEmployeeReportWord(EmployeeEntity employee, DateTime startDate, DateTime endDate)
         {
             throw new NotImplementedException();
         }
