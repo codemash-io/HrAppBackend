@@ -88,7 +88,7 @@ namespace HrApp
         public async Task<EmployeeEntity> GetEmployeeById(string employeeId)
         {
             var repo = new CodeMashRepository<EmployeeEntity>(Client);
-            var employee = await repo.FindOneAsync(x => x.Id == employeeId, new DatabaseFindOneOptions());
+            var employee = await repo.FindOneByIdAsync(employeeId);
 
             return employee;
         }

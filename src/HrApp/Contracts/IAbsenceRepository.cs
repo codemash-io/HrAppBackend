@@ -2,8 +2,9 @@
 
 namespace HrApp
 {
-    interface IAbsenceRepository
+    public interface IAbsenceRepository
     {
-        Task UpdateStatus();
+        Task<AbsenceRequestEntity> GetAbsenceById(string id);
+        Task<string> GetAbsenceByIdWithNames(string id);
     }
 }
