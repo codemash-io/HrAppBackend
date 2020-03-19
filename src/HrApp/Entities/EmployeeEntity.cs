@@ -38,6 +38,11 @@ using System.Collections.Generic;
 
         [Field("personal_identification_number")]
         public string PersonalId { get; set; }
+
+        [Field("manager")]
+        public string ManagerId { get; set; }
+        [Field("business_email")]
+        public string BusinessEmail { get; set; }
     }
 
  }

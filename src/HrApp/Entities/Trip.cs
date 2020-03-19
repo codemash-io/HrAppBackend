@@ -27,7 +27,7 @@ namespace HrApp
         {
             var taxonomy = new CodeMashTermsService(HrApp.Settings.Client);
 
-            var countries = taxonomy.Find<object>("Countries", x => true).List;
+            var countries = taxonomy.Find<object>("Countries", x => true).Items.ToList() ;
             this.Country = countries.First(x => x.Id == Country).Name;
         }
 

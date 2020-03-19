@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeMash.Client;
+using CodeMash.Notifications.Email.Services;
 using CodeMash.Notifications.Push.Services;
 using Isidos.CodeMash.ServiceContracts;
+using MongoDB.Bson;
 
 namespace HrApp
 {
@@ -39,6 +41,7 @@ namespace HrApp
                 }
             );
         }
+       
 
         public async Task SendNotificationForNewReceiversAboutLunchDate(List<Guid> receivers, DateTime lunchTime)
         {
@@ -70,6 +73,45 @@ namespace HrApp
                     {
                         {"LunchDate", lunchTime.ToShortDateString()}
                     }
+                }
+            );
+        }
+        public async Task SendNotificationToManagerAboutEmployeeAbsence(List<Guid> manager,string employeeId,  AbsenceRequestEntity absence)
+        {
+            var pushService = new CodeMashPushService(Client);
+            var response = await pushService.SendPushNotificationAsync(
+                new SendPushNotificationRequest
+                {
+                    TemplateId = Guid.Parse(Settings.AbsenceRequestNotificationToManager),
+                    Users = manager,                    
+                    Tokens= new Dictionary<string, string>
+                    {
+                        { "employee",employeeId},
+                        { "type", absence.Type},
+                        { "From", absence.AbsenceStart.ToString()},
+                        { "To", absence.AbsenceEnd.ToString()}
+                    },                    
+                }
+            );
+        }
+        public async Task SendEmailToManagerAboutEmployeeAbsence(string email, EmployeeEntity employee, AbsenceRequestEntity absence, string reason)
+        {
+            var start = absence.AbsenceStart.ToString("0");
+            var end = absence.AbsenceEnd.ToString("0");
+            var emailService = new CodeMashEmailService(Client);
+            var response = await emailService.SendEmailAsync(
+                new SendEmailRequest()
+                {
+                    TemplateId = Guid.Parse(Settings.AbsenceRequestEmailToManager),
+                    Emails = new List<string>() { email },
+                    Tokens = new Dictionary<string, string>
+                    {
+                        { "employee.first_name",employee.FirstName},
+                        { "employee.last_name",employee.LastName},
+                        { "type.name.en", reason},
+                        { "From", start},
+                        { "To", end}
+                    },                    
                 }
             );
         }
