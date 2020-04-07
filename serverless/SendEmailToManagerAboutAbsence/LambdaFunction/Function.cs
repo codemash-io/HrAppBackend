@@ -21,7 +21,7 @@ namespace LambdaFunction
         {
             var records = lambdaEvent.Input.NewRecord;
 
-            Absence items = JsonConvert.DeserializeObject<Absence>(records);
+           Absence items = JsonConvert.DeserializeObject<Absence>(records);
 
             var hrService = new HrService()
             {
@@ -31,8 +31,8 @@ namespace LambdaFunction
             };
             string employee = items.EmployeeId;
             string absence = items.AbsenceId;
-           // string employee = "5d9336e3500b54000181de7d";
-           // string absence = "5e69e0840187c0000145f5cb";          
+            //string employee = "5d933d90b7297d000158fc1e";
+          //  string absence = "5e6a21600187c000015bb49c";          
             if (Environment.GetEnvironmentVariable("ApiKey") != null)
             {
                 HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");

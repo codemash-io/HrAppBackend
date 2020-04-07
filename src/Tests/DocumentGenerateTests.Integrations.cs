@@ -9,6 +9,7 @@ namespace Tests
 {
     public class DocumentGenerateTests
     {
+        
         [Fact]
         public async Task Test_Generate_Vacation_Word()
         {
@@ -27,8 +28,8 @@ namespace Tests
             };
             AbsenceRequestEntity abscence = new AbsenceRequestEntity()
             {
-                AbsenceStart = new DateTime(2020, 02, 02),
-                AbsenceEnd = new DateTime(2020, 02, 02),
+               // AbsenceStart = new DateTime(2020, 02, 02),
+               // AbsenceEnd = new DateTime(2020, 02, 02),
                 Id = "5e32c947f06da80001a12f4a"
             };
             //var DateFrom = new DateTime(2020, 01, 28);
@@ -40,7 +41,7 @@ namespace Tests
         public async Task Test_Check_If_Trigger_Works()
         {
             var repo = new AbsenceRepository();
-            await repo.UpdateStatus();
+           // await repo.UpdateStatus();
 
         }
 
@@ -124,5 +125,21 @@ namespace Tests
             repo.GenerateMultipleProjectsReportExcel(projects, new DateTime(2020, 01, 01), new DateTime(2020, 01, 31));
         }
 
+
+        [Fact]
+        public async Task Test_Read_Excel()
+        {
+            var importFileRepo = new ImportFileRepository();
+            var fileService = new FileService()
+            {
+                FileRepo = new FileRepository(),
+                ImportFileRepo = new ImportFileRepository()
+            };
+
+           var import = await importFileRepo.GetImportFileById("5e8c38902d02340001e7ee53");
+
+            await fileService.ReadExcel(import);
+            
+        }
     }
 }

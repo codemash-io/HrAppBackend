@@ -41,6 +41,10 @@ namespace HrApp
             {
                 
                 var manager = await EmployeesRepository.GetEmployeeById(employee.ManagerId);
+                if (manager == null)
+                {
+                    throw new BusinessException("Employe doesn't have a manager");
+                }
                 var absence = await AbsenceRequestRepository.GetAbsenceById(absenceId);
                 var reason = await AbsenceRequestRepository.GetAbsenceByIdWithNames(absence.Type);
                  await NotificationSender.SendEmailToManagerAboutEmployeeAbsence(manager.BusinessEmail, employee, absence, reason);
