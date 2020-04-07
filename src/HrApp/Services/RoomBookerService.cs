@@ -1,52 +1,134 @@
-﻿namespace HrApp
+﻿using Microsoft.Graph;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace HrApp
 {
     public class RoomBookerService : IRoomBooker
     {
-        public IRoomChecker RoomChecker { get; set; }
-        public IHrService HrService { get; set; }
+        public IGraphRepository GraphRepository { get; set; }
 
-        public RoomBookerService(IRoomChecker roomChecker, IHrService hrService)
+        public async Task<bool> BookRoom(Booking booking)
         {
-            RoomChecker = roomChecker;
-            HrService = hrService;
+            //checks if selected time available to book
+            var dateEvents = await GraphRepository.GetCalendarEventsByDate(
+                booking.MeetingRoomName.ToString(), booking.StartTime, booking.EndTime);
+
+            if (dateEvents.Count > 1 && dateEvents != null)
+                throw new BusinessException("Selected room at this time is ocupied");
+            
+            if(dateEvents.Count == 1)
+            {
+                var date = DateTime.Parse(dateEvents[0].End.DateTime);
+                if(date > booking.StartTime.ToUniversalTime())
+                    throw new BusinessException("Selected room at this time is ocupied");
+            }
+            //----------------------------------------------------------
+
+            var roomDetails = await GraphRepository.GetSelectedRoomCalendarDetails(booking.MeetingRoomName);
+            var calendarEvent = await CreateEventFromBooking(booking, roomDetails);
+            var eventdId = await GraphRepository.CreateEvent(calendarEvent);
+
+            if (string.IsNullOrEmpty(eventdId))
+                throw new BusinessException("Something went wrong. Event was not created");
+                
+            return true;
+
         }
 
-        public bool BookRoom(Booking booking)
+        public async Task<bool> EditBooking(string eventId, Booking newBooking)
         {
-            bool timeLineIsEmpty = RoomChecker.TimeLineIsEmpty(booking);
-            bool wantedRoomIsEmpty = RoomChecker.RoomIsEmpty(booking);
+            //checks if selected time available to book
+            var dateEvents = await GraphRepository.GetCalendarEventsByDate(
+                newBooking.MeetingRoomName.ToString(), newBooking.StartTime, newBooking.EndTime);
 
-            return timeLineIsEmpty || wantedRoomIsEmpty;
+            if (dateEvents.Count > 1 && dateEvents != null)
+                throw new BusinessException("Selected room at this time is ocupied");
 
+            if (dateEvents.Count == 1)
+            {
+                if(dateEvents[0].Id != eventId)
+                {
+                    var date = DateTime.Parse(dateEvents[0].End.DateTime);
+                    if (date > newBooking.StartTime.ToUniversalTime())
+                        throw new BusinessException("Selected room at this time is ocupied");
+                }            
+            }
+            //----------------------------------------------------------
+
+            var roomDetails = await GraphRepository.GetSelectedRoomCalendarDetails(newBooking.MeetingRoomName);
+            var calendarEvent = await CreateEventFromBooking(newBooking, roomDetails);
+
+            var updatedSuccessfully = await GraphRepository.EditEventById(eventId, calendarEvent);
+            if (!updatedSuccessfully)
+                throw new BusinessException("Something went wrong. Event was not updated");
+
+            return updatedSuccessfully;
             // if(true)  Message: Booking successful
             // if(false) Message: Booking unsuccessful, choose another time or room
         }
 
-        public bool EditBooking(Booking booking, Booking newBooking)
+        public async Task<bool> CancelBooking(string eventId, string roomName)
         {
-            bool timeLineIsEmpty = RoomChecker.TimeLineIsEmpty(newBooking);
-            bool wantedRoomIsEmpty = RoomChecker.RoomIsEmpty(newBooking);
+            var isDeleted = await GraphRepository.DeleteEventById(eventId, roomName);
 
-            if (booking.StartTime != newBooking.StartTime || booking.EndTime != newBooking.EndTime)
-            {
-                if (timeLineIsEmpty)
-                    return true; // Message: Booking successful
-                else
-                {
-                    return wantedRoomIsEmpty;
-                    // if(true)  Message: Booking successful
-                    // if(false) Message: Booking unsuccessful, choose another time or room
-                }
-            }
+            if(!isDeleted)
+                throw new BusinessException("Something went wrong. Event was not deleted");
 
             return true;
         }
 
-        public bool CancelBooking(Booking booking)
+        private async Task<Event> CreateEventFromBooking(Booking booking, RoomDetails roomDetails)
         {
-            bool bookingExists = RoomChecker.BookingExists(booking);
-
-            return bookingExists;
+            var participants = new List<Attendee>();
+            foreach (var employeeId in booking.Participants)
+            {
+                var participantUser = await GraphRepository.GetOffice365UserById(employeeId);
+                var participant = new Attendee
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = participantUser.Email,
+                        Name = participantUser.FullName,
+                    },
+                    Type = AttendeeType.Required
+                };
+                participants.Add(participant);
+            }
+            var organizerUser = await GraphRepository.GetOffice365UserById(booking.Organizer);
+            var calendatEvent = new Event
+            {
+                Subject = booking.Subject,
+                Start = new DateTimeTimeZone
+                {
+                    TimeZone = TimeZoneInfo.Local.Id,
+                    DateTime = booking.StartTime.ToString()
+                },
+                End = new DateTimeTimeZone
+                {
+                    TimeZone = TimeZoneInfo.Local.Id,
+                    DateTime = booking.EndTime.ToString()
+                },
+                Location = new Location
+                {
+                    DisplayName = booking.MeetingRoomName,
+                    LocationUri = roomDetails.Email,
+                    LocationType = LocationType.ConferenceRoom,
+                    UniqueIdType = LocationUniqueIdType.Directory
+                },
+                IsOrganizer = false,
+                Organizer = new Recipient
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Name = organizerUser.FullName,
+                        Address = organizerUser.Email,
+                    }
+                },
+                Attendees = participants
+            };
+            return calendatEvent;
         }
     }
 }

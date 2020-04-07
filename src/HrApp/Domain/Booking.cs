@@ -1,29 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HrApp
 {
     public class Booking
     {
         public string MeetingRoomName { get; set; }
-        public Employee AuthorEmployee { get; set; }
+        public string Organizer { get; set; }
         public DateTime StartTime { get; set; } // 2019, input month, input day, input hours, input minutes (only every 15 minutes option is available)
         public DateTime EndTime { get; set; }
-        public Employee[] Employees { get; set; }
-        public string Description { get; set; }
+        public List<string> Participants { get; set; }
+        public string Subject { get; set; }
 
-        public Booking()
-        {
-            
-        }
-
-        public Booking(string meetingRoomName, Employee authorEmployee, DateTime startTime, DateTime endTime, Employee[] employees, string description)
+        
+        public Booking(string meetingRoomName, string authorEmployee, DateTime startTime, DateTime endTime, List<string> employees, string description)
         {
             MeetingRoomName = meetingRoomName;
-            AuthorEmployee = authorEmployee;
+            Organizer = authorEmployee;
             StartTime = startTime;
             EndTime = endTime;
-            Employees = employees;
-            Description = description;
+            Participants = employees;
+            Subject = description;
 
             BookingPropertiesCheck();
         }
@@ -36,7 +33,7 @@ namespace HrApp
             if (!Enum.IsDefined(typeof(MeetingRooms), MeetingRoomName))
                 throw new BookingPropertyIsInvalidException("MeetingRoomName is invalid");
 
-            AuthorEmployee.CheckEmployeeProperties();
+            //Organizer.CheckEmployeeProperties();
 
             if(StartTime == DateTime.MinValue)
                 throw new BookingPropertyIsInvalidException("StartTime property is null");
@@ -50,13 +47,13 @@ namespace HrApp
             if (StartTime.CompareTo(EndTime) > 0)
                 throw new BookingPropertyIsInvalidException("StartTime must be earlier than EndTime");
 
-            if (Employees.Length < 1)
+            if (Participants.Count < 1)
                 throw new BookingPropertyIsInvalidException("Meeting room must be attended by at least 2 employees");
 
-            foreach (Employee employee in Employees)
+           /* foreach (var employee in Participants)
             {
                 employee.CheckEmployeeProperties();
-            }
+            }*/
         }
     }
 }
