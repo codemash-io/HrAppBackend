@@ -29,7 +29,7 @@ namespace HrApp
             };
                 
             var response = await repo.InsertOneAsync(entity, new DatabaseInsertOneOptions());
-            return response.Result.Id;
+            return response.Id;
         }
 
         public async Task UpdateMenuLunchTime(DateTime newTime, Menu menu)
@@ -82,9 +82,7 @@ namespace HrApp
         {
             var repo = new CodeMashRepository<MenuEntity>(Client);
 
-            var response = await repo.FindOneAsync(x => x.Id == menu.Id);
-
-            var menuEntity = response.Result;
+            var menuEntity = await repo.FindOneAsync(x => x.Id == menu.Id);
             
             var employees = new List<string>();
             

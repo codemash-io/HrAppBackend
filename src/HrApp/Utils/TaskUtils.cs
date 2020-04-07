@@ -23,12 +23,12 @@ namespace HrApp
             return input;
         }
 
-        public static void AddEmployeesToTimeLines(TimeLine timeLine, Employee[] employees)
+        /*public static void AddEmployeesToTimeLines(TimeLine timeLine, Employee[] employees)
         {
             foreach (Employee employee in employees)
             {
                 timeLine.Employees.Add(employee);
             }
-        }
+        }*/
     }
 }

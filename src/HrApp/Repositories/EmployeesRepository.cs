@@ -20,7 +20,14 @@ namespace HrApp
                 PageNumber = 0,
                 PageSize = 100
             });
-            return employees.Result;
+            return employees.Items;
+        }
+        public async Task<EmployeeEntity> GetEmployeeById(string id)
+        {
+            var repo = new CodeMashRepository<EmployeeEntity>(Client);
+
+            var employee = await repo.FindOneByIdAsync(id, new DatabaseFindOneOptions());
+            return employee;
         }
     }
 }
