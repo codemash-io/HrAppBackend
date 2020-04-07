@@ -37,27 +37,27 @@ namespace LambdaFunction
         /// <returns></returns>
         public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
-            string meetingRoom;
+            string roomName;
             DateTime dateFrom, dateTo;
             if(lambdaEvent.Input.Data != null)
             {
                 if (lambdaEvent.Input.Data != null)
                 {
                     ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    meetingRoom = items.MeetingRoom;
+                    roomName = items.RoomName;
                     dateFrom = items.DateFrom;
                     dateTo = items.DateTo;
                 }
                 else
                 {
-                    meetingRoom = Environment.GetEnvironmentVariable("meetingRoom");
+                    roomName = Environment.GetEnvironmentVariable("roomName");
                     dateFrom = DateTime.Parse(Environment.GetEnvironmentVariable("dateFrom"));
                     dateTo = DateTime.Parse(Environment.GetEnvironmentVariable("dateTo"));
                 }
             }
             else
             {
-                meetingRoom = Environment.GetEnvironmentVariable("meetingRoom");
+                roomName = Environment.GetEnvironmentVariable("roomName");
                 dateFrom = DateTime.Parse(Environment.GetEnvironmentVariable("dateFrom"));
                 dateTo = DateTime.Parse(Environment.GetEnvironmentVariable("dateTo"));
             }
@@ -65,14 +65,19 @@ namespace LambdaFunction
             {
                 HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
             }
+            else
+                throw new BusinessException("ApiKey not set");
+            if (string.IsNullOrEmpty(roomName))
+                throw new BusinessException("All fields must be filled with data");
 
             var repo = new GraphRepository();
 
-            var roomEvents = await repo.GetCalendarEventsByDate(meetingRoom, dateFrom, dateTo);
+            var roomEvents = await repo.GetCalendarEventsByDate(roomName, dateFrom, dateTo);
 
             // - Response body can be any serializable object
             var response = new
             {
+                roomName,
                 dateFrom,
                 dateTo,
                 roomEvents,

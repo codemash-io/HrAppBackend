@@ -8,12 +8,16 @@ using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Text;
+using CodeMash.Client;
+using CodeMash.Project.Services;
+using Isidos.CodeMash.ServiceContracts;
 
 namespace HrApp
 {
     public class GraphRepository : IGraphRepository
     {
         private const string BaseGrpahUrl = "https://graph.microsoft.com/v1.0";
+        private static CodeMashClient Client => new CodeMashClient(Settings.ApiKey, Settings.ProjectId);
         private Dictionary<string, string> LoadAppSettings()
         {
             var appConfig = new Dictionary<string, string>
@@ -254,17 +258,22 @@ namespace HrApp
             }
         }
 
-        private string GetMeetingRoomId(string room)
+        private async Task<string> GetMeetingRoomId(string room)
         {
-            if (MeetingRooms.Kaunas.ToString().ToLower() == room.ToLower())
-                return "3627428f-88f1-4ff8-a954-801898cdc0d0";
-            else if (MeetingRooms.Hamburg.ToString().ToLower() == room.ToLower())
-                return "d6b46bc2-1eac-4b2f-9037-780c4464449e";
-            else if (MeetingRooms.Delft.ToString().ToLower() == room.ToLower())
-                return "09b7b9cc-1f7e-4e6a-af70-9c96e140d538";
-            else
-                throw new BusinessException("No such a room exists");
-        } 
+            var projectService = new CodeMashProjectService(Client);
+
+            var settings = await projectService.GetProjectAsync(new GetProjectRequest());
+            var tokens = settings.Result.Tokens;
+
+            foreach (var token in tokens)
+            {
+                if (token.Key.ToLower() == room.ToLower())
+                    return token.Value;
+            }
+            //if no token found throw exception
+            throw new BusinessException("No such a room exists");
+        }
+
         private List<Event> MapCalendarEvent(dynamic eventDetails)
         {
             var allEvents = new List<Event>();

@@ -80,6 +80,10 @@ namespace LambdaFunction
             {
                 HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
             }
+            else
+                throw new BusinessException("ApiKey not set");
+            if (string.IsNullOrEmpty(roomName))
+                throw new BusinessException("All fields must be filled with data");
 
             var roomService = new RoomBookerService()
             {
