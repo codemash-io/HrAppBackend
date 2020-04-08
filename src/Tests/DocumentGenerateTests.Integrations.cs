@@ -133,9 +133,11 @@ namespace Tests
             var fileService = new FileService()
             {
                 FileRepo = new FileRepository(),
-                ImportFileRepo = new ImportFileRepository()
+                ImportFileRepo = new ImportFileRepository(),
+                FileReader = new FileReader(),
+                EmployeeRepo = new EmployeesRepository()
             };
-
+            
            var import = await importFileRepo.GetImportFileById("5e8c38902d02340001e7ee53");
 
             await fileService.ReadExcel(import);

@@ -8,7 +8,7 @@ namespace HrApp
 {
     public interface IFileReader
     {
-        Task ProcessFile(Stream fileStream, string type);
+        Task<VacationBalance> ProcessFile(Stream fileStream);
 
     }
 }

@@ -50,24 +50,25 @@ namespace HrApp
 
         public string GetFileId(ImportFileEintity file)
         {
-            //all file names list
-            var names = file.VacationBalanceFile;
-            // converting one of the file to string
-            var source = names[0].ToString();
-            //parsing formated string json
-            dynamic data = JObject.Parse(source);
-            //accessing json fields
-            string fileId = data.id;
-            string fileType = data.originalFileName;
-            //var logger = Logger.GetLogger();
-            //if (!fileType.EndsWith(format))
-            //{
+             //all file names list
+             var names = file.VacationBalanceFile;
+             // converting one of the file to string
+             var source = names[0].ToString();
+             //parsing formated string json
+             dynamic data = JObject.Parse(source);
+             //accessing json fields
+             string fileId = data.id;
+             string fileType = data.originalFileName;
+             //var logger = Logger.GetLogger();
+             //if (!fileType.EndsWith(format))
+             //{
 
-            //    logger.Log("Bad file format! File needs to be " + format);
-            //    return "";
-            //}
+             //    logger.Log("Bad file format! File needs to be " + format);
+             //    return "";
+             //}
 
-            return fileId;
+             return fileId;
+           
         }
 
         public async Task<Stream> GetFile(string fileId)
@@ -81,5 +82,7 @@ namespace HrApp
             });
             return response;
         }
+
+       
     }
 }

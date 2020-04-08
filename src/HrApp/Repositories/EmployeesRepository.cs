@@ -93,6 +93,29 @@ namespace HrApp
             return employee;
         }
 
-       
+        public async Task<bool> UpdateVacationBalance(Personal person)
+        {
+            var repo = new CodeMashRepository<EmployeeEntity>(Client);
+
+            var updateBuilder = Builders<EmployeeEntity>.Update;
+            var update = updateBuilder.Set(doc => doc.NumberOfHolidays, person.Left);
+            var splitName = person.Employee.Split(" ");
+            var filterBuilder = Builders<EmployeeEntity>.Filter;
+            var filter = filterBuilder.Eq(x=>x.FirstName, splitName[1])
+                & filterBuilder.Eq(x => x.LastName, splitName[0]);
+
+            try
+            {
+                await repo.UpdateOneAsync(filter,update,new DatabaseUpdateOneOptions());
+            }
+            catch (Exception)
+            {
+                Logger logger = Logger.GetLogger();
+                logger.Log(person.Employee + " not exist in database");
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -12,58 +12,63 @@ namespace HrApp
 {
     public class FileReader:IFileReader
     {
-        public async Task ProcessFile(Stream fileStream,string type) {
+        public async Task<VacationBalance> ProcessFile(Stream fileStream) {
             VacationBalance vacationBalance = new VacationBalance();
             IWorkbook book=null;
             ICell cellName = null;
             ICell cellTotal = null;
             ICell cellUsed = null;
             ICell cellLeft = null;
-            if (type==".xsl")
-            {
-                book = new HSSFWorkbook(fileStream);
-            }
-            if (type == ".xslx")
-            {
-                book = new HSSFWorkbook(fileStream);
-            }
-            
-            var sheet = (XSSFSheet)book.GetSheetAt(0);
-            int rowIndex = 6;  //--- SKIP FIRST ROW (index == 0) AS IT CONTAINS TEXT HEADERS
-            int rowWithData = 0;
-            int columns = 0;
+
+            book = new HSSFWorkbook(fileStream);
+            var sheet = book.GetSheetAt(0);
+            int rowIndex = 0;  
+            double totalBalance;
             while (sheet.GetRow(rowIndex) != null)
             {
-                columns = sheet.GetColumnWidth(rowIndex);
-
+                cellTotal = sheet.GetRow(rowIndex).GetCell(6);
+                cellTotal.SetCellType(CellType.String);
+                
                 cellName = sheet.GetRow(rowIndex).GetCell(1);
                 cellName.SetCellType(CellType.String);
-                cellTotal = sheet.GetRow(rowIndex).GetCell(7);
-                cellTotal.SetCellType(CellType.String);
-                cellUsed = sheet.GetRow(rowIndex).GetCell(8);
-                cellUsed.SetCellType(CellType.String);
-                cellLeft = sheet.GetRow(rowIndex).GetCell(9);
-                cellLeft.SetCellType(CellType.String);
-                vacationBalance.Employees.Add(new Personal() { 
-                Employee = cellName.StringCellValue,
-                Total = double.Parse(cellTotal.StringCellValue),
-                Used = double.Parse(cellUsed.StringCellValue),
-                Left = double.Parse(cellLeft.StringCellValue)
-                });
+              //  double.TryParse(cellTotal.StringCellValue, out totalBalance)
+                if (cellTotal.StringCellValue != "" && cellName.StringCellValue !="")
+                {
+                    if (cellTotal.StringCellValue != "Priklauso")
+                    {
+                        if (double.TryParse(cellTotal.StringCellValue, out totalBalance))
+                        {
+                            cellUsed = sheet.GetRow(rowIndex).GetCell(7);
+                            cellUsed.SetCellType(CellType.String);
+                            cellLeft = sheet.GetRow(rowIndex).GetCell(8);
+                            cellLeft.SetCellType(CellType.String);
+                            vacationBalance.Employees.Add(new Personal()
+                            {
+                                Employee = cellName.StringCellValue,
+                                Total = totalBalance,
+                                Used = double.Parse(cellUsed.StringCellValue),
+                                Left = (int)double.Parse(cellLeft.StringCellValue),
+                            });
+                        }
+                        else {
+                            Logger logger = Logger.GetLogger();
+                            var column = ((char)70).ToString();
+                            var message = String.Format("Error in line: {0}, coll: {1} " + rowIndex, column);
+                            logger.Log(message);                          
+                        }
+
+                        
+                    }
 
 
-                if (rowWithData==42)
-                {
-                    rowWithData = 0;
-                    rowIndex += 6;
-                }
-                else
-                {
-                    rowWithData++;
                     rowIndex++;
-                }                
+                }
+                else {
+                    rowIndex += 5;
+                }
+                
             }
-
+            return vacationBalance;
         }
 
     }
