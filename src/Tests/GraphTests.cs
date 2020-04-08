@@ -3,21 +3,29 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GraphUser = Microsoft.Graph.User;
 
 namespace Tests
 {
     public class GraphTests
     {
         GraphRepository graphRepo;
+        GraphUserRepository graphUserRepo;
+        GraphEventsRepository graphEventRepo;
+
         RoomBookerService roomService;
 
         [SetUp]
         public void Setup()
         {
             graphRepo = new GraphRepository();
+            graphEventRepo = new GraphEventsRepository();
+            graphUserRepo = new GraphUserRepository();
             roomService = new RoomBookerService()
             {
-                GraphRepository = graphRepo
+                GraphEventRepository = graphEventRepo,
+                GraphRepository = graphRepo,
+                GraphUserRepository = graphUserRepo
             };
         }
 
@@ -36,18 +44,10 @@ namespace Tests
             var from = new DateTime(2019, 09, 04, 07, 0, 0, DateTimeKind.Utc);
             var to = new DateTime(2019, 09, 04, 07, 15, 0, DateTimeKind.Utc);
 
-            var result = await graphRepo.GetCalendarEventsByDate(meetingRoom, from, to);
+            var result = await graphEventRepo.GetCalendarEventsByDate(meetingRoom, from, to);
             Assert.IsNotEmpty(result);
         }
 
-        [Test]
-        public async Task GetAllCalenadrEvents()
-        {
-            var meetingRoom = MeetingRooms.Hamburg.ToString();
-
-            var result = await graphRepo.GetAllCalendarEvents(meetingRoom);
-            Assert.IsNotEmpty(result);
-        }
 
         [Test]
         public async Task TestBookRoom()
@@ -76,8 +76,31 @@ namespace Tests
         {
             string userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
 
-            var user = await graphRepo.GetOffice365UserById(userId);
+            var user = await graphUserRepo.GetGraphUserById(userId);
             Assert.IsNotNull(user);
+        }
+        [Test]
+        public async Task GetAllGraphUsers()
+        {
+            var users = await graphUserRepo.GetAllGraphUsers();
+            Assert.IsNotEmpty(users);
+        }
+
+        [Test]
+        public async Task EditGraphUser()
+        {
+            string name = "", surname = "", displayName = "";
+            string userId = "";
+
+            var userDetails = new GraphUser
+            {
+                GivenName = name,
+                Surname = surname,
+                DisplayName = displayName
+            };
+
+            var users = await graphUserRepo.EditGraphUser(userId, userDetails);
+            Assert.IsTrue(users);
         }
 
         [Test]
@@ -86,7 +109,7 @@ namespace Tests
             string eventId = "AAMkADUwZGM3ZDBhLWEyOGQtNGI3My04NTE4LTYyZjg4Yzg3NDc5MwBGAAAAAADRRo8_4__FSbFENgFO65X1BwCVbXfSRkx5TowOq2ZibiTBAAAAAAENAACVbXfSRkx5TowOq2ZibiTBAAD0p8aVAAA=";
             string roomName = MeetingRooms.Hamburg.ToString();
 
-            var isDeleted = await graphRepo.DeleteEventById(eventId, roomName);
+            var isDeleted = await graphEventRepo.DeleteEventById(eventId, roomName);
 
             Assert.IsTrue(isDeleted);
         }

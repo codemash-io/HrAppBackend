@@ -7,12 +7,14 @@ namespace HrApp
 {
     public class RoomBookerService : IRoomBooker
     {
+        public IGraphEventRepository GraphEventRepository { get; set; }
+        public IGraphUserRepository GraphUserRepository { get; set; }
         public IGraphRepository GraphRepository { get; set; }
 
         public async Task<bool> BookRoom(Booking booking)
         {
             //checks if selected time available to book
-            var dateEvents = await GraphRepository.GetCalendarEventsByDate(
+            var dateEvents = await GraphEventRepository.GetCalendarEventsByDate(
                 booking.MeetingRoomName.ToString(), booking.StartTime, booking.EndTime);
 
             if (dateEvents.Count > 1 && dateEvents != null)
@@ -28,7 +30,7 @@ namespace HrApp
 
             var roomDetails = await GraphRepository.GetSelectedRoomCalendarDetails(booking.MeetingRoomName);
             var calendarEvent = await CreateEventFromBooking(booking, roomDetails);
-            var eventdId = await GraphRepository.CreateEvent(calendarEvent);
+            var eventdId = await GraphEventRepository.CreateEvent(calendarEvent);
 
             if (string.IsNullOrEmpty(eventdId))
                 throw new BusinessException("Something went wrong. Event was not created");
@@ -40,7 +42,7 @@ namespace HrApp
         public async Task<bool> EditBooking(string eventId, Booking newBooking)
         {
             //checks if selected time available to book
-            var dateEvents = await GraphRepository.GetCalendarEventsByDate(
+            var dateEvents = await GraphEventRepository.GetCalendarEventsByDate(
                 newBooking.MeetingRoomName.ToString(), newBooking.StartTime, newBooking.EndTime);
 
             if (dateEvents.Count > 1 && dateEvents != null)
@@ -60,7 +62,7 @@ namespace HrApp
             var roomDetails = await GraphRepository.GetSelectedRoomCalendarDetails(newBooking.MeetingRoomName);
             var calendarEvent = await CreateEventFromBooking(newBooking, roomDetails);
 
-            var updatedSuccessfully = await GraphRepository.EditEventById(eventId, calendarEvent);
+            var updatedSuccessfully = await GraphEventRepository.EditEventById(eventId, calendarEvent);
             if (!updatedSuccessfully)
                 throw new BusinessException("Something went wrong. Event was not updated");
 
@@ -71,7 +73,7 @@ namespace HrApp
 
         public async Task<bool> CancelBooking(string eventId, string roomName)
         {
-            var isDeleted = await GraphRepository.DeleteEventById(eventId, roomName);
+            var isDeleted = await GraphEventRepository.DeleteEventById(eventId, roomName);
 
             if(!isDeleted)
                 throw new BusinessException("Something went wrong. Event was not deleted");
@@ -84,19 +86,19 @@ namespace HrApp
             var participants = new List<Attendee>();
             foreach (var employeeId in booking.Participants)
             {
-                var participantUser = await GraphRepository.GetOffice365UserById(employeeId);
+                var participantUser = await GraphUserRepository.GetGraphUserById(employeeId);
                 var participant = new Attendee
                 {
                     EmailAddress = new EmailAddress
                     {
-                        Address = participantUser.Email,
-                        Name = participantUser.FullName,
+                        Address = participantUser.Mail,
+                        Name = participantUser.DisplayName,
                     },
                     Type = AttendeeType.Required
                 };
                 participants.Add(participant);
             }
-            var organizerUser = await GraphRepository.GetOffice365UserById(booking.Organizer);
+            var organizerUser = await GraphUserRepository.GetGraphUserById(booking.Organizer);
             var calendatEvent = new Event
             {
                 Subject = booking.Subject,
@@ -122,8 +124,8 @@ namespace HrApp
                 {
                     EmailAddress = new EmailAddress
                     {
-                        Name = organizerUser.FullName,
-                        Address = organizerUser.Email,
+                        Name = organizerUser.DisplayName,
+                        Address = organizerUser.Mail,
                     }
                 },
                 Attendees = participants
