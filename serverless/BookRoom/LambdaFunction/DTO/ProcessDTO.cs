@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LambdaFunction
 {
-    class ProcessDTO
+    public class ProcessDTO
     {
         [JsonProperty("organizerId")]
         public string OrganizerId { get; set; }

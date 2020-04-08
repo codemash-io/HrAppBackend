@@ -79,7 +79,7 @@ namespace HrApp
             if(string.IsNullOrEmpty(token))
                 token = await GetAccessToken();
 
-            var roomId = GetMeetingRoomId(meetingRoom);
+            var roomId = await GetMeetingRoomId(meetingRoom);
             var graphUrl = BaseGrpahUrl + "/users/" + roomId;
             
             using (var httpClient = new HttpClient())
@@ -108,7 +108,7 @@ namespace HrApp
             if (string.IsNullOrEmpty(token))
                 token = await GetAccessToken();
 
-            var roomId = GetMeetingRoomId(roomName);
+            var roomId = await GetMeetingRoomId(roomName);
 
             var dateFrom = from.ToUniversalTime().ToString();
             var dateTo = to.ToUniversalTime().ToString();
@@ -137,7 +137,7 @@ namespace HrApp
             if (string.IsNullOrEmpty(token))
                 token = await GetAccessToken();
 
-            var roomId = GetMeetingRoomId(roomName);
+            var roomId = await GetMeetingRoomId(roomName);
 
             var graphUrl = BaseGrpahUrl + "/users/" + roomId + "/events";
 
@@ -164,7 +164,7 @@ namespace HrApp
             if (string.IsNullOrEmpty(token))
                 token = await GetAccessToken();
        
-            var roomId = GetMeetingRoomId(calendarEvent.Location.DisplayName);
+            var roomId = await GetMeetingRoomId(calendarEvent.Location.DisplayName);
             //var calendarDetails = await GetSelectedRoomCalendarDetails(calendarEvent.Location.DisplayName);
 
             //var jsonBody = FormEventJosnBody(calendarDetails, calendarEvent);
@@ -215,7 +215,7 @@ namespace HrApp
             if (string.IsNullOrEmpty(token))
                 token = await GetAccessToken();
 
-            var roomId = GetMeetingRoomId(roomName);
+            var roomId = await GetMeetingRoomId(roomName);
 
             var graphUrl = BaseGrpahUrl + "/users/" + roomId + "/events/" + eventId;
 
@@ -238,7 +238,7 @@ namespace HrApp
             if (string.IsNullOrEmpty(token))
                 token = await GetAccessToken();
 
-            var roomId = GetMeetingRoomId(calendarEvent.Location.DisplayName);          
+            var roomId = await GetMeetingRoomId(calendarEvent.Location.DisplayName);          
 
             var jsonBody = JsonConvert.SerializeObject(calendarEvent);
 
