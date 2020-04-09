@@ -1,9 +1,11 @@
-﻿namespace HrApp
+﻿using System.Threading.Tasks;
+
+namespace HrApp
 {
     public interface IRoomBooker
     {
-        bool BookRoom(Booking booking);
-        bool EditBooking(Booking previousBooking, Booking newBooking);
-        bool CancelBooking(Booking booking);
+        Task<bool> BookRoom(Booking booking);
+        Task<bool> EditBooking(string eventId, Booking newBooking);
+        Task<bool> CancelBooking(string eventId, string roomName);
     }
 }

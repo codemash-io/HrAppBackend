@@ -16,5 +16,10 @@ namespace HrApp
 
         public static string AbsenceRequestNotificationToManager { get; set; } = "5d393081-66b2-47ac-a1e1-18c17f9d364a";
         public static string AbsenceRequestEmailToManager { get; set; } = "bfc9be45-be67-4a4a-9649-f966d54f7cdb";
+
+        //all settings for ms office365 calendar
+        public static string ClientId = "3d289c6d-1a82-4310-9b39-3b086bc911d9";
+        public static string AppSecret = "GCijr[UB]p9cbW78Zs0YsA]c=-KE5j9X";
+        public static string TenantId = "a4a29742-209d-4f5f-abdd-395b9defc82a";
     }
 }
