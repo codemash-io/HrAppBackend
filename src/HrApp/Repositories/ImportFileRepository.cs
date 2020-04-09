@@ -41,7 +41,7 @@ namespace HrApp
             new UploadRecordFileRequest
             {
                 RecordId = recordId,
-                CollectionName = "import-files",
+                CollectionName = "rivile-imports",
                 UniqueFieldName = "error_file"
             });
 

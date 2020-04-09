@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="CodeMash.Core" Version="2.0.148" />
     <PackageReference Include="GemBox.Spreadsheet" Version="45.0.0.1094" />
+    <PackageReference Include="Microsoft.Graph" Version="3.0.1" />
     <PackageReference Include="NPOI" Version="2.5.1" />
     <PackageReference Include="sautinsoft.document" Version="4.2.1.24" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
