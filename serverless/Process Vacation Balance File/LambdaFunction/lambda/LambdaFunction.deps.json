@@ -51,7 +51,7 @@
           }
         }
       },
-      "CodeMash.Core/2.0.147": {
+      "CodeMash.Core/2.0.148": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "3.1.1",
           "Microsoft.Extensions.Configuration.Abstractions": "3.1.1",
@@ -131,6 +131,18 @@
           "lib/netstandard2.0/GemBox.Spreadsheet.dll": {
             "assemblyVersion": "45.0.200.1094",
             "fileVersion": "45.0.200.1094"
+          }
+        }
+      },
+      "Microsoft.AspNet.WebApi.Client/5.2.7": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "Newtonsoft.Json.Bson": "1.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Net.Http.Formatting.dll": {
+            "assemblyVersion": "5.2.7.0",
+            "fileVersion": "5.2.61128.0"
           }
         }
       },
@@ -414,6 +426,31 @@
           }
         }
       },
+      "Microsoft.Graph/3.0.1": {
+        "dependencies": {
+          "Microsoft.Graph.Core": "1.20.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Graph.dll": {
+            "assemblyVersion": "3.0.1.0",
+            "fileVersion": "3.0.1.0"
+          }
+        }
+      },
+      "Microsoft.Graph.Core/1.20.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "System.Diagnostics.DiagnosticSource": "4.6.0",
+          "System.Net.Http": "4.3.3",
+          "System.ValueTuple": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.1/Microsoft.Graph.Core.dll": {
+            "assemblyVersion": "1.20.0.0",
+            "fileVersion": "1.20.0.0"
+          }
+        }
+      },
       "Microsoft.Net.Http.Headers/2.1.1": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "3.1.1",
@@ -528,6 +565,17 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "12.0.0.0",
             "fileVersion": "12.0.3.23909"
+          }
+        }
+      },
+      "Newtonsoft.Json.Bson/1.0.1": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.1.20722"
           }
         }
       },
@@ -840,13 +888,12 @@
           "System.Runtime": "4.3.1"
         }
       },
-      "System.Diagnostics.DiagnosticSource/4.3.0": {
-        "dependencies": {
-          "System.Collections": "4.3.0",
-          "System.Diagnostics.Tracing": "4.3.0",
-          "System.Reflection": "4.3.0",
-          "System.Runtime": "4.3.1",
-          "System.Threading": "4.3.0"
+      "System.Diagnostics.DiagnosticSource/4.6.0": {
+        "runtime": {
+          "lib/netstandard1.3/System.Diagnostics.DiagnosticSource.dll": {
+            "assemblyVersion": "4.0.4.0",
+            "fileVersion": "4.700.19.46214"
+          }
         }
       },
       "System.Diagnostics.Process/4.1.0": {
@@ -1045,12 +1092,12 @@
         }
       },
       "System.Memory/4.5.3": {},
-      "System.Net.Http/4.3.0": {
+      "System.Net.Http/4.3.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.1.0",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Debug": "4.3.0",
-          "System.Diagnostics.DiagnosticSource": "4.3.0",
+          "System.Diagnostics.DiagnosticSource": "4.6.0",
           "System.Diagnostics.Tracing": "4.3.0",
           "System.Globalization": "4.3.0",
           "System.Globalization.Extensions": "4.3.0",
@@ -1135,7 +1182,7 @@
           "System.Diagnostics.Tracing": "4.3.0",
           "System.Globalization": "4.3.0",
           "System.IO": "4.3.0",
-          "System.Net.Http": "4.3.0",
+          "System.Net.Http": "4.3.3",
           "System.Net.Primitives": "4.3.0",
           "System.Net.WebHeaderCollection": "4.3.0",
           "System.Resources.ResourceManager": "4.3.0",
@@ -1630,6 +1677,13 @@
           "System.Runtime.Handles": "4.3.0"
         }
       },
+      "System.ValueTuple/4.3.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.1"
+        }
+      },
       "System.Xml.ReaderWriter/4.3.0": {
         "dependencies": {
           "System.Collections": "4.3.0",
@@ -1719,8 +1773,10 @@
       },
       "HrApp/1.0.0": {
         "dependencies": {
-          "CodeMash.Core": "2.0.147",
+          "CodeMash.Core": "2.0.148",
           "GemBox.Spreadsheet": "45.0.0.1094",
+          "Microsoft.AspNet.WebApi.Client": "5.2.7",
+          "Microsoft.Graph": "3.0.1",
           "NPOI": "2.5.1",
           "sautinsoft.document": "4.2.1.24"
         },
@@ -1757,12 +1813,12 @@
       "path": "amazon.lambda.serialization.json/1.5.0",
       "hashPath": "amazon.lambda.serialization.json.1.5.0.nupkg.sha512"
     },
-    "CodeMash.Core/2.0.147": {
+    "CodeMash.Core/2.0.148": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-sFVPprXES9+1o99ITuAbaT1XlRgd0O0OXLKgYIFYjowQdfPP0At4IrMLA9jrdQG47vGCNuPC5YGza5QvvnMcgQ==",
-      "path": "codemash.core/2.0.147",
-      "hashPath": "codemash.core.2.0.147.nupkg.sha512"
+      "sha512": "sha512-uEGvInWivsrlzuRvC2aLyt4P4Y1yS3V4v8GIYH40zFuCYhyfyDq5k5/KWhBjGmbRUK1MkCloWls06+1kIxm61Q==",
+      "path": "codemash.core/2.0.148",
+      "hashPath": "codemash.core.2.0.148.nupkg.sha512"
     },
     "DnsClient/1.2.0": {
       "type": "package",
@@ -1777,6 +1833,13 @@
       "sha512": "sha512-/9uVWaiDe5cySkUNnXoH1I1xKWYyW67YnmVniI9++ACZ3yGOSG8wyIXUSRcTAy2emB3WuLUX7sAfH58mln9tvA==",
       "path": "gembox.spreadsheet/45.0.0.1094",
       "hashPath": "gembox.spreadsheet.45.0.0.1094.nupkg.sha512"
+    },
+    "Microsoft.AspNet.WebApi.Client/5.2.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/76fAHknzvFqbznS6Uj2sOyE9rJB3PltY+f53TH8dX9RiGhk02EhuFCWljSj5nnqKaTsmma8DFR50OGyQ4yJ1g==",
+      "path": "microsoft.aspnet.webapi.client/5.2.7",
+      "hashPath": "microsoft.aspnet.webapi.client.5.2.7.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/2.1.1": {
       "type": "package",
@@ -1960,6 +2023,20 @@
       "path": "microsoft.extensions.primitives/3.1.1",
       "hashPath": "microsoft.extensions.primitives.3.1.1.nupkg.sha512"
     },
+    "Microsoft.Graph/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aHSdt6ItifPKFN8Ds8R54MDi18PerQL/BgVIcnk6/npR4a6JuPnyXPyCTzv2774d4SGgSOLKCNd+niMaO63bkg==",
+      "path": "microsoft.graph/3.0.1",
+      "hashPath": "microsoft.graph.3.0.1.nupkg.sha512"
+    },
+    "Microsoft.Graph.Core/1.20.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-II9Dn3mfMtN/hG9iB+4poZyIcW2g/a02ywttC6fQYIvtrHKKrUxiY1jxsiEdTG9kQ/PEXSdKQl1JWsZrxD4Epg==",
+      "path": "microsoft.graph.core/1.20.0",
+      "hashPath": "microsoft.graph.core.1.20.0.nupkg.sha512"
+    },
     "Microsoft.Net.Http.Headers/2.1.1": {
       "type": "package",
       "serviceable": true,
@@ -2029,6 +2106,13 @@
       "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
       "path": "newtonsoft.json/12.0.3",
       "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "Newtonsoft.Json.Bson/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-W5Ke5xei9yS0ljQZuT75VgSp5M43eCPm5hHAelvKyGGU4dV7hYCmtwdsxoADb/exO6pYHeu/Iki43TdYPzfESQ==",
+      "path": "newtonsoft.json.bson/1.0.1",
+      "hashPath": "newtonsoft.json.bson.1.0.1.nupkg.sha512"
     },
     "NPOI/2.5.1": {
       "type": "package",
@@ -2296,12 +2380,12 @@
       "path": "system.diagnostics.debug/4.3.0",
       "hashPath": "system.diagnostics.debug.4.3.0.nupkg.sha512"
     },
-    "System.Diagnostics.DiagnosticSource/4.3.0": {
+    "System.Diagnostics.DiagnosticSource/4.6.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-tD6kosZnTAGdrEa0tZSuFyunMbt/5KYDnHdndJYGqZoNy00XVXyACd5d6KnE1YgYv3ne2CjtAfNXo/fwEhnKUA==",
-      "path": "system.diagnostics.diagnosticsource/4.3.0",
-      "hashPath": "system.diagnostics.diagnosticsource.4.3.0.nupkg.sha512"
+      "sha512": "sha512-mbBgoR0rRfl2uimsZ2avZY8g7Xnh1Mza0rJZLPcxqiMWlkGukjmRkuMJ/er+AhQuiRIh80CR/Hpeztr80seV5g==",
+      "path": "system.diagnostics.diagnosticsource/4.6.0",
+      "hashPath": "system.diagnostics.diagnosticsource.4.6.0.nupkg.sha512"
     },
     "System.Diagnostics.Process/4.1.0": {
       "type": "package",
@@ -2422,12 +2506,12 @@
       "path": "system.memory/4.5.3",
       "hashPath": "system.memory.4.5.3.nupkg.sha512"
     },
-    "System.Net.Http/4.3.0": {
+    "System.Net.Http/4.3.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Z1UfSF6dlpCdZdxh6LeoGlYH+q6ptG/iiIWgUUeKhE3DbQACmZkU7Sz2nOX0qdHjz72MOdYRbkSJ5Qwl6sZgvg==",
-      "path": "system.net.http/4.3.0",
-      "hashPath": "system.net.http.4.3.0.nupkg.sha512"
+      "sha512": "sha512-7rCqIbkC/P2+A00NoDH5gnvFhADmX7Dc4INvsOajbU1MVhktE9vZNrjPtF82N6Uo7obK+yzlrPUv/M+snnN/9w==",
+      "path": "system.net.http/4.3.3",
+      "hashPath": "system.net.http.4.3.3.nupkg.sha512"
     },
     "System.Net.NameResolution/4.3.0": {
       "type": "package",
@@ -2799,6 +2883,13 @@
       "sha512": "sha512-k/+g4b7vjdd4aix83sTgC9VG6oXYKAktSfNIJUNGxPEj7ryEOfzHHhfnmsZvjxawwcD9HyWXKCXmPjX8U4zeSw==",
       "path": "system.threading.threadpool/4.3.0",
       "hashPath": "system.threading.threadpool.4.3.0.nupkg.sha512"
+    },
+    "System.ValueTuple/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cNLEvBX3d6MMQRZe3SMFNukVbitDAEpVZO17qa0/2FHxZ7Y7PpFRpr6m2615XYM/tYYYf0B+WyHNujqIw8Luwg==",
+      "path": "system.valuetuple/4.3.0",
+      "hashPath": "system.valuetuple.4.3.0.nupkg.sha512"
     },
     "System.Xml.ReaderWriter/4.3.0": {
       "type": "package",

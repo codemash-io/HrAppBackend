@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HrApp
 {
-    [Collection("import-files")]
+    [Collection("rivile-imports")]
     public class ImportFileEintity:Entity
     {
         [Field("creation_date")]
