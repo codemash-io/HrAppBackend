@@ -96,8 +96,19 @@ namespace HrApp
         }
         public async Task SendEmailToManagerAboutEmployeeAbsence(string email, EmployeeEntity employee, AbsenceRequestEntity absence, string reason)
         {
-            var start = absence.AbsenceStart.ToString("0");
-            var end = absence.AbsenceEnd.ToString("0");
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var beginTime = epoch.AddMilliseconds(absence.AbsenceStart).AddHours(8);
+            var endTime = epoch.AddMilliseconds(absence.AbsenceEnd).AddHours(8);
+
+            var begin = beginTime.ToUniversalTime().Subtract(
+    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+    ).TotalMilliseconds;
+            var endTimefloat = endTime.ToUniversalTime().Subtract(
+    new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+    ).TotalMilliseconds;
+
+            var start = begin.ToString("0");
+            var end = endTimefloat.ToString("0");
             var emailService = new CodeMashEmailService(Client);
             var response = await emailService.SendEmailAsync(
                 new SendEmailRequest()
@@ -111,7 +122,8 @@ namespace HrApp
                         { "type.name.en", reason},
                         { "From", start},
                         { "To", end}
-                    },                    
+                    },                  
+                    
                 }
             );
         }

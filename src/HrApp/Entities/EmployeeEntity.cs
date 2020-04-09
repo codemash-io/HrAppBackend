@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
  namespace HrApp
  {
-     [Collection("pc-employees")]
+    [Collection("pc-employees")]
+    //[Collection("pc-employees-testing")]
     public class EmployeeEntity : Entity
     {
         [Field("first_name")]
@@ -43,6 +44,9 @@ using System.Collections.Generic;
         public string ManagerId { get; set; }
         [Field("business_email")]
         public string BusinessEmail { get; set; }
+        [Field("number_of_holidays_left")]
+        public int NumberOfHolidays { get; set; }
     }
 
  }
+

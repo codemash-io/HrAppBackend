@@ -15,5 +15,6 @@ namespace HrApp
 
         Task<List<EmployeeEntity>> GetEmployeesWhoNotAbsence(List<EmployeeEntity> employees, DateTime lunchDate);
 
+        Task<bool> UpdateVacationBalance(Personal person);
     }
 }
