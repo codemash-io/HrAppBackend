@@ -69,7 +69,9 @@ namespace LambdaFunction
 
             var roomService = new RoomBookerService()
             {
-                GraphRepository = new GraphRepository()
+                GraphRepository = new GraphRepository(),
+                GraphEventRepository = new GraphEventsRepository(),
+                GraphUserRepository = new GraphUserRepository()
             };
 
             var isDeleted = await roomService.CancelBooking(eventId, roomName);

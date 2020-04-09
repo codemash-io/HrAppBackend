@@ -36,9 +36,11 @@ namespace HrApp
                 var response = await httpClient.GetAsync(graphUrl);
                 var resultString = await response.Content.ReadAsStringAsync();
 
-                dynamic resultJson = JObject.Parse(resultString);
-                var eventDetails = resultJson.value;
-                var events = graphRepository.MapCalendarEvent(eventDetails);
+                var resultJson = JObject.Parse(resultString);
+
+                var eventDetails = resultJson["value"].ToString();
+
+                var events = JsonConvert.DeserializeObject<List<Event>>(eventDetails);
 
                 return events;
             }
@@ -51,9 +53,7 @@ namespace HrApp
                 token = await graphRepository.GetAccessToken();
 
             var roomId = await graphRepository.GetMeetingRoomId(calendarEvent.Location.DisplayName);
-            //var calendarDetails = await GetSelectedRoomCalendarDetails(calendarEvent.Location.DisplayName);
 
-            //var jsonBody = FormEventJosnBody(calendarDetails, calendarEvent);
             var jsonBody = JsonConvert.SerializeObject(calendarEvent);
 
             var graphUrl = graphRepository.BaseGraphUrl + "/users/" + roomId + "/events";
@@ -67,6 +67,7 @@ namespace HrApp
                     new StringContent(jsonBody, Encoding.UTF8, "application/json"));
 
                 var resultString = await response.Content.ReadAsStringAsync();
+
                 dynamic resultJson = JObject.Parse(resultString);
                 string cretedEventId = Convert.ToString(resultJson.id);
                 return cretedEventId;
@@ -88,6 +89,8 @@ namespace HrApp
                     new AuthenticationHeaderValue("Bearer", token);
 
                 var response = await httpClient.DeleteAsync(graphUrl);
+
+
                 if (response.IsSuccessStatusCode)
                     return true;
                 else
@@ -114,6 +117,8 @@ namespace HrApp
 
                 var response = await httpClient.PatchAsync(graphUrl,
                     new StringContent(jsonBody, Encoding.UTF8, "application/json"));
+
+
                 if (response.IsSuccessStatusCode)
                     return true;
                 else

@@ -70,7 +70,7 @@ namespace LambdaFunction
             if (string.IsNullOrEmpty(roomName))
                 throw new BusinessException("All fields must be filled with data");
 
-            var repo = new GraphRepository();
+            var repo = new GraphEventsRepository();
 
             var roomEvents = await repo.GetCalendarEventsByDate(roomName, dateFrom, dateTo);
 

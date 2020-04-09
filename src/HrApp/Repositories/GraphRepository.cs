@@ -114,7 +114,7 @@ namespace HrApp
             throw new BusinessException("No such a room exists");
         }
 
-        public List<Event> MapCalendarEvent(dynamic eventDetails)
+        /*public List<Event> MapCalendarEvent(dynamic eventDetails)
         {
             var allEvents = new List<Event>();
             foreach (var detail in eventDetails)
@@ -156,7 +156,7 @@ namespace HrApp
                 allEvents.Add(obj);
             }
             return allEvents;
-        }
+        }*/
 
     }
 }

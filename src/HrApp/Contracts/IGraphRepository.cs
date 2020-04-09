@@ -10,7 +10,7 @@ namespace HrApp
     {
         Task<string> GetAccessToken();
         Task<RoomDetails> GetSelectedRoomCalendarDetails(string meetingRoom);
-        List<Event> MapCalendarEvent(dynamic eventDetails);
+       // List<Event> MapCalendarEvent(dynamic eventDetails);
         Task<string> GetMeetingRoomId(string room);
 
 

@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Graph;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -62,6 +64,34 @@ namespace HrApp
             }
         }
 
+        public async Task<GraphUser> CreateGraphUser(GraphUser newUser)
+        {
+            var token = Environment.GetEnvironmentVariable("token");
+            if (string.IsNullOrEmpty(token))
+                token = await graphRepository.GetAccessToken();
+
+            var jsonBody = JsonConvert.SerializeObject(newUser);
+            var graphUrl = graphRepository.BaseGraphUrl + "/users";
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await httpClient.PostAsync(graphUrl,
+                    new StringContent(jsonBody, Encoding.UTF8, "application/json"));
+
+                var resultString = await response.Content.ReadAsStringAsync();
+
+                var createdUser = JsonConvert.DeserializeObject<GraphUser>(resultString);
+                if (response.IsSuccessStatusCode)
+                    return createdUser;
+                else
+                    throw new BusinessException("Something went wrong. User was not created");
+            }
+        }
+
+
         public async Task<bool> EditGraphUser(string userId, GraphUser userDetails)
         {
             var token = Environment.GetEnvironmentVariable("token");
@@ -84,6 +114,64 @@ namespace HrApp
                     return true;
                 else
                     return false;
+            }
+        }
+
+        public async Task<bool> EditGraphUserAvatar(string userId, byte[] imageStream)
+        {
+            var token = Environment.GetEnvironmentVariable("token");
+            if (string.IsNullOrEmpty(token))
+                token = await graphRepository.GetAccessToken();
+
+            var byteArrayContent = new ByteArrayContent(imageStream.ToArray());
+            byteArrayContent.Headers.ContentType = new MediaTypeWithQualityHeaderValue("image/jpeg");
+
+            var graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId + "/photo/$value";
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("image/jpeg"));
+
+                var response = await httpClient.PutAsync(graphUrl, byteArrayContent);
+
+                if (response.IsSuccessStatusCode)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        public async Task<List<Event>> GetUserReminderView(string userId, DateTime from, DateTime to)
+        {
+            var token = Environment.GetEnvironmentVariable("token");
+            if (string.IsNullOrEmpty(token))
+                token = await graphRepository.GetAccessToken();
+
+            var dateFrom = from.ToUniversalTime().ToString();
+            var dateTo = to.ToUniversalTime().ToString();
+
+            var graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                "/reminderView(startDateTime='" + dateFrom + 
+                "',endDateTime='" + dateTo + "')";
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await httpClient.GetAsync(graphUrl);
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. Check your input data");
+
+                var resultString = await response.Content.ReadAsStringAsync();
+                var resultJson = JObject.Parse(resultString);
+
+                var eventDetails = resultJson["value"].ToString();
+                var reminders = JsonConvert.DeserializeObject<List<Event>>(eventDetails);
+
+                return reminders;        
             }
         }
     }
