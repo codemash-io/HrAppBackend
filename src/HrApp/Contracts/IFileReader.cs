@@ -8,7 +8,7 @@ namespace HrApp
 {
     public interface IFileReader
     {
-        Task<VacationBalance> ProcessFile(Stream fileStream);
+        VacationBalance ProcessFile(Stream fileStream, ref bool hasError);
 
     }
 }

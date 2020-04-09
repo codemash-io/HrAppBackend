@@ -14,8 +14,9 @@ namespace HrApp
         public IEmployeesRepository EmployeeRepo { get; set; }
 
 
-        public async Task ReadExcel(ImportFileEintity importFile)
+        public async Task ProcessVacationBalanceFile(string id)
         {
+            var importFile = await ImportFileRepo.GetImportFileById(id);
             var hasError = false;
             var fileId = FileRepo.GetFileId(importFile);
 
@@ -29,7 +30,7 @@ namespace HrApp
             {
                 vacationStream.CopyTo(fileStream);
                 fileStream.Seek(0, SeekOrigin.Begin);
-                var vacations = await FileReader.ProcessFile(fileStream);
+                var vacations = FileReader.ProcessFile(fileStream, ref hasError);
                 if (!hasError)
                 {
                     foreach (var employee in vacations.Employees)
@@ -57,10 +58,7 @@ namespace HrApp
                     await UploadErrorFile(importFile.Id);
                     await ImportFileRepo.UpdateErrorStatus(importFile.Id, false);
                 }
-
-
-
-
+                Logger.ClearData();
             }             
         }
         private async Task UploadErrorFile(string recordId)

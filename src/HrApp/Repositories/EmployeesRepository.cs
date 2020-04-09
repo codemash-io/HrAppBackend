@@ -111,7 +111,7 @@ namespace HrApp
             catch (Exception)
             {
                 Logger logger = Logger.GetLogger();
-                logger.Log(person.Employee + " not exist in database");
+                logger.Log(person.Employee + " does not exist in the database");
                 return true;
             }
 

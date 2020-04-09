@@ -8,7 +8,7 @@ namespace HrApp
 {
     public interface IFileService
     {
-        Task ReadExcel(ImportFileEintity importFile);
+        Task ProcessVacationBalanceFile(string id);
 
     }
 }

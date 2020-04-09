@@ -37,13 +37,7 @@ namespace Tests
 
             await repo.GenerateAbsenceWordAsync(employee, " Kasmetiniu atostogu", abscence, "a", "a", "a");
         }
-        [Fact]
-        public async Task Test_Check_If_Trigger_Works()
-        {
-            var repo = new AbsenceRepository();
-           // await repo.UpdateStatus();
-
-        }
+   
 
         [Fact]
         public async Task Test_Generate_Employee_Report_Word()
@@ -138,9 +132,8 @@ namespace Tests
                 EmployeeRepo = new EmployeesRepository()
             };
             
-           var import = await importFileRepo.GetImportFileById("5e8c38902d02340001e7ee53");
 
-            await fileService.ReadExcel(import);
+            await fileService.ProcessVacationBalanceFile("5e8c38902d02340001e7ee53");
             
         }
     }

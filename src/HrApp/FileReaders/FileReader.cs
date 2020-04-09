@@ -12,7 +12,7 @@ namespace HrApp
 {
     public class FileReader:IFileReader
     {
-        public async Task<VacationBalance> ProcessFile(Stream fileStream) {
+        public VacationBalance ProcessFile(Stream fileStream, ref bool hasError) {
             VacationBalance vacationBalance = new VacationBalance();
             IWorkbook book=null;
             ICell cellName = null;
@@ -31,7 +31,7 @@ namespace HrApp
                 
                 cellName = sheet.GetRow(rowIndex).GetCell(1);
                 cellName.SetCellType(CellType.String);
-              //  double.TryParse(cellTotal.StringCellValue, out totalBalance)
+        
                 if (cellTotal.StringCellValue != "" && cellName.StringCellValue !="")
                 {
                     if (cellTotal.StringCellValue != "Priklauso")
@@ -51,16 +51,13 @@ namespace HrApp
                             });
                         }
                         else {
+                            hasError = true;
                             Logger logger = Logger.GetLogger();
                             var column = ((char)70).ToString();
-                            var message = String.Format("Error in line: {0}, coll: {1} " + rowIndex, column);
+                            var message = String.Format("Error in line: {0}, coll: {1} ", rowIndex, column);
                             logger.Log(message);                          
-                        }
-
-                        
+                        }                                                
                     }
-
-
                     rowIndex++;
                 }
                 else {
