@@ -142,15 +142,21 @@ namespace HrApp
                     return false;
             }
         }
-
+        /// <summary>
+        /// Lists all selected user reminders
+        /// </summary>
+        /// <param name="userId">Selected user ID</param>
+        /// <param name="from">Date from in UTC time</param>
+        /// <param name="to">Date to in UTC time</param>
+        /// <returns></returns>
         public async Task<List<Event>> GetUserReminderView(string userId, DateTime from, DateTime to)
         {
             var token = Environment.GetEnvironmentVariable("token");
             if (string.IsNullOrEmpty(token))
                 token = await graphRepository.GetAccessToken();
 
-            var dateFrom = from.ToUniversalTime().ToString();
-            var dateTo = to.ToUniversalTime().ToString();
+            var dateFrom = from.ToString("yyyy-MM-ddTHH:mm:ss");
+            var dateTo = to.ToString("yyyy-MM-ddTHH:mm:ss");
 
             var graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
                 "/reminderView(startDateTime='" + dateFrom + 

@@ -14,6 +14,13 @@ namespace HrApp
     public class GraphEventsRepository : IGraphEventRepository
     {
         private readonly GraphRepository graphRepository = new GraphRepository();
+        /// <summary>
+        /// Lists all calendar events by selected room
+        /// </summary>
+        /// <param name="roomName">Room name</param>
+        /// <param name="from">Date from in UTC time</param>
+        /// <param name="to">Date to in UTC time</param>
+        /// <returns></returns>
         public async Task<List<Event>> GetCalendarEventsByDate(string roomName, DateTime from, DateTime to)
         {
             var token = Environment.GetEnvironmentVariable("token");
@@ -22,8 +29,8 @@ namespace HrApp
 
             var roomId = await graphRepository.GetMeetingRoomId(roomName);
 
-            var dateFrom = from.ToUniversalTime().ToString();
-            var dateTo = to.ToUniversalTime().ToString();
+            var dateFrom = from.ToString("yyyy-MM-ddTHH:mm:ss");
+            var dateTo = to.ToString("yyyy-MM-ddTHH:mm:ss");
 
             var graphUrl = graphRepository.BaseGraphUrl + "/users/" + roomId + "/calendarView?startDateTime="
                 + dateFrom + "&endDateTime=" + dateTo;

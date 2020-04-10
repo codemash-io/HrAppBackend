@@ -114,49 +114,5 @@ namespace HrApp
             throw new BusinessException("No such a room exists");
         }
 
-        /*public List<Event> MapCalendarEvent(dynamic eventDetails)
-        {
-            var allEvents = new List<Event>();
-            foreach (var detail in eventDetails)
-            {
-                var users = new List<Attendee>();
-                foreach (var user in detail.attendees)
-                    users.Add(new Attendee
-                    {
-                        EmailAddress = new EmailAddress
-                        {
-                            Name = Convert.ToString(user.emailAddress.name),
-                            Address = Convert.ToString(user.emailAddress.address)
-                        },
-                        Type = AttendeeType.Required
-                    });
-
-                var obj = new Event
-                {
-                    Subject = Convert.ToString(detail.subject),
-                    Start = DateTimeTimeZone.FromDateTime(Convert.ToDateTime(detail.start.dateTime)),
-                    End = DateTimeTimeZone.FromDateTime(Convert.ToDateTime(detail.end.dateTime)),
-                    Attendees = users,
-                    Organizer = new Recipient
-                    {
-                        EmailAddress = new EmailAddress
-                        {
-                            Name = Convert.ToString(detail.organizer.emailAddress.name),
-                            Address = Convert.ToString(detail.organizer.emailAddress.address)
-                        }
-                    },
-                    Location = new Location
-                    {
-                        DisplayName = Convert.ToString(detail.location.displayName)
-                    },
-                    Id = detail.id
-                    
-                };
-
-                allEvents.Add(obj);
-            }
-            return allEvents;
-        }*/
-
     }
 }

@@ -170,6 +170,7 @@ namespace Tests
             // Load file meta data with FileInfo
             string fileInfo = @"C:\Users\Mantas\Desktop\123\24011.jpg";
             byte[] data = System.IO.File.ReadAllBytes(fileInfo);
+            var strin = data.ToString();
             // The byte[] to save the data in
             /*byte[] data = new byte[fileInfo.Length];
 
@@ -208,9 +209,6 @@ namespace Tests
             //+2h because when event is created it saves time in UTC
             var from = new DateTime(2020, 01, 01, 12, 45, 0);
             var to = new DateTime(2020, 01, 01, 14, 30, 0);
-
-
-            var te = DateTime.Parse("2020-01-01T09:00:00");
 
             var reminders = await graphUserRepo.GetUserReminderView(userId, from, to);
             Assert.IsNotEmpty(reminders);
