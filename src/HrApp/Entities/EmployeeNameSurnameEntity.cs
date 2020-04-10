@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HrApp
 {
-    [Collection("pc-employees-testing")]
+    [Collection("pc-employees")]
     public class EmployeeNameSurnameEntity : Entity
     {
 
