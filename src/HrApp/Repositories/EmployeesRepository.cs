@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeMash.Client;
+using CodeMash.Project.Services;
 using CodeMash.Repository;
 using HrApp.Domain;
+using Isidos.CodeMash.ServiceContracts;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -92,7 +94,17 @@ namespace HrApp
 
             return employee;
         }
+        public async Task<EmployeeNameSurnameEntity> GetEmployeeProjectionById(string employeeId)
+        {
+            var repo = new CodeMashRepository<EmployeeNameSurnameEntity>(Client);
+            var projection = Builders<EmployeeNameSurnameEntity>.Projection
+            .Include(x => x.FirstName)
+            .Include(x => x.LastName);
 
+            var employee = await repo.FindAsync<EmployeeNameSurnameEntity>(x=>x.Id==employeeId,projection,null,new DatabaseFindOptions(){});
+
+            return employee.Items[0];
+        }
         public async Task<bool> UpdateVacationBalance(Personal person)
         {
             var repo = new CodeMashRepository<EmployeeEntity>(Client);
@@ -117,5 +129,51 @@ namespace HrApp
 
             return false;
         }
+        public async Task UpdateInfoFromNoobForm(NoobFormEntity noobFormEntity)
+        {
+            var repo = new CodeMashRepository<EmployeeEntity>(Client);
+            EmergencyContact emergency = new EmergencyContact() {
+                Name = noobFormEntity.EmergencyContactName,
+                Phone = noobFormEntity.EmergencyPhone,
+                Position = noobFormEntity.RelationsWithContact
+            };
+
+            var updateBuilder = Builders<EmployeeEntity>.Update;
+            var update = updateBuilder.Set(emp => emp.IBAN, noobFormEntity.IBAN)
+                .Set(emp => emp.Address, noobFormEntity.Address)
+                .Set(emp => emp.ComputerPart, noobFormEntity.ComputerPart)
+                .Set(emp => emp.DesribeYourselfIn3Words, noobFormEntity.DesribeYourselfIn3Words)
+                .Set(emp => emp.DocumentExpirationDate, noobFormEntity.DocumentExpirationDate)
+                .AddToSet(emp => emp.Emergency, emergency)
+                .Set(emp => emp.FunnyFact, noobFormEntity.FunnyFact)
+                .Set(emp => emp.GoAnywhere, noobFormEntity.GoAnywhere)
+                .Set(emp => emp.HiddenTalent, noobFormEntity.HiddenTalent)
+                .Set(emp => emp.IBAN, noobFormEntity.IBAN)
+                .Set(emp => emp.MovieOrBook, noobFormEntity.MovieOrBook)
+                .Set(emp => emp.PassOrIDCardNo, noobFormEntity.PassOrIDCardNo)
+                .Set(emp => emp.PersonalId, noobFormEntity.PersonalId)                
+                .Set(emp => emp.SpareTime, noobFormEntity.SpareTime);
+
+
+            await repo.UpdateOneAsync(x=>x.Id == noobFormEntity.FormRespondentId, update, new DatabaseUpdateOneOptions());
+        }
+        public async Task InsertPhoto(byte[] photo, string recordId, string fileName)
+        {
+            var filesService = new CodeMashFilesService(Client);
+
+
+            var response = await filesService.UploadRecordFileAsync(photo, fileName,
+                     new UploadRecordFileRequest
+                     {
+                         UniqueFieldName = "photo",
+                         CollectionName = "pc-employees",
+                         RecordId = recordId
+
+                     }
+                 );
+
+
+        }
+
     }
 }

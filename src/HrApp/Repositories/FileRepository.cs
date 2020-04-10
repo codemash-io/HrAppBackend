@@ -70,6 +70,17 @@ namespace HrApp
              return fileId;
            
         }
+        public string GetFileId(object photo)
+        {
+            var source = photo.ToString();
+            //parsing formated string json
+            dynamic data = JObject.Parse(source);
+            //accessing json fields
+            string fileId = data.id;
+            string fileType = data.originalFileName;
+            return fileId;
+        }
+
 
         public async Task<Stream> GetFile(string fileId)
         {
@@ -83,6 +94,16 @@ namespace HrApp
             return response;
         }
 
-       
+        public async Task<byte[]> GetFileBytes(string fileId)
+        {
+            var filesRepo = new CodeMashFilesService(Client);
+
+            var response = await filesRepo.GetFileBytesAsync(new GetFileRequest()
+            {
+                FileId = fileId,
+                ProjectId = Settings.ProjectId
+            });
+            return response;
+        }
     }
 }
