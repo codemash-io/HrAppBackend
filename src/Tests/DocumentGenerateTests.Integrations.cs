@@ -1,8 +1,6 @@
-﻿using System;
+﻿using HrApp;
+using System;
 using System.Threading.Tasks;
-using HrApp;
-using HrApp.Generators;
-using HrApp.Repositories;
 using Xunit;
 
 namespace Tests
