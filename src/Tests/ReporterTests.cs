@@ -120,7 +120,7 @@ namespace Tests
         [Test]
         public void TestCanEmployeeAccessReports()
         {
-            EmployeeEntity emp = new EmployeeEntity { Role = 2 };
+            EmployeeEntity emp = new EmployeeEntity { };//Role = 2 };
 
             IReportsService reportService = new ReportsService
             {

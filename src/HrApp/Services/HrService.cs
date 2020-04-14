@@ -68,9 +68,9 @@ namespace HrApp
                 var fileId = FileRepository.GetFileId(form.Photo[0]);                              
 
                 var photo = await FileRepository.GetFileBytes(fileId);
-                var employee =await EmployeesRepository.GetEmployeeProjectionById(form.FormRespondentId);
+               var employee =await EmployeesRepository.GetEmployeeProjectionById(form.Meta.ResponsibleUser);
                 var fileName = employee.FirstName + " " + employee.LastName + ".jpg";
-                await EmployeesRepository.InsertPhoto(photo, form.FormRespondentId, fileName);
+                await EmployeesRepository.InsertPhoto(photo, employee.Id, fileName);
             }
             return form;
         }
