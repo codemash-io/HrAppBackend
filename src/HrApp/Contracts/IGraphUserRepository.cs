@@ -15,5 +15,6 @@ namespace HrApp
         Task<List<Event>> GetUserReminderView(string userId, DateTime from, DateTime to);
         Task<GraphUser> CreateGraphUser(GraphUser newUser);
         Task<bool> EditGraphUserAvatar(string userId, byte[] imageStream);
+        Task<byte[]> GetUserProfilePhoto(string userId, string size);
     }
 }

@@ -165,23 +165,24 @@ namespace Tests
         [Test]
         public async Task UpdateGraphUserAvatar()
         {
-            var userId = "be8c2cf4-a4a4-49e5-b097-f6add3a935fa";
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
 
             // Load file meta data with FileInfo
-            string fileInfo = @"C:\Users\Mantas\Desktop\123\24011.jpg";
+            string fileInfo = @"C:\Users\Mantas\Desktop\123\360x360.png";
             byte[] data = System.IO.File.ReadAllBytes(fileInfo);
-            var strin = data.ToString();
-            // The byte[] to save the data in
-            /*byte[] data = new byte[fileInfo.Length];
 
-            // Load a filestream and put its content into the byte[]
-            using (FileStream fs = fileInfo.OpenRead())
-            {
-                fs.Read(data, 0, data.Length);
-            }*/
             var createdUser = await graphUserRepo.EditGraphUserAvatar(userId, data);
 
             Assert.IsNotNull(createdUser);
+        }
+        [Test]
+        public async Task GetUserPhoto()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+
+            var size = "360x360";
+            var bytes = await graphUserRepo.GetUserProfilePhoto(userId, size);
+            Assert.IsNotEmpty(bytes);
         }
 
         [Test]
