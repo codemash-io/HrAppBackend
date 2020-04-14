@@ -9,6 +9,8 @@ namespace HrApp
         public IEmployeesRepository EmployeesRepository { get; set; }
         public INotificationSender NotificationSender { get; set; }
         public IAbsenceRepository AbsenceRequestRepository { get; set; }
+        public INoobRepository NoobRepository { get; set; }
+        public IFileRepository FileRepository { get; set; }
         public async Task<List<EmployeeEntity>> GetEmployeesWhoWorksOnLunchDay(Division division, DateTime lunchDate)
         {          
             var employees = await EmployeesRepository.GetEmployeesWhoAreNotInBussinessTrip(division, lunchDate);
@@ -55,6 +57,24 @@ namespace HrApp
                 throw new BusinessException("Employe doesn't have a manager");
             }
         }
+
+        public async Task<NoobFormEntity> ProcessNoobForm(string noobFormId)
+        {
+            var form = await NoobRepository.GetNoobFormById(noobFormId);
+
+            await EmployeesRepository.UpdateInfoFromNoobForm(form);
+            if (form.Photo.Count != 0)
+            {
+                var fileId = FileRepository.GetFileId(form.Photo[0]);                              
+
+                var photo = await FileRepository.GetFileBytes(fileId);
+                var employee =await EmployeesRepository.GetEmployeeProjectionById(form.FormRespondentId);
+                var fileName = employee.FirstName + " " + employee.LastName + ".jpg";
+                await EmployeesRepository.InsertPhoto(photo, form.FormRespondentId, fileName);
+            }
+            return form;
+        }
+
 
     }
 }
