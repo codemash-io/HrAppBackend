@@ -12,5 +12,7 @@ namespace HrApp
         Task<string> UploadFile(string fileName, DocumentCore doc, string abscenceId);
         string GetFileId(ImportFileEintity file);
         Task<Stream> GetFile(string fileId);
+        string GetFileId(object photo);
+        Task<byte[]> GetFileBytes(string fileId);
     }
 }
