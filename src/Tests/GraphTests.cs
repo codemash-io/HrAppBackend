@@ -15,6 +15,7 @@ namespace Tests
         GraphRepository graphRepo;
         GraphUserRepository graphUserRepo;
         GraphEventsRepository graphEventRepo;
+        GraphContactRepository graphContactRepo;
 
         RoomBookerService roomService;
 
@@ -24,6 +25,7 @@ namespace Tests
             graphRepo = new GraphRepository();
             graphEventRepo = new GraphEventsRepository();
             graphUserRepo = new GraphUserRepository();
+            graphContactRepo = new GraphContactRepository();
             roomService = new RoomBookerService()
             {
                 GraphEventRepository = graphEventRepo,
@@ -165,23 +167,24 @@ namespace Tests
         [Test]
         public async Task UpdateGraphUserAvatar()
         {
-            var userId = "be8c2cf4-a4a4-49e5-b097-f6add3a935fa";
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
 
             // Load file meta data with FileInfo
-            string fileInfo = @"C:\Users\Mantas\Desktop\123\24011.jpg";
+            string fileInfo = @"C:\Users\Mantas\Desktop\123\360x360.png";
             byte[] data = System.IO.File.ReadAllBytes(fileInfo);
-            var strin = data.ToString();
-            // The byte[] to save the data in
-            /*byte[] data = new byte[fileInfo.Length];
 
-            // Load a filestream and put its content into the byte[]
-            using (FileStream fs = fileInfo.OpenRead())
-            {
-                fs.Read(data, 0, data.Length);
-            }*/
             var createdUser = await graphUserRepo.EditGraphUserAvatar(userId, data);
 
             Assert.IsNotNull(createdUser);
+        }
+        [Test]
+        public async Task GetUserPhoto()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+
+            var size = "360x360";
+            var bytes = await graphUserRepo.GetUserProfilePhoto(userId, size);
+            Assert.IsNotEmpty(bytes);
         }
 
         [Test]
@@ -212,6 +215,96 @@ namespace Tests
 
             var reminders = await graphUserRepo.GetUserReminderView(userId, from, to);
             Assert.IsNotEmpty(reminders);
+        }
+
+        [Test]
+        public async Task GetAllUserContacts()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+
+            var contacts = await graphContactRepo.GetAllUserContacts(userId);
+            Assert.IsNotEmpty(contacts);
+        }
+        [Test]
+        public async Task GetUserContactById()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var contactId = "AAMkADE2M2NhNTBhLTdlM2YtNDY1Mi1iZDIzLTU0MTU4ODY0ZjZjZQBGAAAAAACY-buA42x5RqvUdVGejluQBwCfssnsHwkhRrDM-OroFcp6AAAAAAEOAACfssnsHwkhRrDM-OroFcp6AAB-vVVuAAA=";
+
+            var contact = await graphContactRepo.GetUserContactById(userId, contactId);
+            Assert.IsNotNull(contact);
+        }
+
+        [Test]
+        public async Task CreateUserContact()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            string givenName = "mantas",
+                surname = "daunoravicius",
+                email = "mantasd@presentconnection.eu";
+
+            givenName = givenName.First().ToString().ToUpper() + givenName.Substring(1);
+            surname = surname.First().ToString().ToUpper() + surname.Substring(1);
+
+            var contact = new Contact
+            {
+                GivenName = givenName,
+                Surname = surname,
+                EmailAddresses = new List<EmailAddress>
+                {
+                    new EmailAddress
+                    {
+                        Address = email,
+                        Name = givenName + " " + surname + " (" + email + ")"
+                    }
+                },
+                Initials = givenName.ToUpper()[0] + "."+surname.ToUpper()[0]
+            };
+
+            var createdContact = await graphContactRepo.CreateUserContact(userId, contact);
+            Assert.IsNotNull(createdContact);
+        }
+
+        [Test]
+        public async Task UpdateUserContact()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var contactId = "AAMkADE2M2NhNTBhLTdlM2YtNDY1Mi1iZDIzLTU0MTU4ODY0ZjZjZQBGAAAAAACY-buA42x5RqvUdVGejluQBwCfssnsHwkhRrDM-OroFcp6AAAAAAEOAACfssnsHwkhRrDM-OroFcp6AAB-vVVuAAA=";
+            string displayName = "mantas d", surname = "d", name = "mantas",
+                homePhones= "asdasd", mobilePhone = "asda" ,bussphones = "asd";
+            string street = "some street", city = "kaunas", postcode = "123";
+            var contact = new Contact
+            {
+                DisplayName = displayName,
+                GivenName = name,
+                Surname = surname,
+                HomeAddress = new PhysicalAddress 
+                {
+                    Street = street,
+                    City = city,
+                    PostalCode = postcode
+                },
+                BusinessPhones = new List<string> { bussphones },
+                HomePhones = new List<string> { homePhones },
+                MobilePhone = mobilePhone
+
+            };
+
+            var createdContact = await graphContactRepo.UpdateUserContact(
+                userId, contactId, contact);
+            Assert.IsNotNull(createdContact);
+        }
+
+        [Test]
+        public async Task DeleteUserContact()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var contactId = "AAMkADE2M2NhNTBhLTdlM2YtNDY1Mi1iZDIzLTU0MTU4ODY0ZjZjZQBGAAAAAACY-buA42x5RqvUdVGejluQBwCfssnsHwkhRrDM-OroFcp6AAAAAAEOAACfssnsHwkhRrDM-OroFcp6AAB-vVVvAAA=";
+
+            var isDeletedSuccessfully = await graphContactRepo.DeleteUserContact(
+                userId, contactId);
+
+            Assert.IsTrue(isDeletedSuccessfully);
         }
     }
 }

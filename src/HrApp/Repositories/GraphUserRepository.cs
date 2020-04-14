@@ -159,7 +159,7 @@ namespace HrApp
             var dateTo = to.ToString("yyyy-MM-ddTHH:mm:ss");
 
             var graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
-                "/reminderView(startDateTime='" + dateFrom + 
+                "/reminderView(startDateTime='" + dateFrom +
                 "',endDateTime='" + dateTo + "')";
 
             using (var httpClient = new HttpClient())
@@ -177,7 +177,41 @@ namespace HrApp
                 var eventDetails = resultJson["value"].ToString();
                 var reminders = JsonConvert.DeserializeObject<List<Event>>(eventDetails);
 
-                return reminders;        
+                return reminders;
+            }
+        }
+        public async Task<byte[]> GetUserProfilePhoto(string userId, string size)
+        {
+            string graphUrl;
+            if (string.IsNullOrEmpty(size))
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                "/photo/$value";
+
+            else if (size != "48x48" && size != "64x64" && size != "96x96" && size != "120x120" &&
+                size != "240x240" && size != "360x360" && size != "432x432" && size != "504x504" &&
+                size != "648x648")
+                throw new BusinessException("Image size should be one of the following: " +
+                    "48x48, 64x64, 96x96, 120x120, 240x240, 360x360, 432x432, 504x504, 648x648");
+            else
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                "/photos/" + size + "/$value";
+
+            var token = Environment.GetEnvironmentVariable("token");
+            if (string.IsNullOrEmpty(token))
+                token = await graphRepository.GetAccessToken();
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await httpClient.GetAsync(graphUrl);
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. Check your input data");
+
+                var resultBytes = await response.Content.ReadAsByteArrayAsync();
+
+                return resultBytes;
             }
         }
     }
