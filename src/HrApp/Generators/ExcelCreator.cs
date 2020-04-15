@@ -6,7 +6,7 @@ using HrApp.Contracts;
 using HrApp.Entities;
 using HrApp.Repositories;
 
-namespace HrApp.Generators
+namespace HrApp
 {
     public class ExcelCreator : IDocumentCreator
     {

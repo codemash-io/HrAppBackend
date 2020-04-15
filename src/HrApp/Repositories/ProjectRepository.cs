@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HrApp.Repositories
+namespace HrApp
 {
     public class ProjectRepository : IProjectRepository
     {
