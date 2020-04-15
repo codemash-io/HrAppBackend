@@ -51,7 +51,7 @@
           }
         }
       },
-      "CodeMash.Core/2.0.144": {
+      "CodeMash.Core/2.0.148": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "3.1.1",
           "Microsoft.Extensions.Configuration.Abstractions": "3.1.1",
@@ -1773,7 +1773,7 @@
       },
       "HrApp/1.0.0": {
         "dependencies": {
-          "CodeMash.Core": "2.0.144",
+          "CodeMash.Core": "2.0.148",
           "GemBox.Spreadsheet": "45.0.0.1094",
           "Microsoft.AspNet.WebApi.Client": "5.2.7",
           "Microsoft.Graph": "3.0.1",
@@ -1813,12 +1813,12 @@
       "path": "amazon.lambda.serialization.json/1.5.0",
       "hashPath": "amazon.lambda.serialization.json.1.5.0.nupkg.sha512"
     },
-    "CodeMash.Core/2.0.144": {
+    "CodeMash.Core/2.0.148": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-YK0eYQ6bw9u5Wer0RIO7QYqoD7sVTWEP4PyMbNyC5CKRq/IDvWo6c7pPZ0czgAhxnn3bVMaBB3LX7trOOaXfug==",
-      "path": "codemash.core/2.0.144",
-      "hashPath": "codemash.core.2.0.144.nupkg.sha512"
+      "sha512": "sha512-uEGvInWivsrlzuRvC2aLyt4P4Y1yS3V4v8GIYH40zFuCYhyfyDq5k5/KWhBjGmbRUK1MkCloWls06+1kIxm61Q==",
+      "path": "codemash.core/2.0.148",
+      "hashPath": "codemash.core.2.0.148.nupkg.sha512"
     },
     "DnsClient/1.2.0": {
       "type": "package",

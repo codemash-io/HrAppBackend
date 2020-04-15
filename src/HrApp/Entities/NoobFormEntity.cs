@@ -9,8 +9,8 @@ namespace HrApp
     [Collection("n00b-forms")]
     public class NoobFormEntity:Entity
     {
-        [Field("form_respondent_id")]
-        public string FormRespondentId { get; set; }
+        [Field("_meta")]
+        public Meta Meta { get; set; }
         [Field("id")]
         public string PersonalId { get; set; }
         [Field("address")]
@@ -44,5 +44,12 @@ namespace HrApp
         [Field("spare_time")]
         public string SpareTime { get; set; }
        
+    }
+
+    public class Meta
+    {
+        [Field("responsibleUserId")]
+        public string ResponsibleUser { get; set; }
+
     }
 }

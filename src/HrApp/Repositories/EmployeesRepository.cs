@@ -74,8 +74,8 @@ namespace HrApp
         {
             var repo = new CodeMashRepository<EmployeeEntity>(Client);
 
-            await repo.UpdateOneAsync(x => x.Id == employeeId,
-                Builders<EmployeeEntity>.Update.Set(x => x.TimeWorked, Math.Round(time, 2)), null);
+           // await repo.UpdateOneAsync(x => x.Id == employeeId,
+              //  Builders<EmployeeEntity>.Update.Set(x => x.TimeWorked, Math.Round(time, 2)), null);
         }
 
         public async Task<EmployeeEntity> GetEmployeeByLastName(string lastname)
@@ -94,14 +94,18 @@ namespace HrApp
 
             return employee;
         }
-        public async Task<EmployeeNameSurnameEntity> GetEmployeeProjectionById(string employeeId)
+        public async Task<EmployeeNameSurnameEntity> GetEmployeeProjectionById(string employeeUserId)
         {
             var repo = new CodeMashRepository<EmployeeNameSurnameEntity>(Client);
-            var projection = Builders<EmployeeNameSurnameEntity>.Projection
+            var filterBuilder = Builders<EmployeeNameSurnameEntity>.Filter;
+            var filter = filterBuilder.Eq("application_user", employeeUserId);
+/*
+            var projection = Builders<EmployeeEntity>.Projection
             .Include(x => x.FirstName)
-            .Include(x => x.LastName);
-
-            var employee = await repo.FindAsync<EmployeeNameSurnameEntity>(x=>x.Id==employeeId,projection,null,new DatabaseFindOptions(){});
+            .Include(x => x.LastName)
+            .Include(x => x.Id);
+            */
+            var employee = await repo.FindAsync<EmployeeNameSurnameEntity>(filter,null);
 
             return employee.Items[0];
         }
@@ -137,6 +141,8 @@ namespace HrApp
                 Phone = noobFormEntity.EmergencyPhone,
                 Position = noobFormEntity.RelationsWithContact
             };
+            var filterBuilder = Builders<EmployeeEntity>.Filter;
+            var filter = filterBuilder.Eq("application_user", noobFormEntity.Meta.ResponsibleUser);
 
             var updateBuilder = Builders<EmployeeEntity>.Update;
             var update = updateBuilder.Set(emp => emp.IBAN, noobFormEntity.IBAN)
@@ -144,7 +150,7 @@ namespace HrApp
                 .Set(emp => emp.ComputerPart, noobFormEntity.ComputerPart)
                 .Set(emp => emp.DesribeYourselfIn3Words, noobFormEntity.DesribeYourselfIn3Words)
                 .Set(emp => emp.DocumentExpirationDate, noobFormEntity.DocumentExpirationDate)
-                .AddToSet(emp => emp.Emergency, emergency)
+                .Set("emergency_contact", new List<EmergencyContact>() { emergency })
                 .Set(emp => emp.FunnyFact, noobFormEntity.FunnyFact)
                 .Set(emp => emp.GoAnywhere, noobFormEntity.GoAnywhere)
                 .Set(emp => emp.HiddenTalent, noobFormEntity.HiddenTalent)
@@ -155,7 +161,7 @@ namespace HrApp
                 .Set(emp => emp.SpareTime, noobFormEntity.SpareTime);
 
 
-            await repo.UpdateOneAsync(x=>x.Id == noobFormEntity.FormRespondentId, update, new DatabaseUpdateOneOptions());
+            await repo.UpdateOneAsync(filter, update, new DatabaseUpdateOneOptions());
         }
         public async Task InsertPhoto(byte[] photo, string recordId, string fileName)
         {
