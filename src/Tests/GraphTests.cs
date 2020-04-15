@@ -221,8 +221,9 @@ namespace Tests
         public async Task GetAllUserContacts()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            string select = null, expand = null;
 
-            var contacts = await graphContactRepo.GetAllUserContacts(userId);
+            var contacts = await graphContactRepo.GetAllUserContacts(userId, expand, select);
             Assert.IsNotEmpty(contacts);
         }
         [Test]
@@ -230,8 +231,9 @@ namespace Tests
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
             var contactId = "AAMkADE2M2NhNTBhLTdlM2YtNDY1Mi1iZDIzLTU0MTU4ODY0ZjZjZQBGAAAAAACY-buA42x5RqvUdVGejluQBwCfssnsHwkhRrDM-OroFcp6AAAAAAEOAACfssnsHwkhRrDM-OroFcp6AAB-vVVuAAA=";
+            string select = null, expand = null;
 
-            var contact = await graphContactRepo.GetUserContactById(userId, contactId);
+            var contact = await graphContactRepo.GetUserContactById(userId, contactId, expand, select);
             Assert.IsNotNull(contact);
         }
 

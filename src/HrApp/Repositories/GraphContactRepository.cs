@@ -15,14 +15,27 @@ namespace HrApp
     {
         private readonly GraphRepository graphRepository = new GraphRepository();
 
-        public async Task<List<Contact>> GetAllUserContacts(string userId)
+        public async Task<List<Contact>> GetAllUserContacts(string userId, string expand = null, string select = null)
         {
             var token = Environment.GetEnvironmentVariable("token");
             if (string.IsNullOrEmpty(token))
                 token = await graphRepository.GetAccessToken();
 
-            var graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId + 
-                "/contacts";
+            string graphUrl;
+
+            if (string.IsNullOrEmpty(expand) && string.IsNullOrEmpty(select))
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                    "/contacts/";
+            else if (string.IsNullOrEmpty(expand) && !string.IsNullOrEmpty(select))
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                    "/contacts/" + "?$select=" + select;
+            else if (!string.IsNullOrEmpty(expand) && string.IsNullOrEmpty(select))
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                    "/contacts/" + "?$expand=" + expand;
+            else
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                    "/contacts/" + "?$expand=" + expand + "&$select=" + select;
+
 
             using (var httpClient = new HttpClient())
             {
@@ -42,14 +55,26 @@ namespace HrApp
             }
         }
 
-        public async Task<Contact> GetUserContactById(string userId, string contactId)
+        public async Task<Contact> GetUserContactById(string userId, string contactId, string expand = null, string select = null)
         {
             var token = Environment.GetEnvironmentVariable("token");
             if (string.IsNullOrEmpty(token))
                 token = await graphRepository.GetAccessToken();
 
-            var graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
-                "/contacts/" + contactId;
+            string graphUrl;
+
+            if (string.IsNullOrEmpty(expand) && string.IsNullOrEmpty(select))
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                    "/contacts/" + contactId;
+            else if (string.IsNullOrEmpty(expand) && !string.IsNullOrEmpty(select))
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                    "/contacts/" + contactId + "?$select=" + select;
+            else if (!string.IsNullOrEmpty(expand) && string.IsNullOrEmpty(select))
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                    "/contacts/" + contactId + "?$expand=" + expand;
+            else
+                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
+                    "/contacts/" + contactId + "?$expand=" + expand + "&$select=" + select;
 
             using (var httpClient = new HttpClient())
             {
@@ -59,7 +84,7 @@ namespace HrApp
                 var response = await httpClient.GetAsync(graphUrl);
                 if (!response.IsSuccessStatusCode)
                     throw new BusinessException("Something went wrong. Please check your input data and try again.");
-                
+
                 var resultString = await response.Content.ReadAsStringAsync();
                 var contacts = JsonConvert.DeserializeObject<Contact>(resultString);
                 return contacts;
@@ -72,7 +97,7 @@ namespace HrApp
                 token = await graphRepository.GetAccessToken();
 
             var jsonBody = JsonConvert.SerializeObject(contact);
-            var graphUrl = graphRepository.BaseGraphUrl + "/users/" 
+            var graphUrl = graphRepository.BaseGraphUrl + "/users/"
                 + userId + "/contacts";
 
             using (var httpClient = new HttpClient())
@@ -111,7 +136,7 @@ namespace HrApp
 
                 var response = await httpClient.PatchAsync(graphUrl,
                     new StringContent(jsonBody, Encoding.UTF8, "application/json"));
-                
+
                 if (!response.IsSuccessStatusCode)
                     throw new BusinessException("Something went wrong. " +
                         "Contact was not updated. Please check your input data and try again.");
