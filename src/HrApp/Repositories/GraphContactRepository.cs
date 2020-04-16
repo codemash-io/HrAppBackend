@@ -86,8 +86,8 @@ namespace HrApp
                     throw new BusinessException("Something went wrong. Please check your input data and try again.");
 
                 var resultString = await response.Content.ReadAsStringAsync();
-                var contacts = JsonConvert.DeserializeObject<Contact>(resultString);
-                return contacts;
+                var contact = JsonConvert.DeserializeObject<Contact>(resultString);
+                return contact;
             }
         }
         public async Task<Contact> CreateUserContact(string userId, Contact contact)

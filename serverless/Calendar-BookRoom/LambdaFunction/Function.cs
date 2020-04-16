@@ -37,32 +37,23 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<Dictionary<string, bool>> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
             string subject, organizerId, roomName;
             DateTime startTime, endTime;
             List<string> participantsIds;
-            if (lambdaEvent.Input.Data != null)
+
+            if (lambdaEvent.Input.Data != "")
             {
-                if (lambdaEvent.Input.Data != "")
-                {
-                    ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    subject = items.Subject;
-                    organizerId = items.OrganizerId;
-                    startTime = items.StartTime;
-                    endTime = items.EndTime;
-                    participantsIds = items.ParticipantsIds;
-                    roomName = items.RoomName;
-                }
-                else
-                {
-                    subject = Environment.GetEnvironmentVariable("subject");
-                    organizerId = Environment.GetEnvironmentVariable("organizerId");
-                    startTime = DateTime.Parse(Environment.GetEnvironmentVariable("startTime"));
-                    endTime = DateTime.Parse(Environment.GetEnvironmentVariable("endTime"));
-                    participantsIds = Environment.GetEnvironmentVariable("participantsIds").Split(',').ToList();
-                    roomName = Environment.GetEnvironmentVariable("roomName");
-                }
+                ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
+                subject = items.Subject;
+                organizerId = items.OrganizerId;
+                startTime = items.StartTime;
+                endTime = items.EndTime;
+                participantsIds = items.ParticipantsIds;
+                roomName = items.RoomName;
+                if (items.ApiKey != null)
+                    HrApp.Settings.ApiKey = items.ApiKey;
             }
             else
             {
@@ -72,14 +63,15 @@ namespace LambdaFunction
                 endTime = DateTime.Parse(Environment.GetEnvironmentVariable("endTime"));
                 participantsIds = Environment.GetEnvironmentVariable("participantsIds").Split(',').ToList();
                 roomName = Environment.GetEnvironmentVariable("roomName");
+                if (Environment.GetEnvironmentVariable("apiKey") != null)
+                    HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("apiKey");
             }
-            if (Environment.GetEnvironmentVariable("ApiKey") != null)
-            {
-                HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
-            }
-            else
+            if (HrApp.Settings.ApiKey == null)
                 throw new BusinessException("ApiKey not set");
-            if (string.IsNullOrEmpty(roomName))
+
+            if (string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(organizerId) || 
+                string.IsNullOrEmpty(roomName) || participantsIds == null ||
+                participantsIds.Count == 0)
                 throw new BusinessException("All fields must be filled with data");
 
             var roomService = new RoomBookerService()
@@ -94,23 +86,11 @@ namespace LambdaFunction
 
             var isBookedSuccessfully = await roomService.BookRoom(booking);
 
-            // - Get variable from appsettings.json file
-            var nestedSettings = AppSettings.GetString("NestedParams:NestedParam1");
-
-            // - Response body can be any serializable object
-            var response = new
+            var response = new Dictionary<string, bool>
             {
-                isBookedSuccessfully,
-                nestedSettings, 
-                lambdaEvent,
+                {"isBookedSuccessfully", isBookedSuccessfully }
             };
-            
-            return new APIGatewayProxyResponse
-            {
-                Body = JsonConvert.SerializeObject(response),
-                StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+            return response;
         }
     }
 }

@@ -32,6 +32,9 @@ namespace HrApp
 
                 var response = await httpClient.GetAsync(graphUrl);
 
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. " +
+                        "Please check your input data and try again.");
                 var resultString = await response.Content.ReadAsStringAsync();
 
                 var user = JsonConvert.DeserializeObject<GraphUser>(resultString);
@@ -53,6 +56,10 @@ namespace HrApp
                     new AuthenticationHeaderValue("Bearer", token);
 
                 var response = await httpClient.GetAsync(graphUrl);
+
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. " +
+                        "Please check your input data and try again.");
 
                 var resultString = await response.Content.ReadAsStringAsync();
                 var resultJson = JObject.Parse(resultString);
@@ -81,13 +88,14 @@ namespace HrApp
                 var response = await httpClient.PostAsync(graphUrl,
                     new StringContent(jsonBody, Encoding.UTF8, "application/json"));
 
-                var resultString = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. " +
+                        "User was not created. Please check your input data and try again.");
 
+                var resultString = await response.Content.ReadAsStringAsync();
                 var createdUser = JsonConvert.DeserializeObject<GraphUser>(resultString);
-                if (response.IsSuccessStatusCode)
-                    return createdUser;
-                else
-                    throw new BusinessException("Something went wrong. User was not created");
+
+                return createdUser;
             }
         }
 
@@ -109,11 +117,11 @@ namespace HrApp
 
                 var response = await httpClient.PatchAsync(graphUrl,
                     new StringContent(jsonBody, Encoding.UTF8, "application/json"));
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. " +
+                        "User was not updated. Please check your input data and try again.");
 
-                if (response.IsSuccessStatusCode)
-                    return true;
-                else
-                    return false;
+                return true;
             }
         }
 
@@ -135,11 +143,11 @@ namespace HrApp
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("image/jpeg"));
 
                 var response = await httpClient.PutAsync(graphUrl, byteArrayContent);
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. " +
+                        "Avatar was not updated. Please check your input data and try again.");
 
-                if (response.IsSuccessStatusCode)
-                    return true;
-                else
-                    return false;
+                return true;
             }
         }
         /// <summary>

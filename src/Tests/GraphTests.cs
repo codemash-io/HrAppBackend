@@ -230,7 +230,7 @@ namespace Tests
         public async Task GetUserContactById()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
-            var contactId = "AAMkADE2M2NhNTBhLTdlM2YtNDY1Mi1iZDIzLTU0MTU4ODY0ZjZjZQBGAAAAAACY-buA42x5RqvUdVGejluQBwCfssnsHwkhRrDM-OroFcp6AAAAAAEOAACfssnsHwkhRrDM-OroFcp6AAB-vVVuAAA=";
+            var contactId = "AAMkADE2M2NhNTBhLTdlM2YtNDY1Mi1iZDIzLTU0MTU4ODY0ZjZjZQBGAAAAAACY-buA42x5RqvUdVGejluQBwCfssnsHwkhRrDM-OroFcp6AAAAAAEOAACfssnsHwkhRrDM-OroFcp6AAB-vVVxAAA=";
             string select = null, expand = null;
 
             var contact = await graphContactRepo.GetUserContactById(userId, contactId, expand, select);

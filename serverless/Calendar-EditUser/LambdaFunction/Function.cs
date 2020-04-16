@@ -37,26 +37,18 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<Dictionary<string, bool>> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
             string name, surname, displayName, userId;
             if (lambdaEvent.Input.Data != null)
             {
-                if (lambdaEvent.Input.Data != null)
-                {
-                    ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    name = items.Name;
-                    surname = items.Surname;
-                    displayName = items.DisplayName;
-                    userId = items.UserId;
-                }
-                else
-                {
-                    name = Environment.GetEnvironmentVariable("name");
-                    surname = Environment.GetEnvironmentVariable("surname");
-                    displayName = Environment.GetEnvironmentVariable("displayName");
-                    userId = Environment.GetEnvironmentVariable("userId");
-                }
+                ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
+                name = items.Name;
+                surname = items.Surname;
+                displayName = items.DisplayName;
+                userId = items.UserId;
+                if (items.ApiKey != null)
+                    HrApp.Settings.ApiKey = items.ApiKey;
             }
             else
             {
@@ -64,13 +56,12 @@ namespace LambdaFunction
                 surname = Environment.GetEnvironmentVariable("surname");
                 displayName = Environment.GetEnvironmentVariable("displayName");
                 userId = Environment.GetEnvironmentVariable("userId");
+                if (Environment.GetEnvironmentVariable("apiKey") != null)
+                    HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("apiKey");
             }
-            if (Environment.GetEnvironmentVariable("ApiKey") != null)
-            {
-                HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
-            }
-            else
+            if (HrApp.Settings.ApiKey == null)
                 throw new BusinessException("ApiKey not set");
+
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(displayName) || 
                 string.IsNullOrEmpty(surname) || string.IsNullOrEmpty(userId))
                 throw new BusinessException("All fields must be filled with data");
@@ -83,26 +74,13 @@ namespace LambdaFunction
             };
 
             var graphUserRepo = new GraphUserRepository();
-
             var isUserUpdatedSuccessfully = await graphUserRepo.EditGraphUser(userId, userDetails);
 
-            // - Get variable from appsettings.json file
-            var nestedSettings = AppSettings.GetString("NestedParams:NestedParam1");
-
-            // - Response body can be any serializable object
-            var response = new
+            var response = new Dictionary<string, bool>
             {
-                isUserUpdatedSuccessfully,
-                nestedSettings, 
-                lambdaEvent,
+                {"isUserUpdatedSuccessfully", isUserUpdatedSuccessfully }
             };
-            
-            return new APIGatewayProxyResponse
-            {
-                Body = JsonConvert.SerializeObject(response),
-                StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+            return response;
         }
     }
 }

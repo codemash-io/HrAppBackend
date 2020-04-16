@@ -23,7 +23,7 @@ namespace LambdaFunction.Tests
 
             // Get response from function
             var result = await function.Handler(new CustomEventRequest<BasicInput>(), new TestLambdaContext());
-            var resultBody = JsonConvert.DeserializeObject<JObject>(result.Body);
+            //var resultBody = JsonConvert.DeserializeObject<JObject>(result.Body);
         }
     }
 }

@@ -8,6 +8,7 @@ using LambdaFunction.Inputs;
 using LambdaFunction.Services;
 using LambdaFunction.Settings;
 using HrApp;
+using Microsoft.Graph;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -36,26 +37,18 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<Contact> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
             string userId, contactId, expand, select;
             if (lambdaEvent.Input.Data != null)
             {
-                if (lambdaEvent.Input.Data != null)
-                {
-                    ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    userId = items.UserId;
-                    contactId = items.ContactId;
-                    expand = items.Expand;
-                    select = items.Select;
-                }
-                else
-                {
-                    userId = Environment.GetEnvironmentVariable("userId");
-                    contactId = Environment.GetEnvironmentVariable("contactId");
-                    expand = Environment.GetEnvironmentVariable("expand");
-                    select = Environment.GetEnvironmentVariable("select");
-                }
+                ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
+                userId = items.UserId;
+                contactId = items.ContactId;
+                expand = items.Expand;
+                select = items.Select;
+                if (items.ApiKey != null)
+                    HrApp.Settings.ApiKey = items.ApiKey;
             }
             else
             {
@@ -63,25 +56,18 @@ namespace LambdaFunction
                 contactId = Environment.GetEnvironmentVariable("contactId");
                 expand = Environment.GetEnvironmentVariable("expand");
                 select = Environment.GetEnvironmentVariable("select");
+                if (Environment.GetEnvironmentVariable("apiKey") != null)
+                    HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("apiKey");
             }
-            if (Environment.GetEnvironmentVariable("ApiKey") != null)
-            {
-                HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
-            }
-            else
+            if(HrApp.Settings.ApiKey == null)
                 throw new BusinessException("ApiKey not set");
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(contactId))
-                throw new BusinessException("userId and contactId fields must be filled with data");
+                 throw new BusinessException("userId and contactId fields cannot be empty!");
 
             GraphContactRepository graphContactRepo = new GraphContactRepository();
             var contact = await graphContactRepo.GetUserContactById(userId, contactId, expand, select);
 
-            return new APIGatewayProxyResponse
-            {
-                Body = JsonConvert.SerializeObject(contact),
-                StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+            return contact;
         }
     }
 }

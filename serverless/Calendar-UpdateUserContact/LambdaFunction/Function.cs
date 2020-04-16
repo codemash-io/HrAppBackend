@@ -37,36 +37,28 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<Contact> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
             string userId, contactId;
             Contact contact = null;
             if (lambdaEvent.Input.Data != null)
             {
-                if (lambdaEvent.Input.Data != null)
-                {
-                    ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    userId = items.UserId;
-                    contactId = items.ContactId;
-                    contact = items.Contact;
-                }
-                else
-                {
-                    userId = Environment.GetEnvironmentVariable("userId");
-                    contactId = Environment.GetEnvironmentVariable("contactId");
-                }
+                ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
+                userId = items.UserId;
+                contactId = items.ContactId;
+                contact = items.Contact;
+                if (items.ApiKey != null)
+                    HrApp.Settings.ApiKey = items.ApiKey;
             }
             else
             {
                 userId = Environment.GetEnvironmentVariable("userId");
                 contactId = Environment.GetEnvironmentVariable("contactId");
+                if (Environment.GetEnvironmentVariable("apiKey") != null)
+                    HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("apiKey");
             }
-            if (Environment.GetEnvironmentVariable("ApiKey") != null)
-            {
-                HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
-            }
-            else
-                throw new BusinessException("ApiKey not set");
+            if (HrApp.Settings.ApiKey == null)
+                throw new BusinessException("ApiKey not set");         
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(contactId))
                 throw new BusinessException("All fields must be filled with data");
             if (contact == null)
@@ -74,15 +66,10 @@ namespace LambdaFunction
 
             GraphContactRepository graphContactRepo = new GraphContactRepository();
 
-            var createdContact = await graphContactRepo.UpdateUserContact(
+            var updatedContact = await graphContactRepo.UpdateUserContact(
                 userId, contactId, contact);
-       
-            return new APIGatewayProxyResponse
-            {
-                Body = JsonConvert.SerializeObject(createdContact),
-                StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+
+            return updatedContact;
         }
     }
 }

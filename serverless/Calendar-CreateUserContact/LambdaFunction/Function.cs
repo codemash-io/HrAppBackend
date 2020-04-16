@@ -38,53 +38,41 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<Contact> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
             string userId;
             Contact contact = null;
             if (lambdaEvent.Input.Data != null)
             {
-                if (lambdaEvent.Input.Data != null)
-                {
-                    ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    userId = items.UserId;
-                    contact = items.Contact;
-                }
-                else
-                {
-                    userId = Environment.GetEnvironmentVariable("userId");
-                }
+                ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
+                userId = items.UserId;
+                contact = items.Contact;
+                if (items.ApiKey != null)
+                    HrApp.Settings.ApiKey = items.ApiKey;
             }
             else
             {
                 userId = Environment.GetEnvironmentVariable("userId");
+                if (Environment.GetEnvironmentVariable("apiKey") != null)
+                    HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("apiKey");
             }
-            if (Environment.GetEnvironmentVariable("ApiKey") != null)
-            {
-                HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
-            }
-            else
+            if (HrApp.Settings.ApiKey == null)
                 throw new BusinessException("ApiKey not set");
             if (string.IsNullOrEmpty(userId) || contact == null)
                 throw new BusinessException("userId and contact fields is required");
-
             if (string.IsNullOrEmpty(contact.GivenName) || string.IsNullOrEmpty(contact.Surname)
                 || contact.EmailAddresses == null)
                 throw new BusinessException("Contact should have: GivenName, Surname, EmailAddresses fields filled");
 
             GraphContactRepository graphContactRepo = new GraphContactRepository();
+
             //making name and surname first letters upper
             contact.GivenName = contact.GivenName.First().ToString().ToUpper() + contact.GivenName.Substring(1);
             contact.Surname = contact.Surname.First().ToString().ToUpper() + contact.Surname.Substring(1);
 
             var createdContact = await graphContactRepo.CreateUserContact(userId, contact);
 
-            return new APIGatewayProxyResponse
-            {
-                Body = JsonConvert.SerializeObject(createdContact),
-                StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+            return createdContact;
         }
     }
 }

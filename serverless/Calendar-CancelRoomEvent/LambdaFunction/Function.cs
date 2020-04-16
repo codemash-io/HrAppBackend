@@ -36,35 +36,27 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<Dictionary<string, bool>> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
             string roomName, eventId;
-            if (lambdaEvent.Input.Data != null)
+            if (lambdaEvent.Input.Data != "")
             {
-                if (lambdaEvent.Input.Data != "")
-                {
-                    ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    roomName = items.RoomName;
-                    eventId = items.EventId;
-                }
-                else
-                {
-                    roomName = Environment.GetEnvironmentVariable("roomName");
-                    eventId = Environment.GetEnvironmentVariable("eventId");
-                }
+                ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
+                roomName = items.RoomName;
+                eventId = items.EventId;
+                if (items.ApiKey != null)
+                    HrApp.Settings.ApiKey = items.ApiKey;
             }
             else
             {
                 roomName = Environment.GetEnvironmentVariable("roomName");
                 eventId = Environment.GetEnvironmentVariable("eventId");
+                if (Environment.GetEnvironmentVariable("apiKey") != null)
+                    HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("apiKey");
             }
-            if (Environment.GetEnvironmentVariable("ApiKey") != null)
-            {
-                HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
-            }
-            else
+            if (HrApp.Settings.ApiKey == null)
                 throw new BusinessException("ApiKey not set");
-            if (string.IsNullOrEmpty(roomName))
+            if (string.IsNullOrEmpty(roomName) || string.IsNullOrEmpty(eventId))
                 throw new BusinessException("All fields must be filled with data");
 
             var roomService = new RoomBookerService()
@@ -73,28 +65,13 @@ namespace LambdaFunction
                 GraphEventRepository = new GraphEventsRepository(),
                 GraphUserRepository = new GraphUserRepository()
             };
+            var isCanceled = await roomService.CancelBooking(eventId, roomName);
 
-            var isDeleted = await roomService.CancelBooking(eventId, roomName);
-
-            // - Get variable from appsettings.json file
-            var nestedSettings = AppSettings.GetString("NestedParams:NestedParam1");
-
-            // - Response body can be any serializable object
-            var response = new
+            var response = new Dictionary<string, bool>
             {
-                eventId,
-                roomName,
-                isDeleted,
-                nestedSettings, 
-                lambdaEvent,
+                { "isCanceled", isCanceled }
             };
-            
-            return new APIGatewayProxyResponse
-            {
-                Body = JsonConvert.SerializeObject(response),
-                StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+            return response;
         }
     }
 }
