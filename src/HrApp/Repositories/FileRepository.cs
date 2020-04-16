@@ -1,4 +1,5 @@
 ﻿using CodeMash.Client;
+using CodeMash.Code.Services;
 using CodeMash.Project.Services;
 using Isidos.CodeMash.ServiceContracts;
 using Newtonsoft.Json.Linq;
@@ -70,7 +71,17 @@ namespace HrApp
              return fileId;
            
         }
-        public string GetFileId(object photo)
+        public string GetFileId(object file)
+        {
+            var source = file.ToString();
+            //parsing formated string json
+            dynamic data = JObject.Parse(source);
+            //accessing json fields
+            string fileId = data.fileId;
+            string fileType = data.originalFileName;
+            return fileId;
+        }
+        public string GetPhotoId(object photo)
         {
             var source = photo.ToString();
             //parsing formated string json
@@ -105,5 +116,23 @@ namespace HrApp
             });
             return response;
         }
+
+        public async Task<string> GenerateLunchOrderReport(string data)
+        {
+            var codeService = new CodeMashCodeService(Client);
+
+            var response = await codeService.ExecuteFunctionAsync(new ExecuteFunctionRequest
+            {
+                Id = Guid.Parse(Settings.LunchOrderReportTemplate),
+                Tokens = new Dictionary<string, string>()
+               {
+                   { "order", data}
+               }
+            });
+            var fileId = GetFileId(response.Result);
+
+            return fileId;
+        }
     }
 }
+

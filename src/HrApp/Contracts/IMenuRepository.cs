@@ -36,5 +36,6 @@ namespace HrApp
         /// </summary>
         /// <returns></returns>
         Task<Menu> GetClosestMenu();
+        Task InsertFileInLunchMenu(string fileId, string field, string entityId);
     }
 }

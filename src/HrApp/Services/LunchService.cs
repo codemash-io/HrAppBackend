@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -11,7 +12,9 @@ namespace HrApp
         public IHrService HrService { get; set; }
         public IMenuRepository MenuRepository { get; set; }
         public INotificationSender NotificationSender { get; set; }
-        
+        public IAggregateRepository AggregateRepository { get; set; }
+        public IFileRepository FileRepository { get; set; }
+
         public async Task<Menu> CreateBlankMenu(Division division)
         {
             if (division == null)
@@ -165,6 +168,20 @@ namespace HrApp
             await NotificationSender.SendNotificationAboutFoodIsArrived(employees);
             
         }
+
+
+        public async Task FormatReportsOnLunchOrders(string lunchMenuId)
+        {
+            var order = await AggregateRepository.LunchMenuReport(lunchMenuId);
+            var imporvedOrder = new LunchOrderAggregate();    
+            order.Date = order.Date + 1000 * 60 * 60 * 2;
+            var data = JsonConvert.SerializeObject(order);
+            var fileId = await FileRepository.GenerateLunchOrderReport(data);
+            await MenuRepository.InsertFileInLunchMenu(fileId, "food_list_file", lunchMenuId);
+        }
+
+
+
 
         private bool IsLunchTodayOrTomorrow(DateTime lunchtime)
         {

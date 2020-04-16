@@ -269,6 +269,17 @@ namespace HrApp
            );
         }
 
-       
+        public async Task InsertFileInLunchMenu(string fileId, string field, string entityId)
+        {
+            var repo = new CodeMashRepository<MenuEntity>(Client);
+            var update = Builders<MenuEntity>.Update
+                .Set(field, new List<string> { fileId });
+            var response = await repo.UpdateOneAsync(
+                 entityId,
+                 update,
+                 new DatabaseUpdateOneOptions() { WaitForFileUpload = true }
+            );
+        }
+
     }
 }

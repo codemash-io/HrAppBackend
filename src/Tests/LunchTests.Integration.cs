@@ -134,6 +134,18 @@ namespace Tests
             
         }
 
-
+        [Fact]
+        public async Task LunchOrderReportTest()
+        {
+            var repo = new LunchService()
+            {
+                HrService = new HrService() { EmployeesRepository = new EmployeesRepository() },
+                MenuRepository = new MenuRepository(),
+                NotificationSender = new NotificationSender(),
+                AggregateRepository = new AggregateRepository(),
+                FileRepository = new FileRepository()
+            };
+            await repo.FormatReportsOnLunchOrders("5e6a1b980187c000015b0767");
+        }
     }
 }
