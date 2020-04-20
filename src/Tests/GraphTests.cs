@@ -16,6 +16,7 @@ namespace Tests
         GraphUserRepository graphUserRepo;
         GraphEventsRepository graphEventRepo;
         GraphContactRepository graphContactRepo;
+        GraphFileRepository graphFileRepo;
 
         RoomBookerService roomService;
 
@@ -26,6 +27,7 @@ namespace Tests
             graphEventRepo = new GraphEventsRepository();
             graphUserRepo = new GraphUserRepository();
             graphContactRepo = new GraphContactRepository();
+            graphFileRepo = new GraphFileRepository();
             roomService = new RoomBookerService()
             {
                 GraphEventRepository = graphEventRepo,
@@ -192,7 +194,7 @@ namespace Tests
         {
             string name = "Mantas", surname = "Daunoravicius", 
                 displayName = "Mantas Daunoravicius";
-            string userId = "be8c2cf4-a4a4-49e5-b097-f6add3a935fa";
+            string userId = "6d7a8195-b675-44d4-95f5-e214151d414c";
 
             var userDetails = new GraphUser
             {
@@ -307,6 +309,39 @@ namespace Tests
                 userId, contactId);
 
             Assert.IsTrue(isDeletedSuccessfully);
+        }
+
+        [Test]
+        public async Task GetAllUserDrives()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+
+            var drives = await graphFileRepo.GetAllUserDrives(userId, null, "driveType,name");
+            Assert.IsNotEmpty(drives);
+        }
+        [Test]
+        public async Task GetDriveById()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+
+            var drive = await graphFileRepo.GetUserSelectedOrDefaultDrive(userId);
+            Assert.IsNotNull(drive);
+        }
+        [Test]
+        public async Task GetSpecialFolder()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+
+            var driveItem = await graphFileRepo.GetSpecialFolder(userId, "documents");
+            Assert.IsNotNull(driveItem);
+        }
+        [Test]
+        public async Task SharedWithMe()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+
+            var sharedItems = await graphFileRepo.SharedWithMe(userId);
+            Assert.IsNotEmpty(sharedItems);
         }
     }
 }
