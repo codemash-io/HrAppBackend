@@ -343,5 +343,61 @@ namespace Tests
             var sharedItems = await graphFileRepo.SharedWithMe(userId);
             Assert.IsNotEmpty(sharedItems);
         }
+        [Test]
+        public async Task ListChildren()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var driveId = "b!ReYerZXwIUaQE56F9g7elp_trKttyjpDrqdNlLfdo1_XiI-cLy0nSp4JI6beeTCj";
+            var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
+            var path = "New Folder 1";
+            var type = GraphResourceTypes.users.ToString();
+            //root
+            var children = await graphFileRepo.ListChildren(type, userId);
+            Assert.IsNotEmpty(children);
+            //with itemId
+            var children2 = await graphFileRepo.ListChildren(type, userId, itemId);
+            Assert.IsNotEmpty(children2);
+            //with path
+            var children3 = await graphFileRepo.ListChildren(type, userId, null, path);
+            Assert.IsNotEmpty(children3);
+        }
+
+        [Test]
+        public async Task GetItem()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var driveId = "b!ReYerZXwIUaQE56F9g7elp_trKttyjpDrqdNlLfdo1_XiI-cLy0nSp4JI6beeTCj";
+            var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
+            var path = "New Folder 1";
+            var type = GraphResourceTypes.users.ToString();
+
+            //root - default
+            var items = await graphFileRepo.GetItem(type, userId);
+            Assert.IsNotNull(items);
+            // with itemId
+            var items2 = await graphFileRepo.GetItem(type, userId,itemId);
+            Assert.IsNotNull(items2);
+            // with path
+            var items3 = await graphFileRepo.GetItem(type, userId, null, path);
+            Assert.IsNotNull(items3);
+
+        }
+
+        [Test]
+        public async Task GetThumbnails()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var driveId = "b!ReYerZXwIUaQE56F9g7elp_trKttyjpDrqdNlLfdo1_XiI-cLy0nSp4JI6beeTCj";
+            var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
+            var path = "New Folder 1";
+            var type = GraphResourceTypes.users.ToString();
+
+            //root - default
+            var thumbs = await graphFileRepo.GetThumbnails(type, userId, itemId);
+            Assert.IsEmpty(thumbs);
+
+
+
+        }
     }
 }
