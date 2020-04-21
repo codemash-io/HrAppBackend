@@ -65,7 +65,7 @@ namespace HrApp
             await EmployeesRepository.UpdateInfoFromNoobForm(form);
             if (form.Photo.Count != 0)
             {
-                var fileId = FileRepository.GetFileId(form.Photo[0]);                              
+                var fileId = FileRepository.GetPhotoId(form.Photo[0]);                              
 
                 var photo = await FileRepository.GetFileBytes(fileId);
                var employee =await EmployeesRepository.GetEmployeeProjectionById(form.Meta.ResponsibleUser);
