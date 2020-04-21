@@ -117,13 +117,13 @@ namespace HrApp
             return response;
         }
 
-        public async Task<string> GenerateLunchOrderReport(string data)
+        public async Task<string> GenerateLunchOrderReport(string data, string template)
         {
             var codeService = new CodeMashCodeService(Client);
 
             var response = await codeService.ExecuteFunctionAsync(new ExecuteFunctionRequest
             {
-                Id = Guid.Parse(Settings.LunchOrderReportTemplate),
+                Id = Guid.Parse(template),
                 Tokens = new Dictionary<string, string>()
                {
                    { "order", data}
@@ -133,6 +133,8 @@ namespace HrApp
 
             return fileId;
         }
+
+
     }
 }
 

@@ -171,13 +171,39 @@ namespace HrApp
 
 
         public async Task FormatReportsOnLunchOrders(string lunchMenuId)
-        {
-            var order = await AggregateRepository.LunchMenuReport(lunchMenuId);
-            var imporvedOrder = new LunchOrderAggregate();    
-            order.Date = order.Date + 1000 * 60 * 60 * 2;
-            var data = JsonConvert.SerializeObject(order);
-            var fileId = await FileRepository.GenerateLunchOrderReport(data);
+        {   //----------------------Foods------------------------ 
+             var order = await AggregateRepository.LunchMenuReport(lunchMenuId);
+            if (order.TotalCount==0)
+            {
+                throw new BusinessException("There is no orders in this menu");
+            }
+             for (int i = 0; i < order.Meals.Count; i++)
+             {
+                 order.Meals[i].Meals = order.Meals[i].Meals.OrderByDescending(x => x.EmployeeCount).ToList();
+             } 
+             order.Date = order.Date + 1000 * 60 * 60 * 2;
+             var data = JsonConvert.SerializeObject(order);
+             var fileId = await FileRepository.GenerateLunchOrderReport(data, Settings.LunchOrderReportTemplate);
+            if (fileId == null)
+            {
+                throw new BusinessException("food report file was not created");
+            }
             await MenuRepository.InsertFileInLunchMenu(fileId, "food_list_file", lunchMenuId);
+            //----------------------------PersonalOrders--------------------------
+            var orderStaff = await AggregateRepository.LunchMenuEmployeesOrdersReport(lunchMenuId);
+            orderStaff.Date = orderStaff.Date + 1000 * 60 * 60 * 2;
+            orderStaff.Employees.Select(x => { if (x.Main.Length > 65) { x.Main = x.Main.Substring(0, 65) + "..."; }; return x; }).ToList();
+            orderStaff.Employees.Select(x => { if (x.Soup.Length > 35) { x.Soup = x.Soup.Substring(0, 35) + "..."; }; return x; }).ToList();
+            orderStaff.Employees.Select(x => { if (x.Drink.Length > 18) { x.Drink = x.Drink.Substring(0, 18) + "..."; }; return x; }).ToList();
+            orderStaff.Employees.Select(x => { if (x.Souce.Length > 18) { x.Souce = x.Souce.Substring(0, 18) + "..."; }; return x; }).ToList();
+            var personaOrderdata = JsonConvert.SerializeObject(orderStaff);
+            var personaOrderFileId = await FileRepository.GenerateLunchOrderReport(personaOrderdata, Settings.LunchOrderEmployeesReportTemplate);
+            if (personaOrderFileId == null)
+            {
+                throw new BusinessException("user orders report file was not created");
+            }
+            await MenuRepository.InsertFileInLunchMenu(personaOrderFileId, "employee_orders", lunchMenuId);
+
         }
 
 

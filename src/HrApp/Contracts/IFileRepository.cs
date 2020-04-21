@@ -15,6 +15,6 @@ namespace HrApp
         string GetFileId(object file);
         string GetPhotoId(object photo);
         Task<byte[]> GetFileBytes(string fileId);
-        Task<string> GenerateLunchOrderReport(string data);
+        Task<string> GenerateLunchOrderReport(string data, string template);
     }
 }

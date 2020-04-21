@@ -23,5 +23,19 @@ namespace HrApp
 
             return menuInfo[0];
         }
+
+        public async Task<PersonalOrdersAggregate> LunchMenuEmployeesOrdersReport(string lunchMenuId)
+        {
+            var service = new CodeMashRepository<MenuEntity>(Client);
+            var menuInfo = await service.AggregateAsync<PersonalOrdersAggregate>(Guid.Parse("6c11c9df-5738-4560-b8e3-c7d7f559285c"), new AggregateOptions
+            {
+                Tokens = new Dictionary<string, string>()
+                {
+                       { "id", lunchMenuId },
+                }
+            });
+
+            return menuInfo[0];
+        }
     }
 }

@@ -145,7 +145,7 @@ namespace Tests
                 AggregateRepository = new AggregateRepository(),
                 FileRepository = new FileRepository()
             };
-            await repo.FormatReportsOnLunchOrders("5e6a1b980187c000015b0767");
+            await repo.FormatReportsOnLunchOrders("5e9d7b070457720001c036a7");
         }
     }
 }
