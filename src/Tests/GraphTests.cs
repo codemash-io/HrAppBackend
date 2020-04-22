@@ -17,7 +17,7 @@ namespace Tests
         GraphUserRepository graphUserRepo;
         GraphEventsRepository graphEventRepo;
         GraphContactRepository graphContactRepo;
-        GraphFileRepository graphFileRepo;
+        IGraphFileRepository graphFileRepo;
 
         RoomBookerService roomService;
 
@@ -313,42 +313,45 @@ namespace Tests
         }
 
         [Test]
-        public async Task GetAllUserDrives()
+        public async Task GetAllDrives()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var type = GraphResourceTypes.users.ToString();
 
-            var drives = await graphFileRepo.ListAllDrives(userId, null, "driveType,name");
+            var drives = await graphFileRepo.ListAllDrives(type, userId);
             Assert.IsNotEmpty(drives);
-        }
+        }//IGraphFileRepository graphFileRepo = new GraphFileRepository();
         [Test]
-        public async Task GetDriveById()
+        public async Task GetDrive()
         {
+            var type = GraphResourceTypes.users.ToString();
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
 
-            var drive = await graphFileRepo.GetDrive(userId);
+            var drive = await graphFileRepo.GetDrive(type, userId);
             Assert.IsNotNull(drive);
         }
         [Test]
         public async Task GetSpecialFolder()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var type = GraphResourceTypes.users.ToString();
 
-            var driveItem = await graphFileRepo.GetSpecialFolder(userId, "documents");
+            var driveItem = await graphFileRepo.GetSpecialFolder(type, "documents", userId);
             Assert.IsNotNull(driveItem);
         }
         [Test]
         public async Task SharedWithMe()
         {
+            var type = GraphResourceTypes.users.ToString();
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
 
-            var sharedItems = await graphFileRepo.SharedWithMe(userId);
+            var sharedItems = await graphFileRepo.SharedWithMe(type, userId);
             Assert.IsNotEmpty(sharedItems);
         }
         [Test]
         public async Task ListChildren()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
-            var driveId = "b!ReYerZXwIUaQE56F9g7elp_trKttyjpDrqdNlLfdo1_XiI-cLy0nSp4JI6beeTCj";
             var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
             var path = "New Folder 1";
             var type = GraphResourceTypes.users.ToString();
@@ -367,7 +370,6 @@ namespace Tests
         public async Task GetItem()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
-            var driveId = "b!ReYerZXwIUaQE56F9g7elp_trKttyjpDrqdNlLfdo1_XiI-cLy0nSp4JI6beeTCj";
             var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
             var path = "New Folder 1";
             var type = GraphResourceTypes.users.ToString();
@@ -388,13 +390,11 @@ namespace Tests
         public async Task GetThumbnails()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
-            var driveId = "b!ReYerZXwIUaQE56F9g7elp_trKttyjpDrqdNlLfdo1_XiI-cLy0nSp4JI6beeTCj";
             var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
-            var path = "New Folder 1";
             var type = GraphResourceTypes.users.ToString();
 
             //root - default
-            var thumbs = await graphFileRepo.GetThumbnails(type, userId, itemId);
+            var thumbs = await graphFileRepo.GetThumbnails(type, itemId, userId);
             Assert.IsEmpty(thumbs);
         }
 
@@ -402,14 +402,12 @@ namespace Tests
         public async Task GetSingleThumbnail()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
-            var driveId = "b!ReYerZXwIUaQE56F9g7elp_trKttyjpDrqdNlLfdo1_XiI-cLy0nSp4JI6beeTCj";
             var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
-            var path = "New Folder 1";
             var type = GraphResourceTypes.users.ToString();
             var thumbId = "";
 
             //root - default
-            var thumb = await graphFileRepo.GetSingleThumbnail(type, userId, itemId, thumbId);
+            var thumb = await graphFileRepo.GetSingleThumbnail(type, itemId, userId, thumbId);
             Assert.IsNull(thumb);
         }
 
@@ -417,14 +415,12 @@ namespace Tests
         public async Task CreateFolder()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
-            var driveId = "b!ReYerZXwIUaQE56F9g7elp_trKttyjpDrqdNlLfdo1_XiI-cLy0nSp4JI6beeTCj";
             var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
-            var path = "New Folder 1";
             var type = GraphResourceTypes.users.ToString();
             var item = new DriveItem { Name = "naujas.jpg", File = new Microsoft.Graph.File { } };
 
             //root - default
-            var newFile = await graphFileRepo.CreateFolder(type, userId, itemId, item);
+            var newFile = await graphFileRepo.CreateFolder(type, itemId, item, userId);
             Assert.IsNotNull(newFile);
         }
         [Test]
@@ -435,7 +431,7 @@ namespace Tests
             var type = GraphResourceTypes.users.ToString();
 
             //root - default
-            var newFile = await graphFileRepo.UpdateItem(type, userId, itemId, "myImg3.png");
+            var newFile = await graphFileRepo.UpdateItem(type, itemId, "myImg3.png", userId);
             Assert.IsNotNull(newFile);
         }
         [Test]
@@ -446,7 +442,7 @@ namespace Tests
             var type = GraphResourceTypes.users.ToString();
 
             //root - default
-            var newFile = await graphFileRepo.DeleteItem(type, userId, itemId);
+            var newFile = await graphFileRepo.DeleteItem(type, itemId, userId);
             Assert.IsTrue(newFile);
         }
         [Test]
@@ -458,7 +454,7 @@ namespace Tests
             var type = GraphResourceTypes.users.ToString();
 
             //root - default
-            var movedItem = await graphFileRepo.MoveItem(type, userId, itemId, moveTo);
+            var movedItem = await graphFileRepo.MoveItem(type, itemId, moveTo, userId);
             Assert.IsNotNull(movedItem);
         }
         [Test]
@@ -479,7 +475,7 @@ namespace Tests
                 }
             };
 
-            var movedItem = await graphFileRepo.CopyItem(type, userId, itemId, body);
+            var movedItem = await graphFileRepo.CopyItem(type, itemId, body, userId);
             Assert.IsNotNull(movedItem);
         }
 
@@ -490,7 +486,7 @@ namespace Tests
             var itemId = "01XDBAENBSUWBDA5OUCBGKLOETKH2NSLJC";
             var type = GraphResourceTypes.users.ToString();
 
-            var movedItem = await graphFileRepo.DownloadFile(type, userId, itemId);
+            var movedItem = await graphFileRepo.DownloadFile(type, itemId, userId);
             Assert.IsNotEmpty(movedItem);
         }
         [Test]
@@ -511,7 +507,7 @@ namespace Tests
             var path = "New Folder 1/testUploadFile.txt";
             byte[] file = Encoding.ASCII.GetBytes("My text");
 
-            var item = await graphFileRepo.UploadNew(type, userId, path, file);
+            var item = await graphFileRepo.UploadNew(type, path, file, userId);
             Assert.IsNotNull(item);
         }
         [Test]
@@ -522,7 +518,7 @@ namespace Tests
             var fileId = "01XDBAENDDWIGHOH3CWFBKBZLZOU2TVSAU";
             byte[] file = Encoding.ASCII.GetBytes("My text updated");
 
-            var item = await graphFileRepo.UploadReplace(type, userId, fileId, file);
+            var item = await graphFileRepo.UploadReplace(type, fileId, file, userId);
             Assert.IsNotNull(item);
         }
         [Test]
@@ -532,7 +528,7 @@ namespace Tests
             var type = GraphResourceTypes.users.ToString();
             var fileId = "01XDBAENDDWIGHOH3CWFBKBZLZOU2TVSAU";
 
-            var versions = await graphFileRepo.ListVersions(type, userId, fileId);
+            var versions = await graphFileRepo.ListVersions(type, fileId, userId);
             Assert.IsNotEmpty(versions);
         }
         [Test]
@@ -542,7 +538,7 @@ namespace Tests
             var type = GraphResourceTypes.users.ToString();
             var fileId = "01XDBAENDDWIGHOH3CWFBKBZLZOU2TVSAU";
 
-            var response = await graphFileRepo.PreviewItem(type, userId, fileId);
+            var response = await graphFileRepo.PreviewItem(type, fileId, userId);
             Assert.IsNotNull(response);
         }
         [Test]
@@ -553,7 +549,7 @@ namespace Tests
             var itemId = "01XDBAENDDWIGHOH3CWFBKBZLZOU2TVSAU";
             var linkType = "view";
 
-            var response = await graphFileRepo.CreateShareLink(type, userId, itemId, linkType);
+            var response = await graphFileRepo.CreateShareLink(type, itemId, linkType, userId);
             Assert.IsNotNull(response);
         }
 
@@ -564,7 +560,7 @@ namespace Tests
             var type = GraphResourceTypes.users.ToString();
             var itemId = "01XDBAENDDWIGHOH3CWFBKBZLZOU2TVSAU";
 
-            var permissions = await graphFileRepo.ListPermissions(type, userId, itemId);
+            var permissions = await graphFileRepo.ListPermissions(type, itemId, userId);
             Assert.IsNotEmpty(permissions);
         }
 
@@ -576,7 +572,7 @@ namespace Tests
             var itemId = "01XDBAENDDWIGHOH3CWFBKBZLZOU2TVSAU";
             var permissionId = "8c98d190-bde5-4bc5-b8cd-85374519c223";
 
-            var permission = await graphFileRepo.GetPermission(type, userId, itemId, permissionId);
+            var permission = await graphFileRepo.GetPermission(type, itemId, permissionId, userId);
             Assert.IsNotNull(permission);
         }
 
@@ -604,7 +600,7 @@ namespace Tests
                 message
             };
 
-            var permission = await graphFileRepo.AddPermission(type, userId, itemId, data);
+            var permission = await graphFileRepo.AddPermission(type, itemId, data, userId);
             Assert.IsNotNull(permission);
         }
         [Test]
@@ -615,7 +611,7 @@ namespace Tests
             var itemId = "01XDBAENDDWIGHOH3CWFBKBZLZOU2TVSAU";
             var permissionId = "a81342f1-f426-410b-a519-3b04a83eee8a";
 
-            var permission = await graphFileRepo.DeletePermission(type, userId, itemId, permissionId);
+            var permission = await graphFileRepo.DeletePermission(type, itemId, permissionId, userId);
             Assert.IsTrue(permission);
         }
         [Test]
@@ -628,8 +624,27 @@ namespace Tests
             var roles = new List<string> { "wirte" };
             var data = new { roles };
 
-            var permission = await graphFileRepo.UpdatePermission(type, userId, itemId, permissionId, data);
+            var permission = await graphFileRepo.UpdatePermission(type, itemId, permissionId, data, userId);
             Assert.IsNotNull(permission);
+        }
+
+        [Test]
+        public async Task ListRecent()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var type = GraphResourceTypes.users.ToString();
+
+            var recent = await graphFileRepo.ListRecent(type, userId);
+            Assert.IsEmpty(recent);
+        }
+        [Test]
+        public async Task Search()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var type = GraphResourceTypes.users.ToString();
+
+            var results = await graphFileRepo.Search(type, ".txt", userId);
+            Assert.IsNotEmpty(results);
         }
 
     }

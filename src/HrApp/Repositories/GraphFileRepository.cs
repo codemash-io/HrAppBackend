@@ -15,18 +15,23 @@ namespace HrApp
     {
         private readonly GraphRepository graphRepository = new GraphRepository();
 
-        public async Task<Drive> GetDrive(string type, string id = null)
+        public async Task<Drive> GetDrive(string type, string id = null, string select = null)
         {
             string graphUrl;
             type = type.ToLower();
+            if (select == null)
+                select = "";
+            else
+                select = "?$select=" + select;
+
             if (type == GraphResourceTypes.me.ToString())
-                graphUrl = graphRepository.BaseGraphUrl + '/' + type + "/drive";
+                graphUrl = graphRepository.BaseGraphUrl + '/' + type + "/drive" + select;
             else if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
-                graphUrl = graphRepository.BaseGraphUrl + '/' + type + '/' + id;
+                graphUrl = graphRepository.BaseGraphUrl + '/' + type + '/' + id + select;
             else
                 if (!string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + '/' + type + '/' + id +
-                    "/drive";
+                    "/drive" + select;
             else
                 throw new BusinessException("Resource id not defined");
 
@@ -35,7 +40,7 @@ namespace HrApp
             return drive;
         }
 
-        public async Task<List<Drive>> ListAllDrives(string type, string id, string expand = null,
+        public async Task<List<Drive>> ListAllDrives(string type, string id = null, string expand = null,
             string select = null, string skipToken = null, string top = null, string orderBy = null)
         {          
             type = type.ToLower();
@@ -58,10 +63,15 @@ namespace HrApp
 
             if (type == GraphResourceTypes.me.ToString())
                 graphUrl = graphRepository.BaseGraphUrl + '/' + type + "/drives" + concat;
-            else if (type == GraphResourceTypes.drives.ToString())
+            else if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 throw new BusinessException("This endpoint is not available for drives resource!");
             else
-                graphUrl = graphRepository.BaseGraphUrl + '/' + type + '/' + id + "/drives" + concat;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + '/' + type + '/' + id + "/drives" + concat;
+                else
+                    throw new BusinessException("Resource id not defined");
+            }
 
 
             var resultString = await graphRepository.Get(graphUrl);
@@ -71,30 +81,49 @@ namespace HrApp
             return drive;
         }
 
-        public async Task<DriveItem> GetSpecialFolder(string userId, string folderName)
+        public async Task<DriveItem> GetSpecialFolder(string type, string folderName, string id = null)
         {        
             if (string.IsNullOrEmpty(folderName))
                 throw new BusinessException("FolderName cannot be empty");
-            
 
-            string graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
-                    "/drive/special/" + folderName;
+            string graphUrl;
+
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
+                graphUrl = graphRepository.BaseGraphUrl + '/' + type + '/' + id + "/special/" + folderName;
+            else if (type == GraphResourceTypes.me.ToString())
+                graphUrl = graphRepository.BaseGraphUrl + '/' + type + "/drive/special/" + folderName;
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + '/' + type + '/' + id +
+                        "/drive/special/" + folderName;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
 
             var resultString = await graphRepository.Get(graphUrl);
             var drive = JsonConvert.DeserializeObject<DriveItem>(resultString);
             return drive;
         }
 
-        public async Task<List<DriveItem>> SharedWithMe(string userId, string driveId = null)
+        public async Task<List<DriveItem>> SharedWithMe(string type, string id = null)
         {
             string graphUrl;
+            type = type.ToLower();
 
-            if (string.IsNullOrEmpty(driveId))
-                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
-                    "/drive/sharedWithMe";
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
+                graphUrl = graphRepository.BaseGraphUrl + '/' + type + '/' + id + "/sharedWithMe";
+            else if (type == GraphResourceTypes.me.ToString())
+                graphUrl = graphRepository.BaseGraphUrl + '/' + type + "/drive/sharedWithMe";
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/users/" + userId +
-                    "/drive/" + driveId + "/sharedWithMe";
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + '/' + type + '/' + id +
+                        "/drive/sharedWithMe";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+                
 
             var resultString = await graphRepository.Get(graphUrl);
             var resultJson = JObject.Parse(resultString);
@@ -103,7 +132,7 @@ namespace HrApp
             return sharedItems;
         }
 
-        public async Task<List<DriveItem>> ListChildren(string type, string id,
+        public async Task<List<DriveItem>> ListChildren(string type, string id = null,
             string itemId = null, string path = null, string expand = null, string select = null, 
             string skipToken = null, string top = null, string orderBy = null)
         {
@@ -127,7 +156,7 @@ namespace HrApp
 
             string graphUrl;
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
             {
                 //default drive root children
                 if (string.IsNullOrEmpty(path) && string.IsNullOrEmpty(itemId))
@@ -163,20 +192,25 @@ namespace HrApp
             }
             else
             {
-                //default drive root children
-                if (string.IsNullOrEmpty(path) && string.IsNullOrEmpty(itemId))
-                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                        "/drive/root/children" + concat;
+                if (!string.IsNullOrEmpty(id))
+                {
+                    //default drive root children
+                    if (string.IsNullOrEmpty(path) && string.IsNullOrEmpty(itemId))
+                        graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                            "/drive/root/children" + concat;
 
-                //selected drive path children
-                else if (!string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(id))
-                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                        "/drive/root:/" + path + ":/children" + concat;
+                    //selected drive path children
+                    else if (!string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(id))
+                        graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                            "/drive/root:/" + path + ":/children" + concat;
 
-                //selected drive selected item children
+                    //selected drive selected item children
+                    else
+                        graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                            "/drive/items/" + itemId + "/children" + concat;
+                }
                 else
-                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                        "/drive/items/" + itemId + "/children" + concat;
+                    throw new BusinessException("Resource id not provided");
 
             }
             var resultString = await graphRepository.Get(graphUrl);
@@ -186,7 +220,7 @@ namespace HrApp
             return children;
         }
 
-        public async Task<DriveItem> GetItem(string type, string id, string itemId = null, 
+        public async Task<DriveItem> GetItem(string type, string id = null, string itemId = null, 
             string path = null, string expand = null, string select = null)
         {
             if (!string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(itemId))
@@ -206,7 +240,7 @@ namespace HrApp
 
             string graphUrl;
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
             {
                 //default drive root children
                 if (string.IsNullOrEmpty(path) && string.IsNullOrEmpty(itemId))
@@ -242,20 +276,25 @@ namespace HrApp
             }
             else
             {
-                // drive root item
-                if (string.IsNullOrEmpty(path) && string.IsNullOrEmpty(itemId))
-                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                        "/drive/root" + concat;
+                if (!string.IsNullOrEmpty(id))
+                {
+                    // drive root item
+                    if (string.IsNullOrEmpty(path) && string.IsNullOrEmpty(itemId))
+                        graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                            "/drive/root" + concat;
 
-                // drive path item
-                else if (!string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(id))
-                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                        "/drive/root:/" + path + concat;
+                    // drive path item
+                    else if (!string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(id))
+                        graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                            "/drive/root:/" + path + concat;
 
-                // drive selected item
+                    // drive selected item
+                    else
+                        graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                            "/drive/items/" + itemId + concat;
+                }
                 else
-                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                        "/drive/items/" + itemId + concat;
+                    throw new BusinessException("Resource id not provided");
 
             }
 
@@ -264,7 +303,7 @@ namespace HrApp
             return driveItem;
         }
 
-        public async Task<List<ThumbnailSet>> GetThumbnails(string type, string id, string itemId,
+        public async Task<List<ThumbnailSet>> GetThumbnails(string type, string itemId, string id = null,
             string select = null)
         {
             string concat;
@@ -275,7 +314,7 @@ namespace HrApp
             type = type.ToLower();
             string graphUrl;
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
                     itemId + "/thumbnails?" + concat;
 
@@ -283,8 +322,13 @@ namespace HrApp
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
                     itemId + "/thumbnails?" + concat;
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/thumbnails?" + concat;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/thumbnails?" + concat;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
            
             var resultString = await graphRepository.Get(graphUrl);
             var resultJson = JObject.Parse(resultString);
@@ -292,14 +336,14 @@ namespace HrApp
             var thumbnails = JsonConvert.DeserializeObject<List<ThumbnailSet>>(driveDetails);
             return thumbnails;
         }
-        public async Task<ThumbnailSet> GetSingleThumbnail(string type, string id, string itemId,
-            string thumId, string size = null)
+        public async Task<ThumbnailSet> GetSingleThumbnail(string type, string itemId, 
+            string thumId, string id = null, string size = null)
         {
             if (size == null)
                 size = "";
             string graphUrl;
             type = type.ToLower();
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
                     itemId + "/thumbnails/" + thumId + "/" + size;
 
@@ -307,8 +351,14 @@ namespace HrApp
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
                     itemId + "/thumbnails/" + thumId + "/" + size;
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/thumbnails/" + thumId + "/" + size;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/thumbnails/" + thumId + "/" + size;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Get(graphUrl);
             var resultJson = JObject.Parse(resultString);
@@ -316,11 +366,11 @@ namespace HrApp
             var thumbnails = JsonConvert.DeserializeObject<ThumbnailSet>(driveDetails);
             return thumbnails;
         }
-        public async Task<DriveItem> CreateFolder(string type, string id, string itemId, DriveItem item)
+        public async Task<DriveItem> CreateFolder(string type, string itemId, DriveItem item, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
                     itemId + "/children";
 
@@ -328,18 +378,24 @@ namespace HrApp
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
                     itemId + "/children";
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/children";
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/children";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Post(graphUrl, item);
             var newFile = JsonConvert.DeserializeObject<DriveItem>(resultString);
             return newFile;
         }
-        public async Task<DriveItem> UpdateItem(string type, string id, string itemId, string name)
+        public async Task<DriveItem> UpdateItem(string type, string itemId, string name, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
                     itemId;
 
@@ -347,18 +403,24 @@ namespace HrApp
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
                     itemId;
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Patch(graphUrl, new { name });
             var newFile = JsonConvert.DeserializeObject<DriveItem>(resultString);
             return newFile;
         }
-        public async Task<bool> DeleteItem(string type, string id, string itemId)
+        public async Task<bool> DeleteItem(string type, string itemId, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
                     itemId;
 
@@ -366,19 +428,25 @@ namespace HrApp
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
                     itemId;
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Delete(graphUrl);
             return resultString;
         }
-        public async Task<DriveItem> MoveItem(string type, string id, string itemId, string parentFolderId)
+        public async Task<DriveItem> MoveItem(string type, string itemId, string parentFolderId, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
             var body = new DriveItem { ParentReference = new ItemReference { Id = parentFolderId } };
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
                     itemId;
 
@@ -386,22 +454,28 @@ namespace HrApp
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
                     itemId;
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Patch(graphUrl, body);
             var driveItem = JsonConvert.DeserializeObject<DriveItem>(resultString);
             return driveItem;
         }
 
-        public async Task<DriveItem> CopyItem(string type, string id, string itemId, DriveItem item)
+        public async Task<DriveItem> CopyItem(string type, string itemId, DriveItem item, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
             if (item.ParentReference == null)
                 throw new BusinessException("Preference item cannot be null");
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
                     itemId;
 
@@ -409,14 +483,20 @@ namespace HrApp
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
                     itemId;
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+           
 
             var resultString = await graphRepository.Patch(graphUrl, item);
             var driveItem = JsonConvert.DeserializeObject<DriveItem>(resultString);
             return driveItem;
         }
-        public async Task<byte[]> DownloadFile(string type, string id, string itemId, string format = null)
+        public async Task<byte[]> DownloadFile(string type, string itemId, string id = null, string format = null)
         {
             string graphUrl;
             type = type.ToLower();
@@ -428,7 +508,7 @@ namespace HrApp
                 throw new BusinessException("Provided format is not valid");
 
            
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
                     itemId + "/content?"+ format;
 
@@ -436,14 +516,20 @@ namespace HrApp
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
                     itemId + "/content?" + format;
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/content?" + format;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/content?" + format;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+           
 
             var resultString = await graphRepository.Get(graphUrl);
             var content = Encoding.ASCII.GetBytes(resultString);
             return content;
         }
-        public async Task<List<DriveItem>> TrackChanges(string type, string id, string select = null, 
+        public async Task<List<DriveItem>> TrackChanges(string type, string id = null, string select = null, 
             string expand = null, string top = null, string token = null)
         {
             string graphUrl;
@@ -462,7 +548,7 @@ namespace HrApp
                 concat = String.Join("&", list.ToArray());
 
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 if(string.IsNullOrEmpty(token))
                     graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/root/delta?" + concat;
                 else
@@ -476,12 +562,18 @@ namespace HrApp
                     graphUrl = graphRepository.BaseGraphUrl + "/" + type +
                         "/drive/root/delta?(token='" + token + "')&" + concat;
             else
-                if (string.IsNullOrEmpty(token))
-                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                        "/drive/root/delta?" + concat;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    if (string.IsNullOrEmpty(token))
+                        graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                            "/drive/root/delta?" + concat;
+                    else
+                        graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                            "/drive/root/delta?(token='" + token + "')&" + concat;
                 else
-                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                        "/drive/root/delta?(token='" + token + "')&" + concat;
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Get(graphUrl);
             var resultJson = JObject.Parse(resultString);
@@ -490,22 +582,26 @@ namespace HrApp
             return items;
         }
 
-        public async Task<DriveItem> UploadNew(string type, string id, string path, byte[] file)
+        public async Task<DriveItem> UploadNew(string type, string path, byte[] file, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
                         "/items/root:/" + path + ":/content";
             else if (type == GraphResourceTypes.me.ToString())
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type +
                         "/drive/items/root:/" + path + ":/content";
-            else        
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/root:/" + path + ":/content";
-
-
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/root:/" + path + ":/content";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
             var token = Environment.GetEnvironmentVariable("token");
             if (string.IsNullOrEmpty(token))
                 token = await graphRepository.GetAccessToken();
@@ -527,22 +623,26 @@ namespace HrApp
             }
 
         }
-        public async Task<DriveItem> UploadReplace(string type, string id, string itemId, byte[] file)
+        public async Task<DriveItem> UploadReplace(string type, string itemId, byte[] file, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
                         "/items/" + itemId + "/content";
             else if (type == GraphResourceTypes.me.ToString())
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type +
                         "/drive/items/" + itemId + "/content";
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/content";
-
-
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/content";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
             var token = Environment.GetEnvironmentVariable("token");
             if (string.IsNullOrEmpty(token))
                 token = await graphRepository.GetAccessToken();
@@ -565,12 +665,12 @@ namespace HrApp
 
         }
 
-        public async Task<List<DriveItemVersion>> ListVersions(string type, string id, string itemId)
+        public async Task<List<DriveItemVersion>> ListVersions(string type, string itemId, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                     graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + 
                     "/items/" + itemId + "/versions";
 
@@ -579,9 +679,13 @@ namespace HrApp
                     "/drive/items/" + itemId + "/versions";
 
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/versions";
-
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/versions";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
 
             var resultString = await graphRepository.Get(graphUrl);
             var resultJson = JObject.Parse(resultString);
@@ -590,12 +694,12 @@ namespace HrApp
             return items;
         }
 
-        public async Task<object> PreviewItem(string type, string id, string itemId)
+        public async Task<object> PreviewItem(string type, string itemId, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
                 "/items/" + itemId + "/preview";
 
@@ -604,8 +708,14 @@ namespace HrApp
                 "/drive/items/" + itemId + "/preview";
 
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/preview";
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/preview";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Post(graphUrl, "");
 
@@ -615,7 +725,7 @@ namespace HrApp
 
         //permissions section
 
-        public async Task<Permission> CreateShareLink(string type, string id, string itemId, string linkType, 
+        public async Task<Permission> CreateShareLink(string type, string itemId, string linkType, string id = null, 
             string scope = null)
         {
             string graphUrl;
@@ -629,7 +739,7 @@ namespace HrApp
 
             var body = new { type = linkType, scope };
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
                 "/items/" + itemId + "/createLink";
 
@@ -638,21 +748,27 @@ namespace HrApp
                 "/drive/items/" + itemId + "/createLink";
 
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/createLink";
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/createLink";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Post(graphUrl, body);
 
             var response = JsonConvert.DeserializeObject<Permission>(resultString);
             return response;
         }
-        public async Task<List<Permission>> ListPermissions(string type, string id, string itemId)
+        public async Task<List<Permission>> ListPermissions(string type, string itemId, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
 
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
                 "/items/" + itemId + "/permissions";
 
@@ -661,8 +777,14 @@ namespace HrApp
                 "/drive/items/" + itemId + "/permissions";
 
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/permissions";
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/permissions";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Get(graphUrl);
             var resultJson = JObject.Parse(resultString);
@@ -672,13 +794,13 @@ namespace HrApp
             return permissions;
         }
 
-        public async Task<Permission> GetPermission(string type, string id, string itemId,
-            string permissionId)
+        public async Task<Permission> GetPermission(string type, string itemId,
+            string permissionId, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
                 "/items/" + itemId + "/permissions/" + permissionId;
 
@@ -687,8 +809,14 @@ namespace HrApp
                 "/drive/items/" + itemId + "/permissions/" + permissionId;
 
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/permissions/" + permissionId;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/permissions/" + permissionId;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Get(graphUrl);
 
@@ -697,12 +825,12 @@ namespace HrApp
             return permissions;
         }
 
-        public async Task<Permission> AddPermission(string type, string id, string itemId, object data)
+        public async Task<Permission> AddPermission(string type, string itemId, object data, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
                 "/items/" + itemId + "/invite";
 
@@ -711,8 +839,14 @@ namespace HrApp
                 "/drive/items/" + itemId + "/invite";
 
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/invite";
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/invite";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Post(graphUrl, data);
             var permissions = JsonConvert.DeserializeObject<Permission>(resultString);
@@ -720,13 +854,13 @@ namespace HrApp
             return permissions;
         }
 
-        public async Task<Permission> UpdatePermission(string type, string id, string itemId,
-            string permissionId, object data)
+        public async Task<Permission> UpdatePermission(string type, string itemId,
+            string permissionId, object data, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
                 "/items/" + itemId + "/permissions/" + permissionId;
 
@@ -735,8 +869,14 @@ namespace HrApp
                 "/drive/items/" + itemId + "/permissions/" + permissionId;
 
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/permissions/" + permissionId;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/permissions/" + permissionId;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var resultString = await graphRepository.Patch(graphUrl, data);
             var permissions = JsonConvert.DeserializeObject<Permission>(resultString);
@@ -744,13 +884,13 @@ namespace HrApp
             return permissions;
         }
 
-        public async Task<bool> DeletePermission(string type, string id, string itemId,
-            string permissionId)
+        public async Task<bool> DeletePermission(string type, string itemId,
+            string permissionId, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
 
-            if (type == GraphResourceTypes.drives.ToString())
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
                 "/items/" + itemId + "/permissions/" + permissionId;
 
@@ -759,12 +899,95 @@ namespace HrApp
                 "/drive/items/" + itemId + "/permissions/" + permissionId;
 
             else
-                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                    "/drive/items/" + itemId + "/permissions/" + permissionId;
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/permissions/" + permissionId;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
 
             var isDeleted = await graphRepository.Delete(graphUrl);
 
             return isDeleted;
+        }
+        public async Task<List<DriveItem>> ListRecent(string type, string id = null)
+        {
+            string graphUrl;
+            type = type.ToLower();
+
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
+                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                "/recent";
+
+            else if (type == GraphResourceTypes.me.ToString())
+                graphUrl = graphRepository.BaseGraphUrl + "/" + type +
+                "/drive/recent";
+
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/recent";
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
+
+            var resultString = await graphRepository.Get(graphUrl);
+            var resultJson = JObject.Parse(resultString);
+            var driveDetails = resultJson["value"].ToString();
+            var recent = JsonConvert.DeserializeObject<List<DriveItem>>(driveDetails);
+
+            return recent;
+        }
+
+        public async Task<List<DriveItem>> Search(string type, string searchText, string id = null, string top = null,
+            string expand = null, string select = null, string skipToken = null, string orderBy = null)
+        {
+            string graphUrl;
+            type = type.ToLower();
+            var list = new List<string>
+            {
+                expand != null ? "$expand=" + expand : null,
+                select != null ? "$select=" + select : null,
+                skipToken != null ? "$skipToken=" + skipToken : null,
+                top != null ? "$top=" + top : null,
+                orderBy != null ? "$orderBy=" + orderBy : null
+            };
+            //removes all nulls from a list
+            list.RemoveAll(x => x == null);
+            //merged list content
+            string concat = "";
+            if (list.Count != 0)
+                concat = "?" + String.Join("&", list.ToArray());
+
+
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
+                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                "/root/search(q='" + searchText + "')" + concat;
+
+            else if (type == GraphResourceTypes.me.ToString())
+                graphUrl = graphRepository.BaseGraphUrl + "/" + type +
+                "/drive/root/search(q='" + searchText + "')" + concat;
+
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/root/search(q='" + searchText + "')" + concat;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
+
+            var resultString = await graphRepository.Get(graphUrl);
+            var resultJson = JObject.Parse(resultString);
+            var driveDetails = resultJson["value"].ToString();
+            var recent = JsonConvert.DeserializeObject<List<DriveItem>>(driveDetails);
+
+            return recent;
         }
 
     }
