@@ -38,7 +38,7 @@ namespace HrApp.Services
 
                 //adding time employee worked on current project
                 var totalTime = employee.TimeWorked + time.TotalHours;
-                await EmployeeRepository.UpdateEmployeeTimeWorked(employee.Id, totalTime);
+                await EmployeeRepository.UpdateEmployeeTimeWorked(employee.Id, Math.Round(totalTime,1));
 
 
                 /*if (CheckForEmployeeOvertime(employee))
@@ -86,7 +86,7 @@ namespace HrApp.Services
 
                     //adding time employee worked on current project
                     var totalTime = commits[i].Employee.TimeWorked + commits[i].TimeWorked;
-                    await EmployeeRepository.UpdateEmployeeTimeWorked(commits[i].Employee.Id, totalTime);
+                    await EmployeeRepository.UpdateEmployeeTimeWorked(commits[i].Employee.Id, Math.Round(totalTime, 1));
 
                     //adding commits to a projects
                     await ProjectRepository.AddCommitToProject(commits[i].Id, projects[i].Id);

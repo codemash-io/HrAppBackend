@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using Microsoft.Graph;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,6 +7,8 @@ using System.Net.Http.Headers;
 using CodeMash.Client;
 using CodeMash.Project.Services;
 using Isidos.CodeMash.ServiceContracts;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace HrApp
 {
@@ -110,8 +111,116 @@ namespace HrApp
                 if (token.Key.ToLower() == room.ToLower())
                     return token.Value;
             }
-            //if no token found throw exception
             throw new BusinessException("No such a room exists");
+        }
+
+        public async Task<string> Get(string graphUrl)
+        {
+            var token = Environment.GetEnvironmentVariable("token");
+            if (string.IsNullOrEmpty(token))
+                token = await GetAccessToken();
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await httpClient.GetAsync(graphUrl);
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. Please check your input data and try again.");
+
+                var resultString = await response.Content.ReadAsStringAsync();
+                return resultString;
+            }
+        }
+        public async Task<string> Post(string graphUrl, object body)
+        {
+            var token = Environment.GetEnvironmentVariable("token");
+            if (string.IsNullOrEmpty(token))
+                token = await GetAccessToken();
+
+            var jsonBody = JsonConvert.SerializeObject(body);
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await httpClient.PostAsync(graphUrl,
+                    new StringContent(jsonBody, Encoding.UTF8, "application/json"));
+
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. Please check your input data and try again.");
+
+                var resultString = await response.Content.ReadAsStringAsync();
+                return resultString;
+            }
+        }
+
+        public async Task<string> Put(string graphUrl, object body)
+        {
+            var token = Environment.GetEnvironmentVariable("token");
+            if (string.IsNullOrEmpty(token))
+                token = await GetAccessToken();
+
+            var jsonBody = JsonConvert.SerializeObject(body);
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await httpClient.PutAsync(graphUrl,
+                    new StringContent(jsonBody, Encoding.UTF8, "application/json"));
+
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. Please check your input data and try again.");
+
+                var resultString = await response.Content.ReadAsStringAsync();
+                return resultString;
+            }
+        }
+        public async Task<string> Patch(string graphUrl, object body)
+        {
+            var token = Environment.GetEnvironmentVariable("token");
+            if (string.IsNullOrEmpty(token))
+                token = await GetAccessToken();
+
+            var jsonBody = JsonConvert.SerializeObject(body);
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await httpClient.PatchAsync(graphUrl,
+                    new StringContent(jsonBody, Encoding.UTF8, "application/json"));
+
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. Please check your input data and try again.");
+
+                var resultString = await response.Content.ReadAsStringAsync();
+                return resultString;
+            }
+        }
+        public async Task<bool> Delete(string graphUrl)
+        {
+            var token = Environment.GetEnvironmentVariable("token");
+            if (string.IsNullOrEmpty(token))
+                token = await GetAccessToken();
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await httpClient.DeleteAsync(graphUrl);
+
+                if (!response.IsSuccessStatusCode)
+                    throw new BusinessException("Something went wrong. Please check your input data and try again.");
+
+                return true;
+            }
         }
 
     }

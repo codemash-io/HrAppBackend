@@ -36,34 +36,27 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<Dictionary<string, bool>> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
             string userId;
             byte[] image = null;
             if (lambdaEvent.Input.Data != null)
             {
-                if (lambdaEvent.Input.Data != null)
-                {
-                    ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    userId = items.UserId;
-                    image = items.ImageBytes;
-                    if (image == null || image.Length < 1)
-                        throw new BusinessException("Image can not be null or empty!");
-                }
-                else
-                {
-                    userId = Environment.GetEnvironmentVariable("userId");
-                }
+                ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
+                if (items.ApiKey != null)
+                    HrApp.Settings.ApiKey = items.ApiKey;
+                userId = items.UserId;
+                image = items.ImageBytes;
+                if (image == null || image.Length < 1)
+                    throw new BusinessException("Image can not be null or empty!");
             }
             else
             {
-                userId = Environment.GetEnvironmentVariable("userId");;
+                userId = Environment.GetEnvironmentVariable("userId");
+                if (Environment.GetEnvironmentVariable("apiKey") != null)
+                    HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("apiKey");
             }
-            if (Environment.GetEnvironmentVariable("ApiKey") != null)
-            {
-                HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
-            }
-            else
+            if (HrApp.Settings.ApiKey == null)
                 throw new BusinessException("ApiKey not set");
             if (string.IsNullOrEmpty(userId))
                 throw new BusinessException("userId field is required!");
@@ -71,23 +64,11 @@ namespace LambdaFunction
             GraphUserRepository graphUserRepo = new GraphUserRepository();
             var isImageUpdateSuccessfully = await graphUserRepo.EditGraphUserAvatar(userId, image);
 
-            // - Get variable from appsettings.json file
-            var nestedSettings = AppSettings.GetString("NestedParams:NestedParam1");
-
-            // - Response body can be any serializable object
-            var response = new
+            var response = new Dictionary<string, bool>
             {
-                isImageUpdateSuccessfully,
-                nestedSettings, 
-                lambdaEvent,
+                {"isImageUpdateSuccessfully", isImageUpdateSuccessfully}
             };
-            
-            return new APIGatewayProxyResponse
-            {
-                Body = JsonConvert.SerializeObject(response),
-                StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+            return response;
         }
     }
 }
