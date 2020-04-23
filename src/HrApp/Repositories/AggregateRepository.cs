@@ -1,5 +1,7 @@
 ﻿using CodeMash.Client;
 using CodeMash.Repository;
+using HrApp.Entities;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,41 @@ namespace HrApp
             });
 
             return menuInfo[0];
+        }
+        public async Task<List<object>> GetWhishListSummary(DateTime dateFrom, DateTime dateTo)
+        {
+            var taxRepo = new CodeMashTermsService(Client);
+            var taxonomyData = await taxRepo.FindAsync("wishlist-types", x => true, new TermsFindOptions());
+
+            var from = ((DateTimeOffset)dateFrom).ToUnixTimeMilliseconds();
+            var to = ((DateTimeOffset)dateTo).ToUnixTimeMilliseconds();
+            var service = new CodeMashRepository<WishlistEntity>(Client);
+            var whishlistSummary = await service.AggregateAsync<object>(Guid.Parse("9ffca22e-eb98-4e65-b843-283389ac8c53"), new AggregateOptions
+            {
+                Tokens = new Dictionary<string, string>()
+                {
+                    { "dateFrom", from.ToString() },
+                    { "dateTo", to.ToString() },
+                }
+            });
+
+            var list = new List<object>();
+            foreach (var elem in whishlistSummary)
+            {
+                var resultJson = JObject.Parse(elem.ToString());
+                var id = resultJson["_id"].ToString();
+                var total = resultJson["total"].ToString();
+                foreach (var tax in taxonomyData.Items)
+                {
+                    if(id == tax.Id)
+                    {
+                        list.Add(new { tax.Name, total });
+                        break;
+                    }
+                }
+            }
+            
+            return list;
         }
     }
 }

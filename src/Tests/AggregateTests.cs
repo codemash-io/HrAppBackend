@@ -23,6 +23,14 @@ namespace Tests
         }
 
 
+        [Test]
+        public async Task GetWishListSummary()
+        {
+            var from = new DateTime(2020, 02, 01, 0, 0, 0, DateTimeKind.Utc);
+            var to = new DateTime(2020, 05, 01, 0, 0, 0, DateTimeKind.Utc);
+            var summary = await aggregateRepo.GetWhishListSummary(from, to);
+            Assert.IsNotEmpty(summary);
+        }
 
     }
 }

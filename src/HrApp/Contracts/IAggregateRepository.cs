@@ -9,5 +9,6 @@ namespace HrApp
     {
         Task<LunchOrderAggregate> LunchMenuReport(string lunchMenuId);
         Task<PersonalOrdersAggregate> LunchMenuEmployeesOrdersReport(string lunchMenuId);
+        Task<List<object>> GetWhishListSummary(DateTime dateFrom, DateTime dateTo);
     }
 }
