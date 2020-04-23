@@ -7,6 +7,8 @@ namespace LambdaFunction
 {
     public class ProcessDTO
     {
+        [JsonProperty("apiKey")]
+        public string ApiKey { get; set; }
         [JsonProperty("organizerId")]
         public string OrganizerId { get; set; }
         [JsonProperty("roomName")]

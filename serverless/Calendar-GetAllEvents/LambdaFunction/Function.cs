@@ -7,6 +7,7 @@ using Amazon.Lambda.APIGatewayEvents;
 using LambdaFunction.Inputs;
 using LambdaFunction.Services;
 using HrApp;
+using Microsoft.Graph;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -35,61 +36,36 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<List<Event>> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
             string roomName;
             DateTime dateFrom, dateTo;
-            if(lambdaEvent.Input.Data != null)
+            if (lambdaEvent.Input.Data != null)
             {
-                if (lambdaEvent.Input.Data != null)
-                {
-                    ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    roomName = items.RoomName;
-                    dateFrom = items.DateFrom;
-                    dateTo = items.DateTo;
-                }
-                else
-                {
-                    roomName = Environment.GetEnvironmentVariable("roomName");
-                    dateFrom = DateTime.Parse(Environment.GetEnvironmentVariable("dateFrom"));
-                    dateTo = DateTime.Parse(Environment.GetEnvironmentVariable("dateTo"));
-                }
+                ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
+                roomName = items.RoomName;
+                dateFrom = items.DateFrom;
+                dateTo = items.DateTo;
+                if (items.ApiKey != null)
+                    HrApp.Settings.ApiKey = items.ApiKey;
             }
             else
             {
                 roomName = Environment.GetEnvironmentVariable("roomName");
                 dateFrom = DateTime.Parse(Environment.GetEnvironmentVariable("dateFrom"));
                 dateTo = DateTime.Parse(Environment.GetEnvironmentVariable("dateTo"));
+                if (Environment.GetEnvironmentVariable("apiKey") != null)
+                    HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("apiKey");
             }
-            if (Environment.GetEnvironmentVariable("ApiKey") != null)
-            {
-                HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
-            }
-            else
+            if (HrApp.Settings.ApiKey == null)
                 throw new BusinessException("ApiKey not set");
             if (string.IsNullOrEmpty(roomName))
                 throw new BusinessException("All fields must be filled with data");
 
-            var repo = new GraphEventsRepository();
-
+            GraphEventsRepository repo = new GraphEventsRepository();
             var roomEvents = await repo.GetCalendarEventsByDate(roomName, dateFrom, dateTo);
 
-            // - Response body can be any serializable object
-            var response = new
-            {
-                roomName,
-                dateFrom,
-                dateTo,
-                roomEvents,
-                lambdaEvent,
-            };
-            
-            return new APIGatewayProxyResponse
-            {
-                Body = JsonConvert.SerializeObject(response),
-                StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+            return roomEvents;
         }
     }
 }

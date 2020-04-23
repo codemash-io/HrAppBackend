@@ -36,33 +36,25 @@ namespace LambdaFunction
         /// <param name="lambdaEvent">Type returned from CodeMash</param>
         /// <param name="context">Context data of a function (function config)</param>
         /// <returns></returns>
-        public async Task<APIGatewayProxyResponse> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
+        public async Task<byte[]> Handler(CustomEventRequest<BasicInput> lambdaEvent, ILambdaContext context)
         {
             string imageSize, userId;
             if (lambdaEvent.Input.Data != null)
             {
-                if (lambdaEvent.Input.Data != null)
-                {
-                    ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
-                    imageSize = items.ImageSize;
-                    userId = items.UserId;
-                }
-                else
-                {
-                    userId = Environment.GetEnvironmentVariable("userId");
-                    imageSize = Environment.GetEnvironmentVariable("imageSize");
-                }
+                ProcessDTO items = JsonConvert.DeserializeObject<ProcessDTO>(lambdaEvent.Input.Data);
+                imageSize = items.ImageSize;
+                userId = items.UserId;
+                if (items.ApiKey != null)
+                    HrApp.Settings.ApiKey = items.ApiKey;
             }
             else
             {
                 userId = Environment.GetEnvironmentVariable("userId");
                 imageSize = Environment.GetEnvironmentVariable("imageSize");
+                if (Environment.GetEnvironmentVariable("apiKey") != null)
+                    HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("apiKey");
             }
-            if (Environment.GetEnvironmentVariable("ApiKey") != null)
-            {
-                HrApp.Settings.ApiKey = Environment.GetEnvironmentVariable("ApiKey");
-            }
-            else
+            if (HrApp.Settings.ApiKey == null)
                 throw new BusinessException("ApiKey not set");
             if (string.IsNullOrEmpty(userId))
                 throw new BusinessException("userId field is required");
@@ -70,23 +62,7 @@ namespace LambdaFunction
             GraphUserRepository graphUserRepo = new GraphUserRepository();
             var bytes = await graphUserRepo.GetUserProfilePhoto(userId, imageSize);
 
-            // - Get variable from appsettings.json file
-            var nestedSettings = AppSettings.GetString("NestedParams:NestedParam1");
-
-            // - Response body can be any serializable object
-            var response = new
-            {
-                bytes,
-                nestedSettings, 
-                lambdaEvent,
-            };
-            
-            return new APIGatewayProxyResponse
-            {
-                Body = JsonConvert.SerializeObject(response),
-                StatusCode = 200,
-                Headers = new Dictionary<string, string> { { "Content-Type", "application/json" } }
-            };
+            return bytes;
         }
     }
 }
