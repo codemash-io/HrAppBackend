@@ -23,7 +23,8 @@ namespace HrApp
         
         [Field("status")]
         public string Status { get; set; } = AbsenceRequestStatus.Pending.ToString();
-        
 
+        [Field("signatureimage")]
+        public List<object> SignatureImage { get; set; } = new List<object>();
     }
 }
