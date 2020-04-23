@@ -337,7 +337,41 @@ namespace HrApp
             return thumbnails;
         }
         public async Task<ThumbnailSet> GetSingleThumbnail(string type, string itemId, 
-            string thumId, string id = null, string size = null)
+            string thumId, string id = null, string size = null, string select = null)
+        {
+            if (size == null)
+                size = "";
+            string concat;
+            if (select != null)
+                concat = "?$select=" + select;
+            else
+                concat = "";
+            string graphUrl;
+            type = type.ToLower();
+            if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
+                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
+                    itemId + "/thumbnails/" + thumId + "/" + size + concat;
+
+            else if (type == GraphResourceTypes.me.ToString())
+                graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
+                    itemId + "/thumbnails/" + thumId + "/" + size + concat;
+            else
+            {
+                if (!string.IsNullOrEmpty(id))
+                    graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
+                        "/drive/items/" + itemId + "/thumbnails/" + thumId + "/" + size + concat;
+                else
+                    throw new BusinessException("Resource id not provided");
+            }
+            
+            var resultString = await graphRepository.Get(graphUrl);
+
+            var thumbnail = JsonConvert.DeserializeObject<ThumbnailSet>(resultString);
+            return thumbnail;
+        }
+
+        public async Task<byte[]> GetSingleThumbnailContent(string type, string itemId,
+            string thumId, string size, string id = null)
         {
             if (size == null)
                 size = "";
@@ -345,27 +379,26 @@ namespace HrApp
             type = type.ToLower();
             if (type == GraphResourceTypes.drives.ToString() && !string.IsNullOrEmpty(id))
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id + "/items/" +
-                    itemId + "/thumbnails/" + thumId + "/" + size;
+                    itemId + "/thumbnails/" + thumId + "/" + size + "/content";
 
             else if (type == GraphResourceTypes.me.ToString())
                 graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/drive/items/" +
-                    itemId + "/thumbnails/" + thumId + "/" + size;
+                    itemId + "/thumbnails/" + thumId + "/" + size + "/content";
             else
             {
                 if (!string.IsNullOrEmpty(id))
                     graphUrl = graphRepository.BaseGraphUrl + "/" + type + "/" + id +
-                        "/drive/items/" + itemId + "/thumbnails/" + thumId + "/" + size;
+                        "/drive/items/" + itemId + "/thumbnails/" + thumId + "/" + size + "/content";
                 else
                     throw new BusinessException("Resource id not provided");
             }
-            
 
             var resultString = await graphRepository.Get(graphUrl);
-            var resultJson = JObject.Parse(resultString);
-            var driveDetails = resultJson["value"].ToString();
-            var thumbnails = JsonConvert.DeserializeObject<ThumbnailSet>(driveDetails);
-            return thumbnails;
+            var content = Encoding.ASCII.GetBytes(resultString);
+
+            return content;
         }
+
         public async Task<DriveItem> CreateFolder(string type, string itemId, DriveItem item, string id = null)
         {
             string graphUrl;
@@ -391,7 +424,7 @@ namespace HrApp
             var newFile = JsonConvert.DeserializeObject<DriveItem>(resultString);
             return newFile;
         }
-        public async Task<DriveItem> UpdateItem(string type, string itemId, string name, string id = null)
+        public async Task<DriveItem> UpdateItem(string type, string itemId, DriveItem updatedItem, string id = null)
         {
             string graphUrl;
             type = type.ToLower();
@@ -412,7 +445,7 @@ namespace HrApp
             }
             
 
-            var resultString = await graphRepository.Patch(graphUrl, new { name });
+            var resultString = await graphRepository.Patch(graphUrl, updatedItem);
             var newFile = JsonConvert.DeserializeObject<DriveItem>(resultString);
             return newFile;
         }

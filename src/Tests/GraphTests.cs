@@ -390,25 +390,38 @@ namespace Tests
         public async Task GetThumbnails()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
-            var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
+            var itemId = "01XDBAENBJGMICFGOPYNF2P7NRFM3WQF4T";
             var type = GraphResourceTypes.users.ToString();
 
             //root - default
             var thumbs = await graphFileRepo.GetThumbnails(type, itemId, userId);
-            Assert.IsEmpty(thumbs);
+            Assert.IsNotEmpty(thumbs);
         }
 
         [Test]
         public async Task GetSingleThumbnail()
         {
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
-            var itemId = "01XDBAENA3RBWGJKHGVZGJDRN6VPYK64HP";
+            var itemId = "01XDBAENBJGMICFGOPYNF2P7NRFM3WQF4T";
             var type = GraphResourceTypes.users.ToString();
-            var thumbId = "";
+            var thumbId = "0";
 
             //root - default
-            var thumb = await graphFileRepo.GetSingleThumbnail(type, itemId, userId, thumbId);
-            Assert.IsNull(thumb);
+            var thumb = await graphFileRepo.GetSingleThumbnail(type, itemId, thumbId, userId);
+            Assert.IsNotNull(thumb);
+        }
+        [Test]
+        public async Task GetSingleThumbnailContent()
+        {
+            var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
+            var itemId = "01XDBAENBJGMICFGOPYNF2P7NRFM3WQF4T";
+            var type = GraphResourceTypes.users.ToString();
+            var thumbId = "0";
+            var size = "medium";
+
+            //root - default
+            var thumb = await graphFileRepo.GetSingleThumbnailContent(type, itemId, thumbId, size, userId);
+            Assert.IsNotEmpty(thumb);
         }
 
         [Test]
@@ -429,9 +442,10 @@ namespace Tests
             var userId = "de2a4f5a-5370-40b4-918d-62e0ee1b867b";
             var itemId = "01XDBAENDGIVNLRDI3FJAJWSGIX6W2L6O7";
             var type = GraphResourceTypes.users.ToString();
+            var update = new DriveItem { Name = "myImg3.png" };
 
             //root - default
-            var newFile = await graphFileRepo.UpdateItem(type, itemId, "myImg3.png", userId);
+            var newFile = await graphFileRepo.UpdateItem(type, itemId, update, userId);
             Assert.IsNotNull(newFile);
         }
         [Test]

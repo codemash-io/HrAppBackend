@@ -19,9 +19,11 @@ namespace HrApp
         Task<List<ThumbnailSet>> GetThumbnails(string type, string itemId, string id = null,
                     string select = null);
         Task<ThumbnailSet> GetSingleThumbnail(string type, string itemId,
-                    string thumId, string id = null, string size = null);
+                    string thumId, string id = null, string size = null, string select = null);
+        Task<byte[]> GetSingleThumbnailContent(string type, string itemId,
+            string thumId, string size, string id = null);
         Task<DriveItem> CreateFolder(string type, string itemId, DriveItem item, string id = null);
-        Task<DriveItem> UpdateItem(string type, string itemId, string name, string id = null);
+        Task<DriveItem> UpdateItem(string type, string itemId, DriveItem updatedItem, string id = null);
         Task<bool> DeleteItem(string type, string itemId, string id = null);
         Task<DriveItem> MoveItem(string type, string itemId, string parentFolderId, string id = null);
         Task<DriveItem> CopyItem(string type, string itemId, DriveItem item, string id = null);
