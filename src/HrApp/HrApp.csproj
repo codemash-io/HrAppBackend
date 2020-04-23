@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="CodeMash.Core" Version="2.0.149" />
+    <PackageReference Include="DocuSign.eSign.dll" Version="4.3.0" />
     <PackageReference Include="GemBox.Spreadsheet" Version="45.0.0.1094" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Graph" Version="3.0.1" />
     <PackageReference Include="NPOI" Version="2.5.1" />
     <PackageReference Include="sautinsoft.document" Version="4.2.1.24" />

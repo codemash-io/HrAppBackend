@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -75,6 +77,27 @@ namespace HrApp
             return form;
         }
 
+        public async Task GenerateFileWithSignatureAndInsert(string absenceId)
+        {
+            var absence =await AbsenceRequestRepository.GetAbsenceByIdWithTypes(absenceId);
+            if (absence==null)
+            {
+                throw new BusinessException("AbsenceRequest not found");
+            }
+            var employee = await EmployeesRepository.GetEmployeeById(absence.Employee);
+            if (absence.SignatureImage.Count == 0)
+            {
+                throw new BusinessException("Signature was not found");
+            }
+            var signature = FileRepository.GetPhotoId(absence.SignatureImage[0]);
+
+
+            var employeeData = JsonConvert.SerializeObject(employee);
+            var fileId = await FileRepository.GenerateAbscenseFileWithSignature(absence, employeeData, signature);
+
+            await  AbsenceRequestRepository.InsertAbsenceWithSignature(fileId, absenceId);
+     
+        }
 
     }
 }

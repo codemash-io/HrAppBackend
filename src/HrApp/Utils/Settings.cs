@@ -24,5 +24,12 @@ namespace HrApp
         public static string ClientId = "3d289c6d-1a82-4310-9b39-3b086bc911d9";
         public static string AppSecret = "GCijr[UB]p9cbW78Zs0YsA]c=-KE5j9X";
         public static string TenantId = "a4a29742-209d-4f5f-abdd-395b9defc82a";
+
+        //ESign
+        public static string accessTokenESign { get; set; } = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjY4MTg1ZmYxLTRlNTEtNGNlOS1hZjFjLTY4OTgxMjIwMzMxNyJ9.eyJUb2tlblR5cGUiOjUsIklzc3VlSW5zdGFudCI6MTU4NzQ1NjU1MiwiZXhwIjoxNTg3NDg1MzUyLCJVc2VySWQiOiJhZmMwNTExNy04Y2RjLTQ3OWYtODNmZS05ZDNkYjRhM2RiNGUiLCJzaXRlaWQiOjEsInNjcCI6WyJzaWduYXR1cmUiLCJjbGljay5tYW5hZ2UiLCJvcmdhbml6YXRpb25fcmVhZCIsInJvb21fZm9ybXMiLCJncm91cF9yZWFkIiwicGVybWlzc2lvbl9yZWFkIiwidXNlcl9yZWFkIiwidXNlcl93cml0ZSIsImFjY291bnRfcmVhZCIsImRvbWFpbl9yZWFkIiwiaWRlbnRpdHlfcHJvdmlkZXJfcmVhZCIsImR0ci5yb29tcy5yZWFkIiwiZHRyLnJvb21zLndyaXRlIiwiZHRyLmRvY3VtZW50cy5yZWFkIiwiZHRyLmRvY3VtZW50cy53cml0ZSIsImR0ci5wcm9maWxlLnJlYWQiLCJkdHIucHJvZmlsZS53cml0ZSIsImR0ci5jb21wYW55LnJlYWQiLCJkdHIuY29tcGFueS53cml0ZSJdLCJhdWQiOiJmMGYyN2YwZS04NTdkLTRhNzEtYTRkYS0zMmNlY2FlM2E5NzgiLCJhenAiOiJmMGYyN2YwZS04NTdkLTRhNzEtYTRkYS0zMmNlY2FlM2E5NzgiLCJpc3MiOiJodHRwczovL2FjY291bnQtZC5kb2N1c2lnbi5jb20vIiwic3ViIjoiYWZjMDUxMTctOGNkYy00NzlmLTgzZmUtOWQzZGI0YTNkYjRlIiwiYW1yIjpbImludGVyYWN0aXZlIl0sImF1dGhfdGltZSI6MTU4NzQ1NjU0OSwicHdpZCI6Ijc4OGRkMjAzLTFhMTktNDRmNy04NmQ0LTMzNmE0MDViMmJhMiJ9.i0qfS6NiU4abSEQvoHKPdRZHgH_kTeq5uT0mSPDgvM4aPnAD-B614_0SasRAs_SF-OvGdZBv-PcsxXcbUEh38tFgqcgrkuPZRzjn9TXZKHEFyT1224klJC4q2eq2oTIarcX9tlYTszMpHvfLSCMYR3PwM9VgZdv_au2rXlLByDbmMZE3vLBuin42xuMx9p6S52wthhpMV2VZTSmfuvFXNL4eJz5GBh1gIc9ej92qGurHw_9zIDhNcPOMlAuPBgXFs-cPHua0ie0FlmRc85jUL5-E5gx5eiXdhud04u5LPY_IJW0yanOS8te0zw1LUQW7kYRwz3JntyzLH9cIWye1Ug";
+        // public static string accountIdESign { get; set; } = "10368385";
+        public static string accountIdESign { get; set; } = "3e126cce-1a34-44fe-b87a-534cd94db250";
+
+       
     }
 }

@@ -107,8 +107,7 @@ namespace HrApp
 
         public async Task<byte[]> GetFileBytes(string fileId)
         {
-            var filesRepo = new CodeMashFilesService(Client);
-
+            var filesRepo = new CodeMashFilesService(Client);           
             var response = await filesRepo.GetFileBytesAsync(new GetFileRequest()
             {
                 FileId = fileId,
@@ -129,6 +128,27 @@ namespace HrApp
                    { "order", data}
                }
             });
+            var fileId = GetFileId(response.Result);
+
+            return fileId;
+        }
+
+        public async Task<string> GenerateAbscenseFileWithSignature(AbsenceRequestEntity absence, string employee, string signature)
+        {
+            var codeService = new CodeMashCodeService(Client);
+
+            var response = await codeService.ExecuteFunctionAsync(new ExecuteFunctionRequest
+            {
+                Id = Guid.Parse("e970faaa-4e60-42b8-a4d5-a9d37dbf6320"),
+                Tokens = new Dictionary<string, string>()
+               {
+                   { "Signature", signature},
+                   { "Employee", employee},
+                   { "Type", absence.Type},
+                   { "From", absence.AbsenceStart.ToString()},
+                   { "To", absence.AbsenceEnd.ToString()},
+               }
+            });;
             var fileId = GetFileId(response.Result);
 
             return fileId;

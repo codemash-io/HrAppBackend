@@ -39,6 +39,17 @@ namespace Tests
          await hrService.ProcessNoobForm("5e6b5c118c031800013df1bc");
         }
 
-       
+
+        [Test]
+        public async Task SignatureTests()
+        {
+            await hrService.GenerateFileWithSignatureAndInsert("5ea16b56b162c90001dae747");
+        }
+        [Test]
+        public async Task Taxonomy()
+        {
+            await absenceRepository.GetAbsenceByIdWithNames("5ea16b56b162c90001dae747");
+        }
+
     }
 }

@@ -17,9 +17,16 @@ namespace HrApp
         public async Task<AbsenceRequestEntity> GetAbsenceById(string id)
         {
             var repo = new CodeMashRepository<AbsenceRequestEntity>(Client);
-            var absence = await repo.FindOneByIdAsync(id, new DatabaseFindOneOptions() {  }) ;
+            var absence = await repo.FindOneByIdAsync(id, new DatabaseFindOneOptions() {  });
             return absence;
                        
+        }
+        public async Task<AbsenceRequestEntity> GetAbsenceByIdWithTypes(string id)
+        {
+            var repo = new CodeMashRepository<AbsenceRequestEntity>(Client);
+            var absence = await repo.FindOneByIdAsync(id, new DatabaseFindOneOptions() { IncludeTermNames = true });
+            return absence;
+
         }
         public async Task<string> GetAbsenceByIdWithNames(string id)
         {
@@ -39,6 +46,21 @@ namespace HrApp
             // return absence;
              
             return term[0];
+        }
+
+        public async Task InsertAbsenceWithSignature(string fileId, string entityId)
+        {
+            var repo = new CodeMashRepository<AbsenceRequestEntity>(Client);
+            var update = Builders<AbsenceRequestEntity>.Update
+                .Set("file_with_signature", new List<string> { fileId })
+                .Set("signatureimage", new List<string>());
+            var response = await repo.UpdateOneAsync(
+                 entityId,
+                 update,
+                 new DatabaseUpdateOneOptions() { WaitForFileUpload = true }
+            );
+
+
         }
 
 

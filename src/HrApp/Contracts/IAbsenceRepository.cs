@@ -6,5 +6,7 @@ namespace HrApp
     {
         Task<AbsenceRequestEntity> GetAbsenceById(string id);
         Task<string> GetAbsenceByIdWithNames(string id);
+        Task<AbsenceRequestEntity> GetAbsenceByIdWithTypes(string id);
+        Task InsertAbsenceWithSignature(string fileId, string entityId);
     }
 }

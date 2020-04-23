@@ -16,5 +16,6 @@ namespace HrApp
         Task SendNotificationToManagerAboutAbsence(string employeeId, string absenceId);
         Task SendEmailToManagerAboutAbsence(string employeeId, string absenceId);
         Task<NoobFormEntity> ProcessNoobForm(string NoobFormId);
+        Task GenerateFileWithSignatureAndInsert(string absenceId);
     }
 }
