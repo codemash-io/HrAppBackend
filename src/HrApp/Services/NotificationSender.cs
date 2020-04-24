@@ -6,6 +6,7 @@ using CodeMash.Notifications.Email.Services;
 using CodeMash.Notifications.Push.Services;
 using Isidos.CodeMash.ServiceContracts;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 
 namespace HrApp
 {
@@ -137,7 +138,7 @@ namespace HrApp
                 new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
             var start = begin.ToString("0");
             var end = endTimefloat.ToString("0");
-
+            /*
             Dictionary<string, string> tokens;
             if (summary.Count == 1)
                 tokens = new Dictionary<string, string>
@@ -183,15 +184,20 @@ namespace HrApp
                     { "From", start},
                     { "To", end}
                 };
-
-
+                */
+            var summaryJson = JsonConvert.SerializeObject(summary);
             var pushService = new CodeMashEmailService(Client);
             await pushService.SendEmailAsync(
                 new SendEmailRequest
                 {
                     TemplateId = Guid.Parse("3d2a099f-a311-480a-ad61-894a2b8a53f3"),
                     Emails = new List<string>() { email },
-                    Tokens = tokens
+                    Tokens = new Dictionary<string, string>
+                    {
+                        { "whishes",summaryJson},
+                        { "From", start},
+                        { "To", end}
+                    },
                 }
             );
         }
