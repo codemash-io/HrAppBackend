@@ -32,5 +32,19 @@ namespace Tests
             Assert.IsNotEmpty(summary);
         }
 
+        [Test]
+        public async Task SendWishlistSummaryEmail()
+        {
+            var repo = new NotificationSender();
+            var from = new DateTime(2020, 02, 01, 0, 0, 0, DateTimeKind.Utc);
+            var to = new DateTime(2020, 05, 01, 0, 0, 0, DateTimeKind.Utc);
+            var email = "mantasdaunoravicius@gmail.com";
+            var summary = await aggregateRepo.GetWhishListSummary(from, to);
+
+
+            await repo.SendWishlistSummaryEmail(from, to, email, summary);
+            Assert.IsNotEmpty(summary);
+        }
+
     }
 }

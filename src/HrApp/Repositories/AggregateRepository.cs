@@ -39,7 +39,7 @@ namespace HrApp
 
             return menuInfo[0];
         }
-        public async Task<List<object>> GetWhishListSummary(DateTime dateFrom, DateTime dateTo)
+        public async Task<List<WishlistSummary>> GetWhishListSummary(DateTime dateFrom, DateTime dateTo)
         {
             var taxRepo = new CodeMashTermsService(Client);
             var taxonomyData = await taxRepo.FindAsync("wishlist-types", x => true, new TermsFindOptions());
@@ -56,7 +56,7 @@ namespace HrApp
                 }
             });
 
-            var list = new List<object>();
+            var list = new List<WishlistSummary>();
             foreach (var elem in whishlistSummary)
             {
                 var resultJson = JObject.Parse(elem.ToString());
@@ -66,7 +66,7 @@ namespace HrApp
                 {
                     if(id == tax.Id)
                     {
-                        list.Add(new { tax.Name, total });
+                        list.Add(new WishlistSummary { Type = tax.Name, Total= double.Parse(total) });
                         break;
                     }
                 }

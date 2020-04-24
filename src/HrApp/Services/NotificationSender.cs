@@ -127,5 +127,74 @@ namespace HrApp
                 }
             );
         }
+
+        public async Task SendWishlistSummaryEmail( DateTime from, DateTime to, 
+                    string email, List<WishlistSummary> summary)
+        {
+            var begin = from.ToUniversalTime().Subtract( 
+                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            var endTimefloat = to.ToUniversalTime().Subtract(
+                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            var start = begin.ToString("0");
+            var end = endTimefloat.ToString("0");
+
+            Dictionary<string, string> tokens;
+            if (summary.Count == 1)
+                tokens = new Dictionary<string, string>
+                {
+                    { "Total1","- " +summary[0].Total.ToString() + " EUR"},
+                    { "Type1", summary[0].Type},
+                    { "From", start},
+                    { "To", end}
+                };
+            else if (summary.Count == 2)
+                tokens = new Dictionary<string, string>
+                {
+                    { "Total1","- " +summary[0].Total.ToString() + " EUR"},
+                    { "Type1", summary[0].Type},
+                    { "Total2","- " +summary[1].Total.ToString() + " EUR"},
+                    { "Type2", summary[1].Type},
+                    { "From", start},
+                    { "To", end}
+                };
+            else if (summary.Count == 3)
+                tokens = new Dictionary<string, string>
+                {
+                    { "Total1","- " +summary[0].Total.ToString() + " EUR"},
+                    { "Type1", summary[0].Type},
+                    { "Total2","- " +summary[1].Total.ToString() + " EUR"},
+                    { "Type2", summary[1].Type},
+                    { "Total3","- " +summary[2].Total.ToString() + " EUR"},
+                    { "Type3", summary[2].Type},
+                    { "From", start},
+                    { "To", end}
+                };
+            else
+                tokens = new Dictionary<string, string>
+                {
+                    { "Total1","- " +summary[0].Total.ToString() + " EUR"},
+                    { "Type1", summary[0].Type},
+                    { "Total2","- " +summary[1].Total.ToString() + " EUR"},
+                    { "Type2", summary[1].Type},
+                    { "Total3","- " +summary[2].Total.ToString() + " EUR"},
+                    { "Type3", summary[2].Type},
+                    { "Total4","- " +summary[3].Total.ToString() + " EUR"},
+                    { "Type4", summary[3].Type},
+                    { "From", start},
+                    { "To", end}
+                };
+
+
+            var pushService = new CodeMashEmailService(Client);
+            await pushService.SendEmailAsync(
+                new SendEmailRequest
+                {
+                    TemplateId = Guid.Parse("3d2a099f-a311-480a-ad61-894a2b8a53f3"),
+                    Emails = new List<string>() { email },
+                    Tokens = tokens
+                }
+            );
+        }
+
     }
 }
