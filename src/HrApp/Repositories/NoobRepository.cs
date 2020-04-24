@@ -19,7 +19,7 @@ namespace HrApp
             {
                 form = await repo.FindOneByIdAsync(id, new DatabaseFindOneOptions() { });
             }
-            catch
+            catch(Exception ex)
             {
                 throw new BusinessException("Photo is missing");
             }

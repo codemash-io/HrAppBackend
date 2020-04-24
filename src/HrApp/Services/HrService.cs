@@ -51,7 +51,13 @@ namespace HrApp
                 }
                 var absence = await AbsenceRequestRepository.GetAbsenceById(absenceId);
                 var reason = await AbsenceRequestRepository.GetAbsenceByIdWithNames(absence.Type);
-                 await NotificationSender.SendEmailToManagerAboutEmployeeAbsence(manager.BusinessEmail, employee, absence, reason);
+                EmployeeNameSurnameEntity employeeNameSurname = new EmployeeNameSurnameEntity()
+                {
+                    first_name = employee.FirstName,
+                    last_name = employee.LastName
+                };
+                var employeeData = JsonConvert.SerializeObject(employeeNameSurname);
+                await NotificationSender.SendEmailToManagerAboutEmployeeAbsence(manager.BusinessEmail, employeeData, absence, reason);
 
             }
             else
@@ -71,7 +77,7 @@ namespace HrApp
 
                 var photo = await FileRepository.GetFileBytes(fileId);
                var employee =await EmployeesRepository.GetEmployeeProjectionById(form.Meta.ResponsibleUser);
-                var fileName = employee.FirstName + " " + employee.LastName + ".jpg";
+                var fileName = employee.first_name + " " + employee.last_name + ".jpg";
                 await EmployeesRepository.InsertPhoto(photo, employee.Id, fileName);
             }
             return form;

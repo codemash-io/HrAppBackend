@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace HrApp
 {
     [Collection("pc-employees")]
-    //[Collection("pc-employees-testing")]
+    //[Collection("pc-employeess-testing")]
     public class EmployeeNameSurnameEntity : Entity
     {
         [Field("first_name")]
-        public string FirstName { get; set; } = "";
+        public string first_name { get; set; } = "";
 
         [Field("last_name")]
-        public string LastName { get; set; } = "";
+        public string last_name { get; set; } = "";
 
         
        

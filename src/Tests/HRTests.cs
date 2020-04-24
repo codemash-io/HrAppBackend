@@ -38,7 +38,12 @@ namespace Tests
         {
          await hrService.ProcessNoobForm("5e6b5c118c031800013df1bc");
         }
-
+        [Test]
+        public async Task Absence_Email_Test()
+        {
+            Settings.ApiKey = "96WLxsvp7FNolruRNIMYycgVT7rI4_Et";
+            await hrService.SendEmailToManagerAboutAbsence("5d9336e3500b54000181de7d","5ea16b56b162c90001dae747");
+        }
 
         [Test]
         public async Task SignatureTests()

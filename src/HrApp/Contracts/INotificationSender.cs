@@ -15,6 +15,6 @@ namespace HrApp
         Task SendNotificationForNewReceiversAboutLunchDate(List<Guid> receivers, DateTime lunchTime);
         Task SendNotificationAboutLunchDateChanges(List<Guid> receivers, DateTime lunchTime);
         Task SendNotificationToManagerAboutEmployeeAbsence(List<Guid> manager, string employeeId, AbsenceRequestEntity absence);
-        Task SendEmailToManagerAboutEmployeeAbsence(string email, EmployeeEntity employeeId, AbsenceRequestEntity absence, string reason);
+        Task SendEmailToManagerAboutEmployeeAbsence(string email, string employee, AbsenceRequestEntity absence, string reason);
     }
 }

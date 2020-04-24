@@ -94,7 +94,7 @@ namespace HrApp
                 }
             );
         }
-        public async Task SendEmailToManagerAboutEmployeeAbsence(string email, EmployeeEntity employee, AbsenceRequestEntity absence, string reason)
+        public async Task SendEmailToManagerAboutEmployeeAbsence(string email, string employee, AbsenceRequestEntity absence, string reason)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             var beginTime = epoch.AddMilliseconds(absence.AbsenceStart).AddHours(8);
@@ -117,15 +117,14 @@ namespace HrApp
                     Emails = new List<string>() { email },
                     Tokens = new Dictionary<string, string>
                     {
-                        { "employee.first_name",employee.FirstName},
-                        { "employee.last_name",employee.LastName},
+                        { "test",employee},
                         { "type.name.en", reason},
                         { "From", start},
                         { "To", end}
                     },                  
                     
                 }
-            );
+            );;
         }
     }
 }
