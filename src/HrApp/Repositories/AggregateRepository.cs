@@ -66,7 +66,7 @@ namespace HrApp
                 {
                     if(id == tax.Id)
                     {
-                        list.Add(new WishlistSummary { Type = tax.Name, Total= double.Parse(total) });
+                        list.Add(new WishlistSummary { Type = tax.Name + "-", Total= total + " EUR" });
                         break;
                     }
                 }
