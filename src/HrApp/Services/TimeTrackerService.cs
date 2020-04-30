@@ -17,21 +17,19 @@ namespace HrApp.Services
         public async Task LogHours(EmployeeEntity employee, ProjectEntity project, TimeSpan time, string description)
         {
             if (!CheckIfEmployeeCanWorkOnTheProject(employee, project))
-            {
                 throw new BusinessException("You cannot work on a project not assigned to you");
-            }
+
             else if(time > TimeSpan.FromHours(16))
-            {
                 throw new BusinessException("You cannot work more than 16h!");
-            }
+
             else
             {
                 //creating commit for a project
                 Commit commit = new Commit(employee, description, time.TotalHours);
 
                 //adding commit to db
-                var commitId = await CommitRepository.InsertCommit(commit);
-                commit.Id = commitId.Id;
+                var newCommit = await CommitRepository.InsertCommit(commit);
+                commit.Id = newCommit.Id;
 
                 //adding commit to a project
                 await ProjectRepository.AddCommitToProject(commit.Id, project.Id);
@@ -40,12 +38,6 @@ namespace HrApp.Services
                 var totalTime = employee.TimeWorked + time.TotalHours;
                 await EmployeeRepository.UpdateEmployeeTimeWorked(employee.Id, Math.Round(totalTime,1));
 
-
-                /*if (CheckForEmployeeOvertime(employee))
-                {
-                    //should i send notification here?
-                    var message = "You worked overtime";
-                }*/
             }
         }
 
@@ -54,29 +46,22 @@ namespace HrApp.Services
         {
             //checking for empty lists
             if (projects == null)
-            {
                 throw new ArgumentNullException(nameof(projects), "No projects defined");
-            }
+
             else if (commits == null)
-            {
                 throw new ArgumentNullException(nameof(commits), "No commits defined");
-            }
 
             if (projects.Count != commits.Count)
-            {
                 throw new BusinessException("Projects and commits count do not match!");
-            }
+
             for (int i = 0; i < projects.Count; i++)
             {
                 if (!CheckIfEmployeeCanWorkOnTheProject(commits[i].Employee, projects[i]))
-                {
                     throw new BusinessException("You cannot work on a project not assigned to you");
-                }
 
                 else if (CheckIfEmployeeWorkedMoreThanPossible(commits))
-                {
                     throw new BusinessException("You cannot work more than 16h during a day!");
-                }
+
                 else
                 {
                     //adding commits to db
@@ -107,30 +92,6 @@ namespace HrApp.Services
 
             return false;
         }
-        public bool CheckIfEmployeeCanWorkOnTheProject(string employeeId, ProjectEntity project)
-        {
-            foreach (var emp_id in project.Employees)
-            {
-                if (emp_id == employeeId)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool CheckIfEmployeeWorkedMoreThanPossible(List<CommitEntity> commits)
-        {
-            TimeSpan totalTime = TimeSpan.FromHours(CalculateCommitsTime(commits));
-
-            if (totalTime > TimeSpan.FromHours(16))
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         public bool CheckIfEmployeeWorkedMoreThanPossible(List<Commit> commits)
         {
@@ -156,12 +117,12 @@ namespace HrApp.Services
             return false;
         }
 
-        public bool CheckForEmployeeOvertime(EmployeeEntity employee)
+        public async Task<bool> CheckForEmployeeOvertime(EmployeeEntity employee)
         {
             //getting all commits by employee
-            var commits = CommitRepository.GetCommitsByEmployee(employee);
+            var commits = await CommitRepository.GetCommitsByEmployee(employee);
             //calculating total work time of all employee commits
-            double totaTtime = CalculateCommitsTime(commits.Result);       
+            double totaTtime = CalculateCommitsTime(commits);       
 
             // if employee exceeded monthly hours 
             if (employee.Budget < totaTtime)
