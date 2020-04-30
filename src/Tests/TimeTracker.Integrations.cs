@@ -38,57 +38,56 @@ namespace Tests
         }
         private async Task TestCanInsertCommit()
         {
-            var employee = empRepo.GetEmployeeByLastName("t");
+            var employee = await empRepo.GetEmployeeByLastName("t");
 
-            Commit commit = new Commit(employee.Result, "testas", 2);
+            Commit commit = new Commit(employee, "testas", 2);
 
             var res = await commRepo.InsertCommit(commit);
 
-            Assert.AreEqual(employee.Result.Id, res.Employee);
+            Assert.AreEqual(employee.Id, res.Employee);
         }
         [Test]
         public async Task TestCanGetCommitsByEmployee()
         {
-            var employee = empRepo.GetEmployeeByLastName("t");
+            var employee = await empRepo.GetEmployeeByLastName("t");
 
             await TestCanInsertCommit(); // should insert one commit for spec user
 
-            var res = await commRepo.GetCommitsByEmployee(employee.Result);
+            var res = await commRepo.GetCommitsByEmployee(employee);
 
-           // Assert.AreEqual(1, res.Count);
+            Assert.AreNotEqual(0, res.Count);
         }
         [Test]
         public async Task TestCanAddEmployeeToCommit()
         {
             await TestCanInsertCommit();
 
-            var emp = empRepo.GetEmployeeByLastName("t");
-            var commit = commRepo.GetCommitByDesc("testas");
+            var emp = await empRepo.GetEmployeeByLastName("t");
+            var commit = await commRepo.GetCommitByDesc("testas");
        
-            await commRepo.AddEmployeeToCommit(commit.Result.Id, emp.Result.Id);
+            await commRepo.AddEmployeeToCommit(commit.Id, emp.Id);
 
-            commit = commRepo.GetCommitById(commit.Result.Id);
+            commit = await commRepo.GetCommitById(commit.Id);
 
-            Assert.AreEqual(commit.Result.Employee, emp.Result.Id);
+            Assert.AreEqual(commit.Employee, emp.Id);
         }
         [Test]
         public async Task TestCanUpdateEmployeeTimeWorked()
         {
-            var emp = empRepo.GetEmployeeByLastName("t");
+            var emp = await empRepo.GetEmployeeByLastName("t");
 
-            await empRepo.UpdateEmployeeTimeWorked(emp.Result.Id, 10.6);
+            await empRepo.UpdateEmployeeTimeWorked(emp.Id, 10.6);
 
-            emp = empRepo.GetEmployeeById(emp.Result.Id);
+            emp = await empRepo.GetEmployeeById(emp.Id);
 
-            Assert.AreEqual(emp.Result.TimeWorked, 10.6);
+            Assert.AreEqual(emp.TimeWorked, 10.6);
         }
         [Test]
         public async Task TestCanInsertProject()
         {
-            var employee = empRepo.GetEmployeeByLastName("t");
+            var employee = await empRepo.GetEmployeeByLastName("t");
 
-            List<EmployeeEntity> list = new List<EmployeeEntity>();
-            list.Add(employee.Result);
+            List<EmployeeEntity> list = new List<EmployeeEntity>{ employee };
 
             Project project = new Project("test", "des", 200, list);
 
@@ -109,7 +108,7 @@ namespace Tests
 
             project = await proRepo.GetProjectById(project.Id);
 
-            //Assert.AreEqual(1, project.Result.Commits.Count);
+            Assert.AreNotEqual(0, project.Commits.Count);
 
         }
         [Test]
@@ -132,7 +131,7 @@ namespace Tests
 
             var projects = reporter.SortProjects(from, to);
 
-            //Assert.AreEqual(3, projects.Count);
+            Assert.AreNotEqual(0, projects.Count);
         }
 
         [Test]
@@ -147,21 +146,20 @@ namespace Tests
             var cantWork = tracker.CheckIfEmployeeCanWorkOnTheProject(emp, pro2);
             Assert.IsFalse(cantWork);
 
-            var canWork2 = tracker.CheckIfEmployeeCanWorkOnTheProject("5e20785d2bd93500011dbf6f", pro);
+            var canWork2 = tracker.CheckIfEmployeeCanWorkOnTheProject(emp, pro);
             Assert.IsTrue(canWork2);
-            var cantWork2 = tracker.CheckIfEmployeeCanWorkOnTheProject("5e20785d2bd93500011dbf6f", pro2);
+            var cantWork2 = tracker.CheckIfEmployeeCanWorkOnTheProject(emp, pro2);
             Assert.IsFalse(cantWork2);
         }
         [Test]
-        public void CheckForEmployeeOvertime()
+        public async Task CheckForEmployeeOvertime()
         {
             var emp = new EmployeeEntity { Id = "5e20785d2bd93500011dbf6f" };
             var emp2 = new EmployeeEntity { Id = "5e1da23b7762bb0001888e5e" };
 
-
-            var over = tracker.CheckForEmployeeOvertime(emp);
+            var over = await tracker.CheckForEmployeeOvertime(emp);
             Assert.IsTrue(over);
-            var notover = tracker.CheckForEmployeeOvertime(emp2);
+            var notover = await tracker.CheckForEmployeeOvertime(emp2);
             Assert.IsFalse(notover);
         }
 
@@ -169,8 +167,8 @@ namespace Tests
         [Test]
         public void CheckIfEmployeeWorkedMoreThanPossible()
         {
-            var comm = new List<CommitEntity> { new CommitEntity { TimeWorked = 40 } };
-            var comm2 = new List<CommitEntity> { new CommitEntity { TimeWorked = 4 } };
+            var comm = new List<Commit> { new Commit { TimeWorked = 40 } };
+            var comm2 = new List<Commit> { new Commit { TimeWorked = 4 } };
 
             var over = tracker.CheckIfEmployeeWorkedMoreThanPossible(comm);
             Assert.IsTrue(over);
@@ -186,7 +184,7 @@ namespace Tests
 
             var projects = reporter.SortProjectsFrom(from);
 
-            //Assert.AreEqual(3, projects.Count);
+            Assert.AreNotEqual(0, projects.Count);
         }
 
         [Test]
@@ -196,7 +194,7 @@ namespace Tests
 
             var projects = reporter.SortProjectsTo(to);
 
-            //Assert.AreEqual(3, projects.Count);
+            Assert.AreNotEqual(0, projects.Count);
         }
 
         [Test]
@@ -204,7 +202,6 @@ namespace Tests
         {
             var project = await proRepo.GetProjectByName("pro3");
             var employee = await empRepo.GetEmployeeByLastName("t");
-
 
             await tracker.LogHours(employee, project, new TimeSpan(2, 15, 23), "testas");
         }
@@ -215,12 +212,10 @@ namespace Tests
             var project = await proRepo.GetProjectByName("pro3");
             var employee = await empRepo.GetEmployeeByLastName("t");
 
-            var proList = new List<ProjectEntity>();
-            proList.Add(project);
+            var proList = new List<ProjectEntity>{ project };
 
             Commit commit = new Commit(employee, "d", 5.661);
-            var commList = new List<Commit>();
-            commList.Add(commit);
+            var commList = new List<Commit>{ commit };
 
             await tracker.LogHours(proList, commList);
         }

@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CodeMash.Client;
+using CodeMash.Membership.Services;
 using CodeMash.Notifications.Email.Services;
 using CodeMash.Notifications.Push.Services;
 using Isidos.CodeMash.ServiceContracts;
 using MongoDB.Bson;
+using MongoDB.Driver;
+using Newtonsoft.Json;
 
 namespace HrApp
 {
@@ -127,5 +131,34 @@ namespace HrApp
                 }
             );
         }
+
+        public async Task SendWishlistSummaryEmail( DateTime from, DateTime to, List<string> emails, 
+            List<WishlistSummary> summary)
+        {
+            var begin = from.ToUniversalTime().Subtract( 
+                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            var endTimefloat = to.ToUniversalTime().Subtract(
+                new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            var start = begin.ToString("0");
+            var end = endTimefloat.ToString("0");
+
+            var summaryJson = JsonConvert.SerializeObject(summary);
+           
+            var emailService = new CodeMashEmailService(Client);
+            await emailService.SendEmailAsync(
+                new SendEmailRequest
+                {
+                    TemplateId = Guid.Parse("3d2a099f-a311-480a-ad61-894a2b8a53f3"),
+                    Emails = emails,
+                    Tokens = new Dictionary<string, string>
+                    {
+                        { "Wishes",summaryJson},
+                        { "From", start},
+                        { "To", end}
+                    },
+                }
+            );
+        }
+
     }
 }
